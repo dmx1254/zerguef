@@ -6,7 +6,12 @@ import { ChevronDown, Globe } from "lucide-react";
 import { Language, cn, languages } from "@/lib/utils";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { LocaleSelect } from "./LocaleSelect";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -56,17 +61,16 @@ const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
           />
         </button>
       </DialogTrigger>
+      <DialogTitle></DialogTitle>
       <DialogContent className="font-poppins w-full max-w-[450px] rounded-[20px] p-0 bg-white shadow-xl border border-gray-200">
         <div className="w-full grid divide-gray-100">
           <h2 className="px-4 pt-4 text-lg text-gray-800 font-semibold">
-            title
+            Choisr votre langue
           </h2>
           <div className="p-4 space-y-3">
             <h4 className="font-semibold text-lg text-gray-800">language</h4>
             <LocaleSelect />
           </div>
-
-          <p className="w-full text-sm px-4 pb-4 pt-1 text-gray-800">desc</p>
         </div>
       </DialogContent>
     </Dialog>

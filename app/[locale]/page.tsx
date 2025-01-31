@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 // import { Navbar } from "@/components/ui/navbar";
-import { useCartStore } from "@/lib/manage";
+import { CartItem, useCartStore } from "@/lib/manage";
 import {
   Card,
   CardContent,
@@ -26,6 +26,18 @@ import {
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import { useState } from "react";
+
+interface ProductCard {
+  id: number;
+  name: string;
+  quantity: number;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  discount: number;
+  isNew?: boolean;
+}
 
 const featuredProducts = [
   {
@@ -158,7 +170,7 @@ const SearchBar = () => (
   </div>
 );
 
-const ProductCard = ({ product }: any) => {
+const ProductCard = ({ product }: { product: ProductCard }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
@@ -183,7 +195,7 @@ const ProductCard = ({ product }: any) => {
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
-            {product.isNew && (
+            {product?.isNew && (
               <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                 Nouveau
               </div>
@@ -211,18 +223,6 @@ const ProductCard = ({ product }: any) => {
       </Link>
 
       <CardContent className="p-6">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="flex items-center text-yellow-400">
-            <Star className="h-4 w-4 fill-current" />
-            <span className="ml-1 text-sm font-medium text-gray-600">
-              {product.rating}
-            </span>
-          </div>
-          <span className="text-sm text-gray-500">
-            ({product.reviews} avis)
-          </span>
-        </div>
-
         <Link href={`/products/${product.id}`}>
           <CardTitle className="mb-2 hover:text-blue-600 transition-colors">
             {product.name}
@@ -274,7 +274,7 @@ const ProductCard = ({ product }: any) => {
 
 const CategoryShowcase = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    {categories.map((category, index) => (
+    {categories.map((category) => (
       <Link
         key={category.name}
         href={category.link}
@@ -310,7 +310,7 @@ const PromoBanner = () => (
       <div className="text-white space-y-4 text-center md:text-left">
         <h3 className="text-3xl font-bold">Offre Spéciale</h3>
         <p className="text-lg text-white/90">
-          -20% sur toute la collection d'été avec le code{" "}
+          -20% sur toute la collection d&apos;été avec le code{" "}
           <strong>ETE 2025</strong>
         </p>
       </div>
@@ -337,7 +337,7 @@ export default function Home() {
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Une sélection raffinée de vêtements traditionnels marocains, où
-              chaque pièce raconte une histoire d'artisanat et de tradition
+              chaque pièce raconte une histoire &apos;'artisanat et de tradition
             </p>
           </div>
           <CategoryShowcase />

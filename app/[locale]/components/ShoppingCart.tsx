@@ -9,18 +9,19 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "./ui/card";
 import { Label } from "@/components/ui/label";
 import { formatPrice } from "@/lib/utils";
+import Link from "next/link";
 
 const paymentMethods = [
   {
     id: "card",
     name: "Carte Bancaire",
-    description: "Visa, Mastercard, CMI",
+    description: "Visa, Mastercard, Paypal",
     icon: CreditCard,
     bgColor: "bg-gradient-to-r from-blue-500 to-blue-600",
     brands: [
-      { name: "Visa", logo: "/visa.svg" },
-      { name: "Mastercard", logo: "/mastercard.svg" },
-      { name: "CMI", logo: "/cmi.svg" }
+      { name: "Visa", logo: "/visa.png" },
+      { name: "Mastercard", logo: "/mastercard.png" },
+      { name: "Paypal", logo: "/paypal.png" }
     ]
   },
   {
@@ -37,7 +38,7 @@ const CartStats = () => (
     <Card className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
       <ShoppingBag className="h-6 w-6 text-yellow-600 mb-2" />
       <h3 className="text-sm font-medium text-yellow-900">Livraison Gratuite</h3>
-      <p className="text-xs text-yellow-700">Pour les commandes > 500 DH</p>
+      <p className="text-xs text-yellow-700">Pour les commandes &gt; 500 DH</p>
     </Card>
     <Card className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
       <Truck className="h-6 w-6 text-blue-600 mb-2" />
@@ -79,8 +80,8 @@ export default function ShoppingCart() {
               Votre panier est vide. Continuez vos achats pour ajouter des articles.
             </AlertDescription>
           </Alert>
-          <Button className="mt-6 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700">
-            Découvrir nos produits
+          <Button asChild className="mt-6 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700">
+            <Link href="/">Découvrir nos produits</Link>
           </Button>
         </div>
       </div>
