@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { MinusIcon, PlusIcon, Trash2, CreditCard, Wallet, ShoppingBag, Truck, Gift } from "lucide-react";
+import {
+  MinusIcon,
+  PlusIcon,
+  Trash2,
+  CreditCard,
+  Wallet,
+  ShoppingBag,
+  Truck,
+  Gift,
+} from "lucide-react";
 import { useCartStore, useCartSubtotal, useIsCartEmpty } from "@/lib/manage";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -10,6 +19,7 @@ import { Card } from "./ui/card";
 import { Label } from "@/components/ui/label";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const paymentMethods = [
   {
@@ -21,8 +31,8 @@ const paymentMethods = [
     brands: [
       { name: "Visa", logo: "/visa.png" },
       { name: "Mastercard", logo: "/mastercard.png" },
-      { name: "Paypal", logo: "/paypal.png" }
-    ]
+      { name: "Paypal", logo: "/paypal.png" },
+    ],
   },
   {
     id: "cash",
@@ -37,7 +47,9 @@ const CartStats = () => (
   <div className="grid grid-cols-3 gap-4 mb-8">
     <Card className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
       <ShoppingBag className="h-6 w-6 text-yellow-600 mb-2" />
-      <h3 className="text-sm font-medium text-yellow-900">Livraison Gratuite</h3>
+      <h3 className="text-sm font-medium text-yellow-900">
+        Livraison Gratuite
+      </h3>
       <p className="text-xs text-yellow-700">Pour les commandes &gt; 500 DH</p>
     </Card>
     <Card className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
@@ -54,7 +66,8 @@ const CartStats = () => (
 );
 
 export default function ShoppingCart() {
-  const { items, totalAmount, removeItem, updateQuantity, clearCart } = useCartStore();
+  const { items, totalAmount, removeItem, updateQuantity, clearCart } =
+    useCartStore();
   const subtotal = useCartSubtotal();
   const isEmpty = useIsCartEmpty();
   const [selectedPayment, setSelectedPayment] = useState("card");
@@ -68,6 +81,12 @@ export default function ShoppingCart() {
       total,
       paymentMethod: selectedPayment,
     });
+
+    toast.success("Paiement reussie...", {
+      style: {
+        color: "#22c55e",
+      },
+    });
   };
 
   if (isEmpty) {
@@ -77,10 +96,14 @@ export default function ShoppingCart() {
           <ShoppingBag className="h-16 w-16 mx-auto text-gray-400 mb-4" />
           <Alert className="bg-white shadow-lg border-0">
             <AlertDescription className="text-lg">
-              Votre panier est vide. Continuez vos achats pour ajouter des articles.
+              Votre panier est vide. Continuez vos achats pour ajouter des
+              articles.
             </AlertDescription>
           </Alert>
-          <Button asChild className="mt-6 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700">
+          <Button
+            asChild
+            className="mt-6 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700"
+          >
             <Link href="/">Découvrir nos produits</Link>
           </Button>
         </div>
@@ -100,7 +123,10 @@ export default function ShoppingCart() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
-              <Card key={item.id} className="p-4 hover:shadow-lg transition-shadow duration-200 bg-white">
+              <Card
+                key={item.id}
+                className="p-4 hover:shadow-lg transition-shadow duration-200 bg-white"
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-24 h-24 relative rounded-xl overflow-hidden shadow-md">
                     <img
@@ -123,16 +149,22 @@ export default function ShoppingCart() {
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 rounded-full hover:bg-white"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
                         >
                           <MinusIcon className="h-4 w-4" />
                         </Button>
-                        <span className="w-8 text-center font-medium">{item.quantity}</span>
+                        <span className="w-8 text-center font-medium">
+                          {item.quantity}
+                        </span>
                         <Button
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 rounded-full hover:bg-white"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
                         >
                           <PlusIcon className="h-4 w-4" />
                         </Button>
@@ -159,8 +191,8 @@ export default function ShoppingCart() {
             ))}
 
             <div className="flex justify-end">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={clearCart}
                 className="text-gray-600 hover:text-red-500 transition-colors"
               >
@@ -204,32 +236,42 @@ export default function ShoppingCart() {
                 className="space-y-4"
               >
                 {paymentMethods.map((method) => (
-                  <div 
-                    key={method.id} 
+                  <div
+                    key={method.id}
                     className={`relative rounded-xl border-2 ${
-                      selectedPayment === method.id 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : 'border-gray-200 hover:border-blue-200'
+                      selectedPayment === method.id
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200 hover:border-blue-200"
                     } transition-colors duration-200 p-4`}
                   >
                     <div className="flex items-center space-x-3">
                       <RadioGroupItem value={method.id} id={method.id} />
-                      <Label htmlFor={method.id} className="flex items-center gap-3 cursor-pointer">
+                      <Label
+                        htmlFor={method.id}
+                        className="flex items-center gap-3 cursor-pointer"
+                      >
                         <div className={`p-2 rounded-lg ${method.bgColor}`}>
                           <method.icon className="h-5 w-5 text-white" />
                         </div>
                         <div>
-                          <div className="font-medium text-gray-900">{method.name}</div>
-                          <div className="text-sm text-gray-500">{method.description}</div>
+                          <div className="font-medium text-gray-900">
+                            {method.name}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {method.description}
+                          </div>
                         </div>
                       </Label>
                     </div>
                     {method.brands && (
                       <div className="mt-3 flex gap-2 pl-8">
-                        {method.brands.map(brand => (
-                          <div key={brand.name} className="w-12 h-8 bg-white rounded border flex items-center justify-center p-1">
-                            <img 
-                              src={brand.logo} 
+                        {method.brands.map((brand) => (
+                          <div
+                            key={brand.name}
+                            className="w-12 h-8 bg-white rounded border flex items-center justify-center p-1"
+                          >
+                            <img
+                              src={brand.logo}
                               alt={brand.name}
                               className="max-w-full max-h-full object-contain"
                             />
