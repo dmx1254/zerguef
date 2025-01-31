@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,19 +11,61 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const SignInPage = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
 
-    await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: true,
-      callbackUrl: "/",
-    });
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    if (!email || !password) {
+      toast.error("Veuiller remplir tous les champs", {
+        style: {
+          color: "#ef4444",
+        },
+      });
+      return;
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+          callbackUrl: "/",
+        });
+
+        if (!response?.ok) {
+          if (response?.error?.includes("Adresse E-mail incorrect")) {
+            toast.error("Adresse E-mail incorrect", {
+              style: {
+                color: "#ef4444",
+              },
+            });
+          }
+          if (response?.error?.includes("Mot de passe incorrect")) {
+            toast.error("Mot de passe incorrect", {
+              style: {
+                color: "#ef4444",
+              },
+            });
+          }
+        } else {
+          router.push("/");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
@@ -67,7 +109,7 @@ const SignInPage = () => {
               type="submit"
               className="w-full bg-amber-600 hover:bg-amber-700"
             >
-              Se connecter
+              {isLoading ? "Connexion..." : "Se connecter"}
             </Button>
           </form>
         </CardContent>

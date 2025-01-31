@@ -131,7 +131,7 @@ const HeroSection = () => (
         Souk Élégant
       </h1>
       <p className="text-2xl max-w-2xl mx-auto font-light">
-        Découvrez l'authenticité et l'élégance de la mode traditionnelle
+        Découvrez l&apos;authenticité et l&apos;élégance de la mode traditionnelle
         marocaine
       </p>
       <div className="flex gap-6 justify-center pt-4">

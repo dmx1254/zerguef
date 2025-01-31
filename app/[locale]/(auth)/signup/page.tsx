@@ -13,10 +13,13 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,9 +34,10 @@ const SignUpPage = () => {
       country: formData.get("country"),
       city: formData.get("city"),
       address: formData.get("address"),
+      phone: formData.get("phone"),
       password: formData.get("password"),
-      confirmPassword: formData.get("confirmPassword"),
     };
+    const confirmPassword = formData.get("confirmPassword");
 
     if (
       !data.firstName ||
@@ -51,7 +55,7 @@ const SignUpPage = () => {
       });
 
       return;
-    } else if (data.password !== data.confirmPassword) {
+    } else if (data.password !== confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas", {
         style: {
           color: "#ef4444",
@@ -62,7 +66,7 @@ const SignUpPage = () => {
     {
       try {
         setIsLoading(true);
-        const response = await fetch("/api/auth/signup", {
+        const response = await fetch("/api/user/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -72,6 +76,23 @@ const SignUpPage = () => {
 
         if (!response.ok) {
           throw new Error("Erreur lors de l'inscription");
+        }
+
+        const res = response.json();
+
+        if (res) {
+          toast.success(
+            "Inscription réussie. Vous allez être redirigé vers la page de connexion",
+            {
+              style: {
+                color: "#22c55e",
+              },
+            }
+          );
+
+          setTimeout(() => {
+            router.push("/signin");
+          }, 1500);
         }
 
         // Connexion automatique après l'inscription
@@ -98,7 +119,8 @@ const SignUpPage = () => {
             Créer votre compte
           </div>
           <p className="text-slate-600">
-            Rejoignez notre communauté d'amateurs d'artisanat traditionnel
+            Rejoignez notre communauté d&apos;amateurs d&apos;artisanat
+            traditionnel
           </p>
         </CardHeader>
 
@@ -133,7 +155,7 @@ const SignUpPage = () => {
                 />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
+              <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
@@ -142,6 +164,17 @@ const SignUpPage = () => {
                   required
                   className="w-full"
                   placeholder="jean.dupont@email.com"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Telephone</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="number"
+                  required
+                  className="w-full"
+                  placeholder="+212 0645748631"
                 />
               </div>
 

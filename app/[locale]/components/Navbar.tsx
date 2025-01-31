@@ -19,6 +19,9 @@ import CardHoverCon from "./HoverCard";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  // console.log(session);
 
   // const [scrollPosition, setScrollPosition] = useState<number>(0);
 
@@ -75,13 +78,25 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
-              <Link
-                href="/signin"
-                className="hidden sm:inline-flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600"
-              >
-                <CiUser size={24} className="-mt-1" />
-                <span className="text-base ">Compte</span>
-              </Link>
+              {session?.user ? (
+                <Link href="/profile" className="cursor-pointer">
+                  <Image
+                    src="/defaultuser.png"
+                    alt="use"
+                    height={70}
+                    width={70}
+                    className="h-8 w-8 object-cover object-center rounded-full"
+                  />
+                </Link>
+              ) : (
+                <Link
+                  href="/signin"
+                  className="hidden sm:inline-flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600"
+                >
+                  <CiUser size={24} className="-mt-1" />
+                  <span className="text-base ">Compte</span>
+                </Link>
+              )}
 
               <LanguageAndCurrency />
               <CardHoverCon />

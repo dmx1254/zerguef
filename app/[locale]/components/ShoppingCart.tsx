@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const paymentMethods = [
   {
@@ -66,6 +67,7 @@ const CartStats = () => (
 );
 
 export default function ShoppingCart() {
+  const { data: session } = useSession();
   const { items, totalAmount, removeItem, updateQuantity, clearCart } =
     useCartStore();
   const subtotal = useCartSubtotal();
@@ -76,17 +78,22 @@ export default function ShoppingCart() {
   const total = totalAmount + shipping;
 
   const handleCheckout = () => {
-    console.log("Paiement en cours...", {
-      items,
-      total,
-      paymentMethod: selectedPayment,
-    });
-
-    toast.success("Paiement reussie...", {
-      style: {
-        color: "#22c55e",
-      },
-    });
+    if (!session?.user) {
+      toast.error("Veuillez vous connecter pour effectuer un paiement.", {
+        style: {
+          color: "#f8312f",
+        },
+      });
+      return;
+    } else {
+      toast.success("Paiement reussie...", {
+        style: {
+          color: "#22c55e",
+        },
+      });
+      clearCart();
+      setSelectedPayment("card");
+    }
   };
 
   if (isEmpty) {

@@ -1,6 +1,10 @@
+import { connectDB } from "@/lib/db";
+import UserModel from "@/lib/models/user.model";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
+
+connectDB();
 
 export const options: NextAuthOptions = {
   pages: {
@@ -8,7 +12,7 @@ export const options: NextAuthOptions = {
     signOut: "/",
     newUser: "/signup",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt",
     maxAge: 60 * 60,
@@ -24,21 +28,23 @@ export const options: NextAuthOptions = {
         credentials: Record<"email" | "password", string> | undefined
       ) {
         if (credentials) {
-          const isUserExist = {
-            id: "JOPIJ5251",
-            email: "test@gmail.com",
-          };
+          const isUserExist = await UserModel.findOne({
+            email: credentials.email,
+          });
           if (!isUserExist) {
             throw new Error("Adresse E-mail incorrect");
           }
 
-          // const isPasswordCorrect = await bcrypt.compare(
-          //   credentials.password,
-          //   isUserExist.password
-          // );
+          const isPasswordCorrect = await bcrypt.compare(
+            credentials.password,
+            isUserExist.password
+          );
+          if (!isPasswordCorrect) {
+            throw new Error("Mot de passe incorrect");
+          }
 
           return {
-            id: isUserExist.id.toString(),
+            id: isUserExist._id.toString(),
             email: isUserExist.email,
           };
         }
