@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCartStore } from "@/lib/manage";
 import { formatPrice } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { useScopedI18n } from "@/locales/client";
 
 interface ProductDetails {
   material?: string;
@@ -71,6 +72,7 @@ const fetchProduct = async (id: string) => {
 };
 
 export default function ProductPage() {
+  const tScope = useScopedI18n("productDetail");
   const { items, addItem } = useCartStore();
   const params = useParams();
   const productId = params.id as string;
@@ -102,8 +104,7 @@ export default function ProductPage() {
         <div className="max-w-7xl mx-auto">
           <Alert variant="destructive">
             <AlertDescription>
-              Produit non trouvé. Veuillez vérifier l'URL ou retourner à la page
-              d'accueil.
+              {tScope("notFoundProduct")}
             </AlertDescription>
           </Alert>
         </div>
@@ -174,13 +175,13 @@ export default function ProductPage() {
             <div className="grid grid-cols-2 gap-4">
               <Card className="p-4 bg-gray-50 border-2">
                 <Box className="w-6 h-6 mb-2" />
-                <h3 className="font-semibold">Retours Gratuits</h3>
-                <p className="text-sm text-gray-600">Sous 30 jours</p>
+                <h3 className="font-semibold">{tScope("back")}</h3>
+                <p className="text-sm text-gray-600">{tScope("dela")}</p>
               </Card>
               <Card className="p-4 bg-gray-50 border-2">
                 <Truck className="w-6 h-6 mb-2" />
-                <h3 className="font-semibold">Livraison Express</h3>
-                <p className="text-sm text-gray-600">2-4 jours ouvrés</p>
+                <h3 className="font-semibold">{tScope("delivery")}</h3>
+                <p className="text-sm text-gray-600">{tScope("daysJours")}</p>
               </Card>
             </div>
 
@@ -189,10 +190,10 @@ export default function ProductPage() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold">
-                    Sélectionnez votre taille
+                   {tScope("chooseTaile")}
                   </h3>
                   <button className="text-sm text-yellow-600 hover:underline">
-                    Guide des tailles
+                    {tScope("guideTaille")}
                   </button>
                 </div>
                 <div className="grid grid-cols-4 gap-2">
@@ -214,7 +215,7 @@ export default function ProductPage() {
 
             {/* Sélection Quantité */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Quantité</h3>
+              <h3 className="text-lg font-semibold">{tScope("qty")}</h3>
               <div className="flex items-center gap-4">
                 <Button
                   variant="outline"
@@ -245,19 +246,19 @@ export default function ProductPage() {
               onClick={handleAddToCart}
               disabled={showSizesAndCare && !selectedSize}
             >
-              Ajouter au Panier • {formatPrice(product.price * quantity)}
+              {tScope("addToCart")} • {formatPrice(product.price * quantity)}
             </Button>
 
             {/* Détails Produit - Conditionnels */}
             {(showSizesAndCare || product.details.origin) && (
               <Card className="p-6 bg-gray-50">
                 <h3 className="text-lg font-semibold mb-4">
-                  Détails du produit
+                  {tScope("prodDetail")}
                 </h3>
                 <div className="space-y-3">
                   {product.details.material && showSizesAndCare && (
                     <div className="flex justify-between border-b border-gray-200 pb-2">
-                      <span className="text-gray-600">Matériau</span>
+                      <span className="text-gray-600">{tScope("materDet")}</span>
                       <span className="font-medium">
                         {product.details.material}
                       </span>
@@ -265,7 +266,7 @@ export default function ProductPage() {
                   )}
                   {product.details.origin && (
                     <div className="flex justify-between border-b border-gray-200 pb-2">
-                      <span className="text-gray-600">Origine</span>
+                      <span className="text-gray-600">{tScope("origDetail")}</span>
                       <span className="font-medium">
                         {product.details.origin}
                       </span>
@@ -273,7 +274,7 @@ export default function ProductPage() {
                   )}
                   {product.details.care && showSizesAndCare && (
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Entretien</span>
+                      <span className="text-gray-600">{tScope("entretien")}</span>
                       <span className="font-medium">
                         {product.details.care}
                       </span>

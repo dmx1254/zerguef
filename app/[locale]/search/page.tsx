@@ -8,6 +8,7 @@ import { useCartStore } from "@/lib/manage";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
+import { useScopedI18n } from "@/locales/client";
 
 interface Product {
   _id: string;
@@ -145,6 +146,7 @@ const ProductSkeleton = () => (
 );
 
 const SearchPage = ({ searchParams }: SearchParamsProps) => {
+  const tScope = useScopedI18n("search");
   const query = searchParams?.query || "";
 
   const { data: products, isLoading } = useQuery({
@@ -166,11 +168,9 @@ const SearchPage = ({ searchParams }: SearchParamsProps) => {
           <div className="text-center">
             <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h2 className="text-2xl font-semibold text-gray-600">
-              Commencez votre recherche
+              {tScope("start")}
             </h2>
-            <p className="text-gray-500 mt-2">
-              Entrez un terme de recherche pour trouver des produits
-            </p>
+            <p className="text-gray-500 mt-2">{tScope("startDesc")}</p>
           </div>
         </div>
       </div>
@@ -182,11 +182,11 @@ const SearchPage = ({ searchParams }: SearchParamsProps) => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl font-semibold mb-2">
-            Résultats pour "{query}"
+            {tScope("resultFor")} "{query}"
           </h1>
           {!isLoading && (
             <p className="text-gray-600">
-              {products?.length ?? 0} résultat(s) trouvé(s)
+              {products?.length ?? 0} {tScope("resultFind")}
             </p>
           )}
         </div>
@@ -202,11 +202,9 @@ const SearchPage = ({ searchParams }: SearchParamsProps) => {
             <div className="text-center">
               <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h2 className="text-xl font-semibold text-gray-600">
-                Aucun résultat trouvé
+                {tScope("resultFindNo")}
               </h2>
-              <p className="text-gray-500 mt-2">
-                Essayez avec d'autres termes de recherche
-              </p>
+              <p className="text-gray-500 mt-2">{tScope("resultFindTried")}</p>
             </div>
           </div>
         ) : (

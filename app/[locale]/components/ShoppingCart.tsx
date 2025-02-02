@@ -21,52 +21,41 @@ import { formatPrice, generateOrderNumber } from "@/lib/utils";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
+import { useScopedI18n } from "@/locales/client";
 
-const paymentMethods = [
-  {
-    id: "card",
-    name: "Carte Bancaire",
-    description: "Visa, Mastercard, Paypal",
-    icon: CreditCard,
-    bgColor: "bg-gradient-to-r from-blue-500 to-blue-600",
-    brands: [
-      { name: "Visa", logo: "/visa.png" },
-      { name: "Mastercard", logo: "/mastercard.png" },
-      { name: "Paypal", logo: "/paypal.png" },
-    ],
-  },
-  {
-    id: "cash",
-    name: "Paiement à la livraison",
-    description: "Payez en espèces à la réception",
-    icon: Wallet,
-    bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
-  },
-];
-
-const CartStats = () => (
-  <div className="grid grid-cols-3 gap-4 mb-8">
-    <Card className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-      <ShoppingBag className="h-6 w-6 text-yellow-600 mb-2" />
-      <h3 className="text-sm font-medium text-yellow-900">
-        Livraison Gratuite
-      </h3>
-      <p className="text-xs text-yellow-700">Pour les commandes &gt; 500 DH</p>
-    </Card>
-    <Card className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-      <Truck className="h-6 w-6 text-blue-600 mb-2" />
-      <h3 className="text-sm font-medium text-blue-900">Livraison Express</h3>
-      <p className="text-xs text-blue-700">24-48h ouvrées</p>
-    </Card>
-    <Card className="p-4 bg-gradient-to-br from-rose-50 to-rose-100 border-rose-200">
-      <Gift className="h-6 w-6 text-rose-600 mb-2" />
-      <h3 className="text-sm font-medium text-rose-900">Emballage Cadeau</h3>
-      <p className="text-xs text-rose-700">Option disponible</p>
-    </Card>
-  </div>
-);
+const CartStats = () => {
+  const tScope = useScopedI18n("cart");
+  return (
+    <div className="grid grid-cols-3 gap-4 mb-8">
+      <Card className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
+        <ShoppingBag className="h-6 w-6 text-yellow-600 mb-2" />
+        <h3 className="text-sm font-medium text-yellow-900">
+          {tScope("cartFree")}
+        </h3>
+        <p className="text-xs text-yellow-700">
+          {tScope("orderCart", { item: formatPrice(250) })}
+        </p>
+      </Card>
+      <Card className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+        <Truck className="h-6 w-6 text-blue-600 mb-2" />
+        <h3 className="text-sm font-medium text-blue-900">
+          {tScope("orderCartEx")}
+        </h3>
+        <p className="text-xs text-blue-700">{tScope("orderCartovr")}</p>
+      </Card>
+      <Card className="p-4 bg-gradient-to-br from-rose-50 to-rose-100 border-rose-200">
+        <Gift className="h-6 w-6 text-rose-600 mb-2" />
+        <h3 className="text-sm font-medium text-rose-900">
+          {tScope("orderCartEmb")}
+        </h3>
+        <p className="text-xs text-rose-700">{tScope("orderCartOption")}</p>
+      </Card>
+    </div>
+  );
+};
 
 export default function ShoppingCart() {
+  const tScope = useScopedI18n("cart");
   const { data: session } = useSession();
   const { items, totalAmount, removeItem, updateQuantity, clearCart } =
     useCartStore();
@@ -82,7 +71,7 @@ export default function ShoppingCart() {
 
   const handleCheckout = async () => {
     if (!session?.user) {
-      toast.error("Veuillez vous connecter pour effectuer un paiement.", {
+      toast.error(tScope("cartErrorLogin"), {
         style: {
           color: "#f8312f",
         },
@@ -116,7 +105,7 @@ export default function ShoppingCart() {
       const result = await response.json();
 
       if (result) {
-        toast.success("Commande effectuée avec succès!", {
+        toast.success(tScope("cartSuccess"), {
           style: {
             color: "#22c55e",
           },
@@ -127,7 +116,7 @@ export default function ShoppingCart() {
       }
     } catch (error) {
       console.error("Erreur:", error);
-      toast.error("Une erreur est survenue lors du paiement.", {
+      toast.error(tScope("cartErrorPay"), {
         style: {
           color: "#f8312f",
         },
@@ -137,6 +126,28 @@ export default function ShoppingCart() {
     }
   };
 
+  const paymentMethods = [
+    {
+      id: "card",
+      name: tScope("bankCard"),
+      description: tScope("bankCardDesk"),
+      icon: CreditCard,
+      bgColor: "bg-gradient-to-r from-blue-500 to-blue-600",
+      brands: [
+        { name: tScope("brands.visa"), logo: "/visa.png" },
+        { name: tScope("brands.mastercard"), logo: "/mastercard.png" },
+        { name: tScope("brands.paypal"), logo: "/paypal.png" },
+      ],
+    },
+    {
+      id: "cash",
+      name: tScope("bankHomeDeliver"),
+      description: tScope("bankHomeDeliverDesc"),
+      icon: Wallet,
+      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    },
+  ];
+
   if (isEmpty) {
     return (
       <div className="min-h-screen bg-gradient-to-br font-poppins from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -144,15 +155,14 @@ export default function ShoppingCart() {
           <ShoppingBag className="h-16 w-16 mx-auto text-gray-400 mb-4" />
           <Alert className="bg-white shadow-lg border-0">
             <AlertDescription className="text-lg">
-              Votre panier est vide. Continuez vos achats pour ajouter des
-              articles.
+              {tScope("emptyCart")}
             </AlertDescription>
           </Alert>
           <Button
             asChild
             className="mt-6 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700"
           >
-            <Link href="/">Découvrir nos produits</Link>
+            <Link href="/">{tScope("disvoverProduct")}</Link>
           </Button>
         </div>
       </div>
@@ -163,7 +173,7 @@ export default function ShoppingCart() {
     <div className="min-h-screen bg-gradient-to-br font-poppins from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
-          Mon Panier
+          {tScope("title")}
         </h1>
 
         <CartStats />
@@ -244,7 +254,7 @@ export default function ShoppingCart() {
                 onClick={clearCart}
                 className="text-gray-600 hover:text-red-500 transition-colors"
               >
-                Vider le panier
+                {tScope("clearCart")}
               </Button>
             </div>
           </div>
@@ -252,20 +262,20 @@ export default function ShoppingCart() {
           <div className="space-y-6">
             <Card className="p-6 bg-white shadow-lg border-0">
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
-                Résumé de la commande
+                {tScope("resumeCart")}
               </h2>
 
               <div className="space-y-3">
                 <div className="flex justify-between text-gray-600">
-                  <span>Sous-total</span>
+                  <span>{tScope("cartSous")}</span>
                   <span>{subtotal}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Livraison</span>
+                  <span>{tScope("cartDelivery")}</span>
                   <span>{formatPrice(shipping)}</span>
                 </div>
                 <div className="border-t pt-3 flex justify-between font-semibold text-lg">
-                  <span>Total</span>
+                  <span>{tScope("cartTotal")}</span>
                   <span className="bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
                     {formatPrice(total)}
                   </span>
@@ -275,7 +285,7 @@ export default function ShoppingCart() {
 
             <Card className="p-6 bg-white shadow-lg border-0">
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
-                Mode de paiement
+                {tScope("cartPaymentMode")}
               </h2>
 
               <RadioGroup
@@ -337,7 +347,9 @@ export default function ShoppingCart() {
               className="w-full py-6 text-lg bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700 transition-colors duration-300 shadow-lg"
               onClick={handleCheckout}
             >
-              {isOrderLoading ? "En cours..." : `Payer ${formatPrice(total)}`}
+              {isOrderLoading
+                ? tScope("cartPayLoading")
+                : `${tScope("cartToPay")} ${formatPrice(total)}`}
             </Button>
           </div>
         </div>

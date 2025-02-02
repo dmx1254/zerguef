@@ -46,6 +46,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useScopedI18n } from "@/locales/client";
 
 interface Product {
   _id: string;
@@ -72,6 +73,8 @@ interface Filters {
   onSale: boolean;
 }
 
+const availableSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+
 const fetchProducts = async (category: string, filters?: any) => {
   const params = new URLSearchParams();
 
@@ -93,18 +96,8 @@ const fetchProducts = async (category: string, filters?: any) => {
   return res.json();
 };
 
-const sortOptions = [
-  { value: "newest", label: "Plus récents" },
-  { value: "price-asc", label: "Prix croissant" },
-  { value: "price-desc", label: "Prix décroissant" },
-  { value: "name-asc", label: "Nom A-Z" },
-  { value: "name-desc", label: "Nom Z-A" },
-];
-
-const availableSizes = ["XS", "S", "M", "L", "XL", "XXL"];
-const availableMaterials = ["Coton", "Soie", "Lin", "Laine", "Synthétique"];
-
 const ProductCard = ({ product }: { product: Product }) => {
+  const tScope = useScopedI18n("categories");
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
@@ -192,7 +185,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           onClick={handleAddToCart}
         >
           <ShoppingBag className="h-5 w-5" />
-          Ajouter au Panier
+          {tScope("addToCart")}
         </Button>
       </CardFooter>
     </Card>
@@ -201,6 +194,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
 // Page principale des catégories
 export default function CategoryPage() {
+  const tScope = useScopedI18n("categories");
   const params = useParams();
   const category = params.category as string;
   const [activeFilters, setActiveFilters] = useState<Filters>({
@@ -222,6 +216,15 @@ export default function CategoryPage() {
   const showSizesAndMaterials = !["or", "parfums"].includes(
     category.toLowerCase()
   );
+
+  const sortOptions = [
+    { value: "newest", label: tScope("newestLab1") },
+    { value: "price-asc", label: tScope("newestLab2") },
+    { value: "price-desc", label: tScope("newestLab3") },
+    { value: "name-asc", label: tScope("newestLab4") },
+    { value: "name-desc", label: tScope("newestLab5") },
+  ];
+  const availableMaterials = ["Coton", "Soie", "Lin", "Laine", "Synthetique"];
 
   // Filtrer les produits
   const filteredProducts = products.filter((product: Product) => {
@@ -281,7 +284,7 @@ export default function CategoryPage() {
       {showSizesAndMaterials && (
         <>
           <div>
-            <h3 className="font-semibold mb-3">Tailles</h3>
+            <h3 className="font-semibold mb-3">{tScope("taile")}</h3>
             <div className="grid grid-cols-3 gap-2">
               {availableSizes.map((size) => (
                 <Button
@@ -306,7 +309,7 @@ export default function CategoryPage() {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-3">Matériaux</h3>
+            <h3 className="font-semibold mb-3">{tScope("matTitle")}</h3>
             <div className="space-y-2">
               {availableMaterials.map((material) => (
                 <div key={material} className="flex items-center space-x-2">
@@ -323,7 +326,14 @@ export default function CategoryPage() {
                     }
                   />
                   <label htmlFor={material} className="text-sm">
-                    {material}
+                    {tScope(
+                      material as
+                        | "Coton"
+                        | "Soie"
+                        | "Lin"
+                        | "Laine"
+                        | "Synthetique"
+                    )}
                   </label>
                 </div>
               ))}
@@ -333,7 +343,7 @@ export default function CategoryPage() {
       )}
 
       <div>
-        <h3 className="font-semibold mb-3">Prix</h3>
+        <h3 className="font-semibold mb-3">{tScope("price")}</h3>
         <div className="px-2">
           <Slider
             defaultValue={[0, 1000]}
@@ -367,7 +377,7 @@ export default function CategoryPage() {
               }))
             }
           />
-          <label htmlFor="inStock">En stock uniquement</label>
+          <label htmlFor="inStock">{tScope("inStock")}</label>
         </div>
         <div className="flex items-center space-x-2">
           <Checkbox
@@ -380,7 +390,7 @@ export default function CategoryPage() {
               }))
             }
           />
-          <label htmlFor="onSale">En promotion</label>
+          <label htmlFor="onSale">{tScope("promotion")}</label>
         </div>
       </div>
     </div>
@@ -395,9 +405,9 @@ export default function CategoryPage() {
             {category.charAt(0).toUpperCase() + category.slice(1)}
           </h1>
           <p className="text-gray-600">
-            Découvrez notre collection de{" "}
+            {tScope("discov")}{" "}
             {category.toLowerCase() === "or"
-              ? "bijoux en or"
+              ? tScope("goldJawel")
               : category.toLowerCase()}
           </p>
         </div>
@@ -411,12 +421,12 @@ export default function CategoryPage() {
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="lg:hidden">
                     <Filter className="h-4 w-4 mr-2" />
-                    Filtres
+                    {tScope("filter")}
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-full sm:w-96">
                   <SheetHeader className="mb-6">
-                    <SheetTitle>Filtres</SheetTitle>
+                    <SheetTitle>{tScope("filter")}</SheetTitle>
                   </SheetHeader>
                   <ScrollArea className="h-[calc(100vh-8rem)]">
                     <FiltersContent />
@@ -498,14 +508,14 @@ export default function CategoryPage() {
                     onClick={clearFilters}
                     className="text-red-500 hover:text-red-600"
                   >
-                    Effacer tout
+                    {tScope("delAll")}
                   </Button>
                 )}
               </div>
             </div>
             <p className="text-sm text-gray-600">
-              {sortedProducts.length} produit
-              {sortedProducts.length > 1 ? "s" : ""} trouvé
+              {sortedProducts.length} {tScope("pro")}
+              {sortedProducts.length > 1 ? "s" : ""} {tScope("finding")}
               {sortedProducts.length > 1 ? "s" : ""}
             </p>
           </div>
@@ -518,7 +528,7 @@ export default function CategoryPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <SlidersHorizontal className="h-5 w-5" /> Filtres
+                  <SlidersHorizontal className="h-5 w-5" /> {tScope("filter")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -545,14 +555,11 @@ export default function CategoryPage() {
             ) : sortedProducts.length === 0 ? (
               <div className="text-center py-12">
                 <h3 className="text-lg font-semibold mb-2">
-                  Aucun produit trouvé
+                  {tScope("noProFind")}
                 </h3>
-                <p className="text-gray-600 mb-4">
-                  Essayez de modifier vos filtres ou d'effectuer une nouvelle
-                  recherche.
-                </p>
+                <p className="text-gray-600 mb-4">{tScope("tryToModif")}</p>
                 <Button onClick={clearFilters} variant="outline">
-                  Réinitialiser les filtres
+                  {tScope("reset")}
                 </Button>
               </div>
             ) : (

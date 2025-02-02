@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "Zarguef | Produits de Luxe Orientaux",
   description:
     "Découvrez notre collection exclusive de mikhwar émirati, parfums authentiques et or de haute qualité. Zarguef vous offre le meilleur des produits de luxe orientaux avec une expérience shopping unique.",
+  icons: {
+    icon: "/ibennewapp-logo.png",
+  },
 };
 
 export default async function RootLayout({

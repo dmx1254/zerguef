@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { signOut, useSession } from "next-auth/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CartResponse, Order, formatPrice } from "@/lib/utils";
+import { useScopedI18n } from "@/locales/client";
 
 interface User {
   firstName: string;
@@ -39,6 +40,7 @@ interface User {
 }
 
 const ProfilePage = () => {
+  const tScope = useScopedI18n("profile");
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("profile");
@@ -114,14 +116,14 @@ const ProfilePage = () => {
         queryKey: ["user", session?.user.id],
       });
 
-      toast.success("Profil mis à jour avec succès", {
+      toast.success(tScope("successUpdateProfile"), {
         style: {
           color: "#10b981",
         },
       });
     } catch (error) {
       console.error(error);
-      toast.error("Erreur lors de la mise à jour du profil", {
+      toast.error(tScope("updateProfilError"), {
         style: {
           color: "#ef4444",
         },
@@ -134,7 +136,7 @@ const ProfilePage = () => {
   const handleChangePassword = async () => {
     if (newPassword.trim().length < 6 || newPassword !== confirmNewPassword) {
       if (newPassword.trim().length < 6) {
-        toast.error("Le mot de passe doit contenir au moins 6 caractères", {
+        toast.error(tScope("passwordErrorLength"), {
           style: {
             color: "#ef4444",
           },
@@ -142,7 +144,7 @@ const ProfilePage = () => {
         return;
       }
       if (newPassword !== confirmNewPassword) {
-        toast.error("Les mots de passes ne correspondent pas", {
+        toast.error(tScope("passwordnorMatchError"), {
           style: {
             color: "#ef4444",
           },
@@ -160,7 +162,7 @@ const ProfilePage = () => {
           body: JSON.stringify({ password: newPassword, id: session?.user.id }),
         });
         if (!response.ok) {
-          toast.error("Erreur lors de la mise à jour du mot de passe", {
+          toast.error(tScope("passwordError"), {
             style: {
               color: "#ef4444",
             },
@@ -170,7 +172,7 @@ const ProfilePage = () => {
         }
         const res = await response.json();
         if (res) {
-          toast.success("Mot de passe mis à jour avec succès", {
+          toast.success(tScope("passwordSuccess"), {
             style: {
               color: "#10b981",
             },
@@ -236,7 +238,7 @@ const ProfilePage = () => {
                   onClick={() => setActiveTab("profile")}
                 >
                   <User className="mr-2 h-4 w-4" />
-                  Profil
+                  {tScope("title")}
                 </Button>
                 <Button
                   variant="ghost"
@@ -246,7 +248,7 @@ const ProfilePage = () => {
                   onClick={() => setActiveTab("orders")}
                 >
                   <Package className="mr-2 h-4 w-4" />
-                  Commandes
+                  {tScope("orders")}
                 </Button>
                 <Button
                   variant="ghost"
@@ -256,7 +258,7 @@ const ProfilePage = () => {
                   onClick={() => setActiveTab("settings")}
                 >
                   <Settings className="mr-2 h-4 w-4" />
-                  mot de passe
+                  {tScope("password")}
                 </Button>
                 <Button
                   variant="ghost"
@@ -264,7 +266,7 @@ const ProfilePage = () => {
                   onClick={handleLogout}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Déconnexion
+                  {tScope("logout")}
                 </Button>
               </div>
             </CardContent>
@@ -278,15 +280,13 @@ const ProfilePage = () => {
             <TabsContent value="profile">
               <Card>
                 <CardHeader>
-                  <CardTitle>Information personnelle</CardTitle>
-                  <CardDescription>
-                    Gérez vos informations personnelles et vos coordonnées.
-                  </CardDescription>
+                  <CardTitle>{tScope("personalInfo")}</CardTitle>
+                  <CardDescription>{tScope("manageInfo")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="firstName">Prénom</label>
+                      <label htmlFor="firstName">{tScope("firstName")}</label>
                       <Input
                         id="firstName"
                         value={formData.firstName}
@@ -294,7 +294,7 @@ const ProfilePage = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="lastName">Nom</label>
+                      <label htmlFor="lastName">{tScope("lastName")}</label>
                       <Input
                         id="lastName"
                         value={formData.lastName}
@@ -305,7 +305,7 @@ const ProfilePage = () => {
                   <div className="space-y-2">
                     <label className="flex items-center">
                       <Mail className="mr-2 h-4 w-4" />
-                      Email
+                      {tScope("email")}
                     </label>
                     <Input
                       id="email"
@@ -316,7 +316,7 @@ const ProfilePage = () => {
                   <div className="space-y-2">
                     <label className="flex items-center">
                       <Phone className="mr-2 h-4 w-4" />
-                      Téléphone
+                      {tScope("phone")}
                     </label>
                     <Input
                       id="phone"
@@ -327,7 +327,7 @@ const ProfilePage = () => {
                   <div className="space-y-2">
                     <label className="flex items-center">
                       <MapPin className="mr-2 h-4 w-4" />
-                      Adresse
+                      {tScope("address")}
                     </label>
                     <Input
                       id="address"
@@ -337,7 +337,7 @@ const ProfilePage = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label>Ville</label>
+                      <label>{tScope("city")}</label>
                       <Input
                         id="city"
                         value={formData.city}
@@ -345,7 +345,7 @@ const ProfilePage = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label>Pays</label>
+                      <label>{tScope("country")}</label>
                       <Input
                         id="country"
                         value={formData.country}
@@ -358,9 +358,7 @@ const ProfilePage = () => {
                     onClick={handleUpdateProfile}
                     disabled={isUpdating}
                   >
-                    {isUpdating
-                      ? "Mise à jour en cours..."
-                      : "Sauvegarder les modifications"}
+                    {isUpdating ? tScope("updating") : tScope("saveChanges")}
                   </Button>
                 </CardContent>
               </Card>
@@ -370,20 +368,16 @@ const ProfilePage = () => {
             <TabsContent value="orders">
               <Card>
                 <CardHeader>
-                  <CardTitle>Mes commandes</CardTitle>
-                  <CardDescription>
-                    Historique de vos commandes et leur statut
-                  </CardDescription>
+                  <CardTitle>{tScope("orders")}</CardTitle>
+                  <CardDescription>{tScope("orderHistory")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {isLoadingOrders ? (
                     <div className="text-center py-4">
-                      Chargement des commandes...
+                      {tScope("orderLoading")}
                     </div>
                   ) : ordersData?.length === 0 ? (
-                    <div className="text-center py-4">
-                      Aucune commande trouvée
-                    </div>
+                    <div className="text-center py-4">{tScope("noOrders")}</div>
                   ) : (
                     ordersData?.map((order) => (
                       <div
@@ -393,7 +387,7 @@ const ProfilePage = () => {
                         <div className="flex justify-between items-start mb-4">
                           <div>
                             <h3 className="font-semibold">
-                              Commande #{order.orderNumber}
+                              {tScope("order")} #{order.orderNumber}
                             </h3>
                             <p className="text-sm text-gray-500">
                               {new Date(order.createdAt).toLocaleDateString(
@@ -412,10 +406,13 @@ const ProfilePage = () => {
                                 : "bg-red-100 text-red-800"
                             }`}
                           >
-                            {order.status === "pending" && "En attente"}
-                            {order.status === "processing" && "En traitement"}
-                            {order.status === "completed" && "Terminée"}
-                            {order.status === "cancelled" && "Annulée"}
+                            {order.status === "pending" && tScope("pending")}
+                            {order.status === "processing" &&
+                              tScope("processing")}
+                            {order.status === "completed" &&
+                              tScope("completed")}
+                            {order.status === "cancelled" &&
+                              tScope("cancelled")}
                           </div>
                         </div>
                         <div className="space-y-4">
@@ -434,7 +431,7 @@ const ProfilePage = () => {
                               <div className="flex-1">
                                 <h4 className="font-medium">{product.name}</h4>
                                 <p className="text-sm text-gray-500">
-                                  Quantité: {product.quantity}
+                                  {tScope("qty")}: {product.quantity}
                                   {product.size && ` • Taille: ${product.size}`}
                                 </p>
                               </div>
@@ -448,7 +445,7 @@ const ProfilePage = () => {
                         </div>
                         <div className="mt-4 pt-4 border-t">
                           <div className="flex justify-between">
-                            <span className="font-semibold">Total</span>
+                            <span className="font-semibold">{tScope("total")}</span>
                             <span className="font-semibold">
                               {formatPrice(order.total.toFixed(2))}
                             </span>
@@ -465,15 +462,15 @@ const ProfilePage = () => {
             <TabsContent value="settings">
               <Card>
                 <CardHeader>
-                  <CardTitle>Paramètres</CardTitle>
+                  <CardTitle>{tScope("settingTitle")}</CardTitle>
                   <CardDescription>
-                    Gérez vos préférences et la sécurité de votre compte
+                    {tScope("settingDesc")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label>Nouveau mot de passe</label>
+                      <label>{tScope("newPassword")}</label>
                       <Input
                         type="password"
                         value={newPassword}
@@ -483,7 +480,7 @@ const ProfilePage = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label>Confirmez le mot de passe</label>
+                      <label>{tScope("confirmNewPassword")}</label>
                       <Input
                         type="password"
                         value={confirmNewPassword}
@@ -498,8 +495,8 @@ const ProfilePage = () => {
                       disabled={isUpdatingPassword}
                     >
                       {isUpdatingPassword
-                        ? "Mise à jour en cours..."
-                        : "Mettre à jour le mot de passe"}
+                        ? tScope("updating")
+                        : tScope("updateNewPassword")}
                     </Button>
                   </div>
                 </CardContent>
