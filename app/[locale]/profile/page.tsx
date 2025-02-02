@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -23,7 +23,9 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { toast } from "sonner";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { CartResponse, Order, formatPrice } from "@/lib/utils";
 
 interface User {
   firstName: string;
@@ -36,30 +38,98 @@ interface User {
   phone: string;
 }
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  size?: string;
-}
-
-interface Order {
-  orderNumber: string;
-  products: CartItem[];
-  date: string;
-  status: "pending" | "processing" | "completed" | "cancelled";
-  total: number;
-}
-
 const ProfilePage = () => {
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("profile");
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["user", session?.user.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/user/${session?.user.id}`, {
+        method: "GET",
+      });
+      const result = await res.json();
+      return result;
+    },
+  });
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    country: "",
+    city: "",
+    address: "",
+    phone: "",
+  });
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email || "",
+        country: data.country || "",
+        city: data.city || "",
+        address: data.address || "",
+        phone: data.phone || "",
+      });
+    }
+  }, [data]);
 
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [isUpdatingPassword, setIsUpdatingPassword] = useState<boolean>(false);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      setIsUpdating(true);
+      const response = await fetch(`/api/user/${session?.user.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la mise à jour du profil");
+      }
+
+      await queryClient.invalidateQueries({
+        queryKey: ["user", session?.user.id],
+      });
+
+      toast.success("Profil mis à jour avec succès", {
+        style: {
+          color: "#10b981",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Erreur lors de la mise à jour du profil", {
+        style: {
+          color: "#ef4444",
+        },
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   const handleChangePassword = async () => {
     if (newPassword.trim().length < 6 || newPassword !== confirmNewPassword) {
@@ -114,43 +184,28 @@ const ProfilePage = () => {
     }
   };
 
-  // Mock data - remplacer par vos vraies données
-  const user: User = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "john@example.com",
-    country: "Morocco",
-    city: "Casablanca",
-    address: "123 Rue des Artisans",
-    phone: "+212 6XX-XXXXXX",
-    password: "********",
-  };
-
-  const orders: Order[] = [
-    {
-      orderNumber: "ORD-2024-001",
-      date: "2024-01-30",
-      status: "completed",
-      total: 299.99,
-      products: [
-        {
-          id: 1,
-          name: "Tapis Berbère",
-          price: 199.99,
-          image: "/products/tapis.jpg",
-          quantity: 1,
-          size: "200x150cm",
-        },
-        {
-          id: 2,
-          name: "Théière traditionnelle",
-          price: 99.99,
-          image: "/products/theiere.jpg",
-          quantity: 1,
-        },
-      ],
+  const { data: ordersData, isLoading: isLoadingOrders } = useQuery({
+    queryKey: ["orders", session?.user?.id],
+    queryFn: async () => {
+      const res = await fetch("/api/order", {
+        method: "GET",
+      });
+      if (!res.ok) {
+        throw new Error("Erreur lors de la récupération des commandes");
+      }
+      const data = await res.json();
+      return data as Order[];
     },
-  ];
+    enabled: !!session?.user?.id,
+  });
+
+  // if (isLoading) {
+  //   return <div>Chargement...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>Erreur lors du chargement des données</div>;
+  // }
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -161,15 +216,15 @@ const ProfilePage = () => {
             <CardHeader className="text-center">
               <Avatar className="w-24 h-24 mx-auto mb-4">
                 <AvatarImage src="/avatar.jpg" />
-                <AvatarFallback>
-                  {user.firstName[0]}
-                  {user.lastName[0]}
+                <AvatarFallback className="font-bold">
+                  {data?.firstName?.[0]}
+                  {data?.lastName?.[0]}
                 </AvatarFallback>
               </Avatar>
               <CardTitle>
-                {user.firstName} {user.lastName}
+                {data?.firstName} {data?.lastName}
               </CardTitle>
-              <CardDescription>{user.email}</CardDescription>
+              <CardDescription>{data?.email}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -201,11 +256,12 @@ const ProfilePage = () => {
                   onClick={() => setActiveTab("settings")}
                 >
                   <Settings className="mr-2 h-4 w-4" />
-                  Paramètres
+                  mot de passe
                 </Button>
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-red-500"
+                  onClick={handleLogout}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   Déconnexion
@@ -231,11 +287,19 @@ const ProfilePage = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label htmlFor="firstName">Prénom</label>
-                      <Input id="firstName" value={user.firstName} />
+                      <Input
+                        id="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                      />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="lastName">Nom</label>
-                      <Input id="lastName" value={user.lastName} />
+                      <Input
+                        id="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -243,34 +307,60 @@ const ProfilePage = () => {
                       <Mail className="mr-2 h-4 w-4" />
                       Email
                     </label>
-                    <Input value={user.email} />
+                    <Input
+                      id="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="flex items-center">
                       <Phone className="mr-2 h-4 w-4" />
                       Téléphone
                     </label>
-                    <Input value={user.phone} />
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="flex items-center">
                       <MapPin className="mr-2 h-4 w-4" />
                       Adresse
                     </label>
-                    <Input value={user.address} />
+                    <Input
+                      id="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label>Ville</label>
-                      <Input value={user.city} />
+                      <Input
+                        id="city"
+                        value={formData.city}
+                        onChange={handleInputChange}
+                      />
                     </div>
                     <div className="space-y-2">
                       <label>Pays</label>
-                      <Input value={user.country} />
+                      <Input
+                        id="country"
+                        value={formData.country}
+                        onChange={handleInputChange}
+                      />
                     </div>
                   </div>
-                  <Button className="w-full">
-                    Sauvegarder les modifications
+                  <Button
+                    className="w-full"
+                    onClick={handleUpdateProfile}
+                    disabled={isUpdating}
+                  >
+                    {isUpdating
+                      ? "Mise à jour en cours..."
+                      : "Sauvegarder les modifications"}
                   </Button>
                 </CardContent>
               </Card>
@@ -286,68 +376,87 @@ const ProfilePage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {orders.map((order) => (
-                    <div
-                      key={order.orderNumber}
-                      className="border rounded-lg p-4 mb-4"
-                    >
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="font-semibold">
-                            Commande #{order.orderNumber}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {new Date(order.date).toLocaleDateString("fr-FR")}
-                          </p>
-                        </div>
-                        <div
-                          className={`px-3 py-1 rounded-full text-sm ${
-                            order.status === "completed"
-                              ? "bg-green-100 text-green-800"
-                              : order.status === "processing"
-                              ? "bg-blue-100 text-blue-800"
-                              : order.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {order.status}
-                        </div>
-                      </div>
-                      <div className="space-y-4">
-                        {order.products.map((product) => (
-                          <div
-                            key={product.id}
-                            className="flex items-center space-x-4"
-                          >
-                            <div className="w-16 h-16 bg-gray-100 rounded">
-                              {/* Image placeholder */}
-                            </div>
-                            <div className="flex-1">
-                              <h4 className="font-medium">{product.name}</h4>
-                              <p className="text-sm text-gray-500">
-                                Quantité: {product.quantity}
-                                {product.size && ` • Taille: ${product.size}`}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-medium">
-                                {product.price.toFixed(2)} €
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-4 pt-4 border-t">
-                        <div className="flex justify-between">
-                          <span className="font-semibold">Total</span>
-                          <span className="font-semibold">
-                            {order.total.toFixed(2)} €
-                          </span>
-                        </div>
-                      </div>
+                  {isLoadingOrders ? (
+                    <div className="text-center py-4">
+                      Chargement des commandes...
                     </div>
-                  ))}
+                  ) : ordersData?.length === 0 ? (
+                    <div className="text-center py-4">
+                      Aucune commande trouvée
+                    </div>
+                  ) : (
+                    ordersData?.map((order) => (
+                      <div
+                        key={order.orderNumber}
+                        className="border rounded-lg p-4 mb-4"
+                      >
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-semibold">
+                              Commande #{order.orderNumber}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              {new Date(order.createdAt).toLocaleDateString(
+                                "fr-FR"
+                              )}
+                            </p>
+                          </div>
+                          <div
+                            className={`px-3 py-1 rounded-full text-sm ${
+                              order.status === "completed"
+                                ? "bg-green-100 text-green-800"
+                                : order.status === "processing"
+                                ? "bg-blue-100 text-blue-800"
+                                : order.status === "pending"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {order.status === "pending" && "En attente"}
+                            {order.status === "processing" && "En traitement"}
+                            {order.status === "completed" && "Terminée"}
+                            {order.status === "cancelled" && "Annulée"}
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          {order.items.map((product: CartResponse) => (
+                            <div
+                              key={product.id}
+                              className="flex items-center space-x-4"
+                            >
+                              <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden">
+                                <img
+                                  src={product.image}
+                                  alt={product.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-medium">{product.name}</h4>
+                                <p className="text-sm text-gray-500">
+                                  Quantité: {product.quantity}
+                                  {product.size && ` • Taille: ${product.size}`}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-medium">
+                                  {formatPrice(product.price.toFixed(2))}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="flex justify-between">
+                            <span className="font-semibold">Total</span>
+                            <span className="font-semibold">
+                              {formatPrice(order.total.toFixed(2))}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
@@ -383,9 +492,13 @@ const ProfilePage = () => {
                         }
                       />
                     </div>
-                    <Button className="w-full" onClick={handleChangePassword}>
+                    <Button
+                      className="w-full"
+                      onClick={handleChangePassword}
+                      disabled={isUpdatingPassword}
+                    >
                       {isUpdatingPassword
-                        ? "En cours..."
+                        ? "Mise à jour en cours..."
                         : "Mettre à jour le mot de passe"}
                     </Button>
                   </div>

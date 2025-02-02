@@ -13,6 +13,7 @@ import {
 import { useCartStore, useCartSubtotal } from "@/lib/manage";
 
 const CardHoverCon = () => {
+  const tScope = useScopedI18n("navbar");
   const { totalItems, totalAmount, items } = useCartStore();
   const subtotal = useCartSubtotal();
   // console.log(subtotal);
@@ -22,7 +23,7 @@ const CardHoverCon = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  console.log(totalItems);
+  // console.log(totalItems);
 
   return (
     <HoverCard open={open} onOpenChange={handleOpen}>
@@ -51,7 +52,9 @@ const CardHoverCon = () => {
       <HoverCardContent className="w-80 bg-[#1A1D21] border-[#45494e]">
         <div className="w-full flex flex-col items-center space-y-4">
           <div className="w-full flex items-center justify-between">
-            <span className="text-sm text-white/90">{totalItems} produits</span>
+            <span className="text-sm text-white/90">
+              {totalItems} {tScope("cartHoverTile")}
+            </span>
             <span className="text-base font-bold  text-yellow-500 rounded">
               {subtotal}
             </span>
@@ -60,7 +63,7 @@ const CardHoverCon = () => {
             href="/cart"
             className="w-full outline-none text-base p-2 rounded bg-yellow-500 text-white transition-colors hover:opacity-90"
           >
-            Aller au panier
+            {tScope("cartHoverBtn")}
           </Link>
         </div>
       </HoverCardContent>

@@ -17,6 +17,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
+  const tScope = useScopedI18n("navbar");
   const pathname = usePathname();
 
   const locale = useCurrentLocale();
@@ -65,10 +66,10 @@ const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
       <DialogContent className="font-poppins w-full max-w-[450px] rounded-[20px] p-0 bg-white shadow-xl border border-gray-200">
         <div className="w-full grid divide-gray-100">
           <h2 className="px-4 pt-4 text-lg text-gray-800 font-semibold">
-            Choisr votre langue
+            {tScope("chooseLangue")}
           </h2>
           <div className="p-4 space-y-3">
-            <h4 className="font-semibold text-lg text-gray-800">language</h4>
+            <h4 className="font-semibold text-lg text-gray-800">{tScope("language")}</h4>
             <LocaleSelect />
           </div>
         </div>

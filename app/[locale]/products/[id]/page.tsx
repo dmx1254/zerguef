@@ -1,75 +1,102 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card } from "../../components/ui/card";
-// import { Navbar } from "@/components/ui/navbar";
+import { Card } from "@/components/ui/card";
 import { Box, Heart, MinusIcon, PlusIcon, Share2, Truck } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCartStore } from "@/lib/manage";
+import { formatPrice } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
-const allProducts = {
-  1: {
-    id: 1,
-    name: "Djellaba Royale",
-    price: 299,
-    image:
-      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
-    description:
-      "Élégante djellaba brodée à la main avec des motifs traditionnels",
-    category: "Djellabas",
-    details: {
-      material: "100% Coton",
-      origin: "Maroc",
-      care: "Lavage à la main recommandé",
-      sizes: ["S", "M", "L", "XL"],
-    },
-  },
-  2: {
-    id: 2,
-    name: "Caftan Émeraude",
-    price: 399,
-    image:
-      "https://images.unsplash.com/photo-1600267185393-e158a98703de?auto=format&fit=crop&q=80&w=500",
-    description: "Caftan en soie avec broderies précieuses",
-    category: "Caftans",
-    details: {
-      material: "Soie",
-      origin: "Maroc",
-      care: "Nettoyage à sec uniquement",
-      sizes: ["S", "M", "L", "XL"],
-    },
-  },
-  3: {
-    id: 3,
-    name: "Gandoura Sahara",
-    price: 199,
-    image:
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&q=80&w=500",
-    description: "Gandoura légère parfaite pour l'été",
-    category: "Gandouras",
-    details: {
-      material: "Lin",
-      origin: "Tunisie",
-      care: "Lavable en machine",
-      sizes: ["S", "M", "L", "XL"],
-    },
-  },
+interface ProductDetails {
+  material?: string;
+  origin: string;
+  care?: string;
+  sizes?: string[];
+}
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  details: ProductDetails;
+  discount?: number;
+  stock: number;
+}
+
+// Loading Skeleton
+const ProductSkeleton = () => (
+  <div className="min-h-screen bg-gray-50 font-poppins animate-pulse">
+    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* Image Skeleton */}
+        <div className="aspect-square bg-gray-200 rounded-xl" />
+
+        {/* Content Skeleton */}
+        <div className="space-y-8">
+          <div>
+            <div className="h-10 bg-gray-200 rounded-lg w-3/4 mb-4" />
+            <div className="h-6 bg-gray-200 rounded-lg w-1/4 mb-4" />
+            <div className="h-20 bg-gray-200 rounded-lg w-full" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-32 bg-gray-200 rounded-lg" />
+            <div className="h-32 bg-gray-200 rounded-lg" />
+          </div>
+
+          <div className="space-y-4">
+            <div className="h-8 bg-gray-200 rounded-lg w-1/2" />
+            <div className="grid grid-cols-4 gap-2">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-12 bg-gray-200 rounded-lg" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const fetchProduct = async (id: string) => {
+  const res = await fetch(`/api/products/${id}`);
+  if (!res.ok) throw new Error("Erreur lors du chargement du produit");
+  return res.json();
 };
 
 export default function ProductPage() {
-  const { items, addItem, removeItem, updateQuantity } = useCartStore();
+  const { items, addItem } = useCartStore();
   const params = useParams();
-  const productId = parseInt(params.id as string);
-  const product = allProducts[productId as keyof typeof allProducts];
-  const [selectedSize, setSelectedSize] = useState(product.details.sizes[0]);
+  const productId = params.id as string;
+
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["product", productId],
+    queryFn: () => fetchProduct(productId),
+    staleTime: 0,
+    refetchOnMount: true,
+  });
+
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  console.log(items);
+  const showSizesAndCare = !["or", "parfums"].includes(
+    product?.category.toLowerCase() || ""
+  );
 
-  if (!product) {
+  if (isLoading) return <ProductSkeleton />;
+
+  if (error || !product) {
     return (
       <main className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-7xl mx-auto">
@@ -86,11 +113,14 @@ export default function ProductPage() {
 
   const handleAddToCart = () => {
     addItem({
-      id: product.id,
+      id: product._id,
       name: product.name,
-      price: product.price,
+      price: product.discount
+        ? product.price * (1 - product.discount / 100)
+        : product.price,
       image: product.image,
       quantity: quantity,
+      ...(showSizesAndCare && { size: selectedSize }),
     });
   };
 
@@ -98,7 +128,7 @@ export default function ProductPage() {
     <main className="min-h-screen bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Section Image avec Gallery */}
+          {/* Section Image */}
           <div className="space-y-4">
             <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg">
               <img
@@ -121,7 +151,7 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Section Information Produit */}
+          {/* Section Information */}
           <div className="space-y-8">
             <div>
               <div className="flex items-center justify-between">
@@ -133,14 +163,14 @@ export default function ProductPage() {
                 </Button>
               </div>
               <p className="text-xl font-semibold text-gray-900 mt-4">
-                {product.price}€
+                {formatPrice(product.price)}
               </p>
               <p className="text-lg text-gray-600 mt-4">
                 {product.description}
               </p>
             </div>
 
-            {/* Avantages Produit */}
+            {/* Avantages */}
             <div className="grid grid-cols-2 gap-4">
               <Card className="p-4 bg-gray-50 border-2">
                 <Box className="w-6 h-6 mb-2" />
@@ -154,31 +184,33 @@ export default function ProductPage() {
               </Card>
             </div>
 
-            {/* Sélection Taille */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">
-                  Sélectionnez votre taille
-                </h3>
-                <button className="text-sm text-yellow-600 hover:underline">
-                  Guide des tailles
-                </button>
+            {/* Sélection Taille - Conditionnelle */}
+            {showSizesAndCare && product.details.sizes && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">
+                    Sélectionnez votre taille
+                  </h3>
+                  <button className="text-sm text-yellow-600 hover:underline">
+                    Guide des tailles
+                  </button>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {product.details.sizes.map((size: string) => (
+                    <Button
+                      key={size}
+                      variant={selectedSize === size ? "default" : "outline"}
+                      className={`w-full ${
+                        selectedSize === size ? "ring-2 ring-yellow-500" : ""
+                      }`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </Button>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                {product.details.sizes.map((size) => (
-                  <Button
-                    key={size}
-                    variant={selectedSize === size ? "default" : "outline"}
-                    className={`w-full ${
-                      selectedSize === size ? "ring-2 ring-yellow-500" : ""
-                    }`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Sélection Quantité */}
             <div className="space-y-4">
@@ -211,30 +243,45 @@ export default function ProductPage() {
               size="lg"
               className="w-full text-lg py-6 rounded-xl bg-yellow-600 hover:bg-yellow-700 transition-colors"
               onClick={handleAddToCart}
+              disabled={showSizesAndCare && !selectedSize}
             >
-              Ajouter au Panier • {(product.price * quantity).toFixed(2)}€
+              Ajouter au Panier • {formatPrice(product.price * quantity)}
             </Button>
 
-            {/* Détails Produit */}
-            <Card className="p-6 bg-gray-50">
-              <h3 className="text-lg font-semibold mb-4">Détails du produit</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between border-b border-gray-200 pb-2">
-                  <span className="text-gray-600">Matériau</span>
-                  <span className="font-medium">
-                    {product.details.material}
-                  </span>
+            {/* Détails Produit - Conditionnels */}
+            {(showSizesAndCare || product.details.origin) && (
+              <Card className="p-6 bg-gray-50">
+                <h3 className="text-lg font-semibold mb-4">
+                  Détails du produit
+                </h3>
+                <div className="space-y-3">
+                  {product.details.material && showSizesAndCare && (
+                    <div className="flex justify-between border-b border-gray-200 pb-2">
+                      <span className="text-gray-600">Matériau</span>
+                      <span className="font-medium">
+                        {product.details.material}
+                      </span>
+                    </div>
+                  )}
+                  {product.details.origin && (
+                    <div className="flex justify-between border-b border-gray-200 pb-2">
+                      <span className="text-gray-600">Origine</span>
+                      <span className="font-medium">
+                        {product.details.origin}
+                      </span>
+                    </div>
+                  )}
+                  {product.details.care && showSizesAndCare && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Entretien</span>
+                      <span className="font-medium">
+                        {product.details.care}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <div className="flex justify-between border-b border-gray-200 pb-2">
-                  <span className="text-gray-600">Origine</span>
-                  <span className="font-medium">{product.details.origin}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Entretien</span>
-                  <span className="font-medium">{product.details.care}</span>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            )}
           </div>
         </div>
       </div>

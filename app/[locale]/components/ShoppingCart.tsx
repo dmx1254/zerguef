@@ -17,7 +17,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "./ui/card";
 import { Label } from "@/components/ui/label";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, generateOrderNumber } from "@/lib/utils";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -73,11 +73,14 @@ export default function ShoppingCart() {
   const subtotal = useCartSubtotal();
   const isEmpty = useIsCartEmpty();
   const [selectedPayment, setSelectedPayment] = useState("card");
+  const [isOrderLoading, setIsOrderLoading] = useState<boolean>(false);
 
-  const shipping = 30;
+  const shipping = 0;
   const total = totalAmount + shipping;
 
-  const handleCheckout = () => {
+  // console.log(items);
+
+  const handleCheckout = async () => {
     if (!session?.user) {
       toast.error("Veuillez vous connecter pour effectuer un paiement.", {
         style: {
@@ -85,14 +88,52 @@ export default function ShoppingCart() {
         },
       });
       return;
-    } else {
-      toast.success("Paiement reussie...", {
+    }
+
+    try {
+      setIsOrderLoading(true);
+      const orderData = {
+        orderNumber: generateOrderNumber(),
+        userId: session.user.id,
+        items: items,
+        total: total,
+        shipping: shipping,
+        paymentMethod: selectedPayment,
+      };
+
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors du paiement");
+      }
+
+      const result = await response.json();
+
+      if (result) {
+        toast.success("Commande effectuée avec succès!", {
+          style: {
+            color: "#22c55e",
+          },
+        });
+
+        clearCart();
+        setSelectedPayment("card");
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+      toast.error("Une erreur est survenue lors du paiement.", {
         style: {
-          color: "#22c55e",
+          color: "#f8312f",
         },
       });
-      clearCart();
-      setSelectedPayment("card");
+    } finally {
+      setIsOrderLoading(false);
     }
   };
 
@@ -296,7 +337,7 @@ export default function ShoppingCart() {
               className="w-full py-6 text-lg bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700 transition-colors duration-300 shadow-lg"
               onClick={handleCheckout}
             >
-              Payer {formatPrice(total)}
+              {isOrderLoading ? "En cours..." : `Payer ${formatPrice(total)}`}
             </Button>
           </div>
         </div>

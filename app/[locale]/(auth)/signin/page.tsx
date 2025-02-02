@@ -14,8 +14,10 @@ import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useScopedI18n } from "@/locales/client";
 
 const SignInPage = () => {
+  const tScope = useScopedI18n("signin");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -26,7 +28,7 @@ const SignInPage = () => {
     const password = formData.get("password");
 
     if (!email || !password) {
-      toast.error("Veuiller remplir tous les champs", {
+      toast.error(tScope("error.missingfields"), {
         style: {
           color: "#ef4444",
         },
@@ -39,19 +41,18 @@ const SignInPage = () => {
           email,
           password,
           redirect: false,
-          callbackUrl: "/",
         });
 
         if (!response?.ok) {
           if (response?.error?.includes("Adresse E-mail incorrect")) {
-            toast.error("Adresse E-mail incorrect", {
+            toast.error(tScope("error.email"), {
               style: {
                 color: "#ef4444",
               },
             });
           }
           if (response?.error?.includes("Mot de passe incorrect")) {
-            toast.error("Mot de passe incorrect", {
+            toast.error(tScope("error.password"), {
               style: {
                 color: "#ef4444",
               },
@@ -73,29 +74,27 @@ const SignInPage = () => {
       <Card className="w-full max-w-md bg-white/90 backdrop-blur">
         <CardHeader className="space-y-3 text-center">
           <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-            Souk Artisanal
+            Zerguef
           </div>
-          <p className="text-slate-600">
-            Connectez-vous pour découvrir nos trésors artisanaux
-          </p>
+          <p className="text-slate-600">{tScope("subtitle")}</p>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Adresse e-mail</Label>
+              <Label htmlFor="email">{tScope("email.label")}</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="exemple@email.com"
+                placeholder={tScope("email.placeholder")}
                 required
                 className="w-full"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">{tScope("password.label")}</Label>
               <Input
                 id="password"
                 name="password"
@@ -109,7 +108,7 @@ const SignInPage = () => {
               type="submit"
               className="w-full bg-amber-600 hover:bg-amber-700"
             >
-              {isLoading ? "Connexion..." : "Se connecter"}
+              {isLoading ? tScope("button.loading") : tScope("button")}
             </Button>
           </form>
         </CardContent>
@@ -120,13 +119,13 @@ const SignInPage = () => {
               href="/forgot-password"
               className="text-amber-600 hover:underline"
             >
-              Mot de passe oublié ?
+              {tScope("forgotpassword")}
             </Link>
           </div>
           <div>
-            Pas encore de compte ?{" "}
+            {tScope("noaccount")}{" "}
             <Link href="/signup" className="text-amber-600 hover:underline">
-              Inscrivez-vous
+              {tScope("signup")}
             </Link>
           </div>
         </CardFooter>

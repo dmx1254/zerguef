@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,139 +8,126 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-// import { Navbar } from "@/components/ui/navbar";
+} from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useCartStore } from "@/lib/manage";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ChevronDown, Filter, Heart, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import {
+  ChevronDown,
+  Filter,
+  Heart,
+  ShoppingBag,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-const categoryProducts = {
-  djellabas: [
-    {
-      id: 1,
-      name: "Djellaba Royale",
-      price: 299,
-      image:
-        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
-      description:
-        "Élégante djellaba brodée à la main avec des motifs traditionnels",
-    },
-    {
-      id: 4,
-      name: "Djellaba Safran",
-      price: 249,
-      image:
-        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=80&w=500",
-      description: "Djellaba moderne aux couleurs vibrantes",
-    },
-    {
-      id: 12,
-      name: "Djellaba Premium",
-      price: 249,
-      image:
-        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=80&w=500",
-      description: "Djellaba moderne aux couleurs vibrantes",
-    },
-    {
-      id: 1,
-      name: "Djellaba Pre",
-      price: 299,
-      image:
-        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
-      description:
-        "Élégante djellaba brodée à la main avec des motifs traditionnels",
-    },
-  ],
-  caftans: [
-    {
-      id: 2,
-      name: "Caftan Émeraude",
-      price: 399,
-      image:
-        "https://images.unsplash.com/photo-1600267185393-e158a98703de?auto=format&fit=crop&q=80&w=500",
-      description: "Caftan en soie avec broderies précieuses",
-    },
-    {
-      id: 5,
-      name: "Caftan Royal",
-      price: 449,
-      image:
-        "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=500",
-      description: "Caftan luxueux pour occasions spéciales",
-    },
-  ],
-  gandouras: [
-    {
-      id: 3,
-      name: "Gandoura Sahara",
-      price: 199,
-      image:
-        "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&q=80&w=500",
-      description: "Gandoura légère parfaite pour l'été",
-    },
-    {
-      id: 6,
-      name: "Gandoura Médina",
-      price: 179,
-      image:
-        "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=500",
-      description: "Gandoura traditionnelle au style authentique",
-    },
-  ],
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  details: {
+    material?: string;
+    origin: string;
+    care?: string;
+    sizes?: string[];
+  };
+  discount?: number;
+  stock: number;
+}
+
+interface Filters {
+  sizes: string[];
+  priceRange: [number, number];
+  materials: string[];
+  onlyInStock: boolean;
+  onSale: boolean;
+}
+
+const fetchProducts = async (category: string, filters?: any) => {
+  const params = new URLSearchParams();
+
+  // Toujours inclure la catégorie
+  params.append("category", category);
+
+  // Ajouter les autres filtres s'ils existent
+  if (filters) {
+    if (filters.priceRange) {
+      params.append("minPrice", filters.priceRange[0].toString());
+      params.append("maxPrice", filters.priceRange[1].toString());
+    }
+    if (filters.onlyInStock) params.append("inStock", "true");
+    if (filters.onSale) params.append("onSale", "true");
+  }
+
+  const res = await fetch(`/api/products/search-product?${params.toString()}`);
+  if (!res.ok) throw new Error("Erreur lors du chargement des produits");
+  return res.json();
 };
 
-const categoryTitles = {
-  djellabas: "Djellabas",
-  caftans: "Caftans",
-  gandouras: "Gandouras",
-};
+const sortOptions = [
+  { value: "newest", label: "Plus récents" },
+  { value: "price-asc", label: "Prix croissant" },
+  { value: "price-desc", label: "Prix décroissant" },
+  { value: "name-asc", label: "Nom A-Z" },
+  { value: "name-desc", label: "Nom Z-A" },
+];
 
-const CategoryHeader = ({ category }: { category: string }) => (
-  <div className="relative mb-12 text-center">
-    <div className="absolute inset-0 flex items-center">
-      <div className="w-full border-t border-gray-200"></div>
-    </div>
-    <div className="relative">
-      <span className="bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text text-4xl font-bold px-4 uppercase tracking-wider">
-        {categoryTitles[category as keyof typeof categoryTitles]}
-      </span>
-    </div>
-    <p className="mt-4 text-lg text-gray-600">
-      Découvrez notre collection de{" "}
-      {categoryTitles[category as keyof typeof categoryTitles].toLowerCase()}
-    </p>
-  </div>
-);
+const availableSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+const availableMaterials = ["Coton", "Soie", "Lin", "Laine", "Synthétique"];
 
-const FiltersSection = () => (
-  <div className="flex items-center justify-between mb-8 bg-white p-4 rounded-lg shadow-sm">
-    <div className="flex gap-4">
-      <Button variant="outline" className="gap-2">
-        <Filter className="h-4 w-4" />
-        Filtres
-      </Button>
-      <Button variant="outline" className="gap-2">
-        Trier par <ChevronDown className="h-4 w-4" />
-      </Button>
-    </div>
-    <p className="text-gray-600">6 produits trouvés</p>
-  </div>
-);
-
-const ProductCard = ({ product, onAddToCart }: any) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const addItem = useCartStore((state) => state.addItem);
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product._id,
+      name: product.name,
+      price: product.discount
+        ? product.price * (1 - product.discount / 100)
+        : product.price,
+      image: product.image,
+      quantity: 1,
+    });
+  };
 
   return (
-    <Card 
+    <Card
       className="group overflow-hidden font-poppins bg-white border-0 shadow-sm hover:shadow-md transition-shadow duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link href={`/products/${product.id}`}>
+      <Link href={`/products/${product._id}`}>
         <CardHeader className="p-0 relative">
           <div className="aspect-[4/5] relative overflow-hidden bg-gray-100">
             <img
@@ -149,11 +137,6 @@ const ProductCard = ({ product, onAddToCart }: any) => {
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
-            {product.isNew && (
-              <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                Nouveau
-              </div>
-            )}
             {product.discount && (
               <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                 -{product.discount}%
@@ -177,7 +160,7 @@ const ProductCard = ({ product, onAddToCart }: any) => {
       </Link>
 
       <CardContent className="p-6">
-        <Link href={`/products/${product.id}`}>
+        <Link href={`/products/${product._id}`}>
           <CardTitle className="mb-2 hover:text-blue-600 transition-colors">
             {product.name}
           </CardTitle>
@@ -187,18 +170,18 @@ const ProductCard = ({ product, onAddToCart }: any) => {
         </p>
         <div className="flex items-center justify-between">
           {product.discount ? (
-            <div className="space-x-2">
-              <span className="text-2xl font-bold text-blue-600">
+            <div className="space-y-1">
+              <p className="text-2xl font-bold text-blue-600">
                 {formatPrice(product.price * (1 - product.discount / 100))}
-              </span>
-              <span className="text-gray-400 line-through text-sm">
+              </p>
+              <p className="text-sm text-gray-500 line-through">
                 {formatPrice(product.price)}
-              </span>
+              </p>
             </div>
           ) : (
-            <span className="text-2xl font-bold text-blue-600">
+            <p className="text-2xl font-bold text-blue-600">
               {formatPrice(product.price)}
-            </span>
+            </p>
           )}
         </div>
       </CardContent>
@@ -206,7 +189,7 @@ const ProductCard = ({ product, onAddToCart }: any) => {
       <CardFooter className="p-6 pt-0">
         <Button
           className="w-full gap-2 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700 transition-all duration-300"
-          onClick={() => onAddToCart(product)}
+          onClick={handleAddToCart}
         >
           <ShoppingBag className="h-5 w-5" />
           Ajouter au Panier
@@ -216,38 +199,370 @@ const ProductCard = ({ product, onAddToCart }: any) => {
   );
 };
 
+// Page principale des catégories
 export default function CategoryPage() {
   const params = useParams();
   const category = params.category as string;
-  const products = categoryProducts[category as keyof typeof categoryProducts] || [];
-  const addItem = useCartStore((state) => state.addItem);
+  const [activeFilters, setActiveFilters] = useState<Filters>({
+    sizes: [],
+    priceRange: [0, 1000],
+    materials: [],
+    onlyInStock: false,
+    onSale: false,
+  });
+  const [sortBy, setSortBy] = useState("newest");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const handleAddToCart = (product: any) => {
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.discount 
-        ? product.price * (1 - product.discount / 100)
-        : product.price,
-      image: product.image,
-      quantity: 1,
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ["products", category, activeFilters],
+    queryFn: () => fetchProducts(category, activeFilters),
+    staleTime: 0,
+  });
+
+  const showSizesAndMaterials = !["or", "parfums"].includes(
+    category.toLowerCase()
+  );
+
+  // Filtrer les produits
+  const filteredProducts = products.filter((product: Product) => {
+    if (activeFilters.onlyInStock && product.stock <= 0) return false;
+    if (activeFilters.onSale && !product.discount) return false;
+    if (
+      product.price < activeFilters.priceRange[0] ||
+      product.price > activeFilters.priceRange[1]
+    )
+      return false;
+    if (
+      showSizesAndMaterials &&
+      activeFilters.sizes.length > 0 &&
+      !activeFilters.sizes.some((size) => product.details.sizes?.includes(size))
+    )
+      return false;
+    if (
+      showSizesAndMaterials &&
+      activeFilters.materials.length > 0 &&
+      !activeFilters.materials.includes(product.details.material || "")
+    )
+      return false;
+    return true;
+  });
+
+  // Trier les produits
+  const sortedProducts = [...filteredProducts].sort(
+    (a: Product, b: Product) => {
+      switch (sortBy) {
+        case "price-asc":
+          return a.price - b.price;
+        case "price-desc":
+          return b.price - a.price;
+        case "name-asc":
+          return a.name.localeCompare(b.name);
+        case "name-desc":
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
+    }
+  );
+
+  const clearFilters = () => {
+    setActiveFilters({
+      sizes: [],
+      priceRange: [0, 1000],
+      materials: [],
+      onlyInStock: false,
+      onSale: false,
     });
   };
+
+  // Composant des filtres mobiles et desktop
+  const FiltersContent = () => (
+    <div className="space-y-6">
+      {showSizesAndMaterials && (
+        <>
+          <div>
+            <h3 className="font-semibold mb-3">Tailles</h3>
+            <div className="grid grid-cols-3 gap-2">
+              {availableSizes.map((size) => (
+                <Button
+                  key={size}
+                  variant={
+                    activeFilters.sizes.includes(size) ? "default" : "outline"
+                  }
+                  className="w-full"
+                  onClick={() =>
+                    setActiveFilters((prev) => ({
+                      ...prev,
+                      sizes: prev.sizes.includes(size)
+                        ? prev.sizes.filter((s) => s !== size)
+                        : [...prev.sizes, size],
+                    }))
+                  }
+                >
+                  {size}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-3">Matériaux</h3>
+            <div className="space-y-2">
+              {availableMaterials.map((material) => (
+                <div key={material} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={material}
+                    checked={activeFilters.materials.includes(material)}
+                    onCheckedChange={(checked) =>
+                      setActiveFilters((prev) => ({
+                        ...prev,
+                        materials: checked
+                          ? [...prev.materials, material]
+                          : prev.materials.filter((m) => m !== material),
+                      }))
+                    }
+                  />
+                  <label htmlFor={material} className="text-sm">
+                    {material}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      <div>
+        <h3 className="font-semibold mb-3">Prix</h3>
+        <div className="px-2">
+          <Slider
+            defaultValue={[0, 1000]}
+            max={1000}
+            step={10}
+            value={activeFilters.priceRange}
+            onValueChange={(value: [number, number]) =>
+              setActiveFilters((prev) => ({
+                ...prev,
+                priceRange: value as [number, number],
+              }))
+            }
+            className="mb-4"
+          />
+          <div className="flex justify-between text-sm">
+            <span>{formatPrice(activeFilters.priceRange[0])}</span>
+            <span>{formatPrice(activeFilters.priceRange[1])}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="inStock"
+            checked={activeFilters.onlyInStock}
+            onCheckedChange={(checked: boolean) =>
+              setActiveFilters((prev) => ({
+                ...prev,
+                onlyInStock: checked as boolean,
+              }))
+            }
+          />
+          <label htmlFor="inStock">En stock uniquement</label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="onSale"
+            checked={activeFilters.onSale}
+            onCheckedChange={(checked: boolean) =>
+              setActiveFilters((prev) => ({
+                ...prev,
+                onSale: checked as boolean,
+              }))
+            }
+          />
+          <label htmlFor="onSale">En promotion</label>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <CategoryHeader category={category} />
-        <FiltersSection />
+        {/* En-tête */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </h1>
+          <p className="text-gray-600">
+            Découvrez notre collection de{" "}
+            {category.toLowerCase() === "or"
+              ? "bijoux en or"
+              : category.toLowerCase()}
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-            />
-          ))}
+        {/* Barre de filtres et tri */}
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              {/* Filtres Mobile */}
+              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="lg:hidden">
+                    <Filter className="h-4 w-4 mr-2" />
+                    Filtres
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-full sm:w-96">
+                  <SheetHeader className="mb-6">
+                    <SheetTitle>Filtres</SheetTitle>
+                  </SheetHeader>
+                  <ScrollArea className="h-[calc(100vh-8rem)]">
+                    <FiltersContent />
+                  </ScrollArea>
+                </SheetContent>
+              </Sheet>
+
+              {/* Tri */}
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="Trier par" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sortOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {/* Filtres actifs */}
+              <div className="flex flex-wrap gap-2">
+                {activeFilters.sizes.map((size) => (
+                  <Badge
+                    key={size}
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                  >
+                    {size}
+                    <X
+                      className="h-3 w-3 cursor-pointer"
+                      onClick={() =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          sizes: prev.sizes.filter((s) => s !== size),
+                        }))
+                      }
+                    />
+                  </Badge>
+                ))}
+                {activeFilters.materials.map((material) => (
+                  <Badge
+                    key={material}
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                  >
+                    {material}
+                    <X
+                      className="h-3 w-3 cursor-pointer"
+                      onClick={() =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          materials: prev.materials.filter(
+                            (m) => m !== material
+                          ),
+                        }))
+                      }
+                    />
+                  </Badge>
+                ))}
+                {(activeFilters.onlyInStock || activeFilters.onSale) && (
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                    onClick={clearFilters}
+                  >
+                    {activeFilters.onlyInStock ? "En stock" : "En promotion"}
+                    <X className="h-3 w-3 cursor-pointer" />
+                  </Badge>
+                )}
+                {(activeFilters.sizes.length > 0 ||
+                  activeFilters.materials.length > 0 ||
+                  activeFilters.onlyInStock ||
+                  activeFilters.onSale) && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="text-red-500 hover:text-red-600"
+                  >
+                    Effacer tout
+                  </Button>
+                )}
+              </div>
+            </div>
+            <p className="text-sm text-gray-600">
+              {sortedProducts.length} produit
+              {sortedProducts.length > 1 ? "s" : ""} trouvé
+              {sortedProducts.length > 1 ? "s" : ""}
+            </p>
+          </div>
+        </div>
+
+        {/* Grille principale */}
+        <div className="grid grid-cols-12 gap-8">
+          {/* Filtres Desktop */}
+          <aside className="hidden lg:block col-span-3 space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <SlidersHorizontal className="h-5 w-5" /> Filtres
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <FiltersContent />
+              </CardContent>
+            </Card>
+          </aside>
+
+          {/* Liste des produits */}
+          <div className="col-span-12 lg:col-span-9">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="animate-pulse">
+                    <div className="aspect-[4/5] bg-gray-200" />
+                    <CardContent className="p-6">
+                      <div className="h-6 bg-gray-200 rounded mb-4" />
+                      <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
+                      <div className="h-8 bg-gray-200 rounded" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : sortedProducts.length === 0 ? (
+              <div className="text-center py-12">
+                <h3 className="text-lg font-semibold mb-2">
+                  Aucun produit trouvé
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Essayez de modifier vos filtres ou d'effectuer une nouvelle
+                  recherche.
+                </p>
+                <Button onClick={clearFilters} variant="outline">
+                  Réinitialiser les filtres
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {sortedProducts.map((product: Product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

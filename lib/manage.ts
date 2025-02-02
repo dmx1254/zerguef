@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 // Types
 export interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -17,8 +17,8 @@ interface CartStore {
   totalItems: number;
   totalAmount: number;
   addItem: (item: CartItem) => void;
-  removeItem: (itemId: number) => void;
-  updateQuantity: (itemId: number, quantity: number) => void;
+  removeItem: (itemId: string) => void;
+  updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
 }
 

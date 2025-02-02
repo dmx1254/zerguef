@@ -6,6 +6,7 @@ import { useScopedI18n } from "@/locales/client";
 import Link from "next/link";
 
 const SheetMenu = () => {
+  const tScope = useScopedI18n("navbar");
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -28,15 +29,19 @@ const SheetMenu = () => {
         side="bottom"
       >
         <div className="w-full flex flex-col items-center gap-3">
-          {["djallabas", "khamis"].map((item, index) => (
+          {[
+            { lnk: "djellabas", title: tScope("djel") },
+            { lnk: "parfums", title: tScope("parfum") },
+            { lnk: "caftans", title: tScope("caf") },
+          ].map((item) => (
             <Link
-              key={item}
-              href={`/category/=${item}`}
+              key={item.lnk}
+              href={`/categories/${item.lnk}`}
               className="outline-none w-full text-center rounded-[10px] text-sm cursor-pointer bg-[#EDEDED] p-2"
               // onClick={() => handleActiveJeu(item.slug)}
-              aria-label="kamas server"
+              aria-label="category"
             >
-              {item}
+              {item.title}
             </Link>
           ))}
         </div>

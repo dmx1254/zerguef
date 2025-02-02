@@ -3,8 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 const I18nMiddleware = createI18nMiddleware({
-  locales: ["en", "fr", "es", "ar"],
-  defaultLocale: "en",
+  locales: ["en", "fr", "ar"],
+  defaultLocale: "fr",
 });
 
 export async function middleware(request: NextRequest) {
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
 
     if (!token) {
       // Redirige vers la page de connexion en préservant la locale
-      const locale = request.nextUrl.pathname.split("/")[1] || "en";
+      const locale = request.nextUrl.pathname.split("/")[1] || "fr";
       const loginUrl = new URL(`/${locale}/signin`, request.url);
       // Ajoute l'URL de callback pour rediriger après la connexion
       loginUrl.searchParams.set("callbackUrl", request.url);
@@ -42,7 +42,7 @@ export const config = {
   // Matcher mis à jour pour inclure toutes les routes localisées et protégées
   matcher: [
     // Routes protégées
-    "/(en|fr|es|ar)/profile/:path*",
+    "/(en|fr|ar)/profile/:path*",
     // Routes i18n (exclut les fichiers statiques et les API)
     "/((?!api|_next|static|.*\\..*|favicon.ico|robots.txt).*)",
   ],

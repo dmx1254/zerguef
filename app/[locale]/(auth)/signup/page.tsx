@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,10 +14,21 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useScopedI18n } from "@/locales/client";
 
 const SignUpPage = () => {
+  const tScope = useScopedI18n("signup");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showVerification, setShowVerification] = useState(false);
+  const [registrationEmail, setRegistrationEmail] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
 
   const router = useRouter();
 
@@ -48,67 +59,104 @@ const SignUpPage = () => {
       !data.address ||
       !data.password
     ) {
-      toast.error("Tous les champs sont requis", {
-        style: {
-          color: "#ef4444",
-        },
-      });
-
-      return;
-    } else if (data.password !== confirmPassword) {
-      toast.error("Les mots de passe ne correspondent pas", {
+      toast.error(tScope("error.missingfields"), {
         style: {
           color: "#ef4444",
         },
       });
       return;
     }
-    {
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/user/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
 
-        if (!response.ok) {
-          throw new Error("Erreur lors de l'inscription");
-        }
+    if (data.password !== confirmPassword) {
+      toast.error(tScope("error.passwordmismatch"), {
+        style: {
+          color: "#ef4444",
+        },
+      });
+      return;
+    }
 
-        const res = response.json();
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-        if (res) {
-          toast.success(
-            "Inscription réussie. Vous allez être redirigé vers la page de connexion",
-            {
-              style: {
-                color: "#22c55e",
-              },
-            }
-          );
-
-          setTimeout(() => {
-            router.push("/signin");
-          }, 1500);
-        }
-
-        // Connexion automatique après l'inscription
-        // await signIn("credentials", {
-        //   email: data.email,
-        //   password: data.password,
-        //   callbackUrl: "/",
-        // });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
+      if (!response.ok) {
+        throw new Error(tScope("error.signupError"));
       }
+
+      const result = await response.json();
+      if (result.email) {
+        setRegistrationEmail(result.email);
+        setShowVerification(true);
+        toast.success(tScope("success.signup"), {
+          style: {
+            color: "#22c55e",
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(tScope("error.signupError"), {
+        style: {
+          color: "#ef4444",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerification = async () => {
+    if (!verificationCode) {
+      toast.error(tScope("verification.inputField"), {
+        style: {
+          color: "#ef4444",
+        },
+      });
+      return;
     }
 
-    // Validation basique
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/user/register", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: registrationEmail,
+          code: verificationCode,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Code invalide");
+      }
+
+      toast.success("Inscription validée ! Redirection...", {
+        style: {
+          color: "#22c55e",
+        },
+      });
+      setTimeout(() => {
+        router.push("/signin");
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+      toast.error("Code invalide ou expiré", {
+        style: {
+          color: "#ef4444",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -116,12 +164,9 @@ const SignUpPage = () => {
       <Card className="max-w-2xl mx-auto bg-white/90 backdrop-blur">
         <CardHeader className="space-y-3 text-center">
           <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-            Créer votre compte
+            {tScope("title")}
           </div>
-          <p className="text-slate-600">
-            Rejoignez notre communauté d&apos;amateurs d&apos;artisanat
-            traditionnel
-          </p>
+          <p className="text-slate-600">{tScope("subtitle")}</p>
         </CardHeader>
 
         <CardContent>
@@ -134,98 +179,98 @@ const SignUpPage = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="firstName">Prénom</Label>
+                <Label htmlFor="firstName">{tScope("firstName.label")}</Label>
                 <Input
                   id="firstName"
                   name="firstName"
                   required
                   className="w-full"
-                  placeholder="Jean"
+                  placeholder={tScope("firstName.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="lastName">Nom</Label>
+                <Label htmlFor="lastName">{tScope("lastName.label")}</Label>
                 <Input
                   id="lastName"
                   name="lastName"
                   required
                   className="w-full"
-                  placeholder="Dupont"
+                  placeholder={tScope("lastName.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{tScope("email.label")}</Label>
                 <Input
                   id="email"
                   name="email"
                   type="email"
                   required
                   className="w-full"
-                  placeholder="jean.dupont@email.com"
+                  placeholder={tScope("email.placeholder")}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Telephone</Label>
+                <Label htmlFor="phone">{tScope("phone.label")}</Label>
                 <Input
                   id="phone"
                   name="phone"
                   type="number"
                   required
                   className="w-full"
-                  placeholder="+212 0645748631"
+                  placeholder={tScope("phone.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="country">Pays</Label>
+                <Label htmlFor="country">{tScope("country.label")}</Label>
                 <Input
                   id="country"
                   name="country"
                   required
                   className="w-full"
-                  placeholder="France"
+                  placeholder={tScope("country.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="city">Ville</Label>
+                <Label htmlFor="city">{tScope("city.label")}</Label>
                 <Input
                   id="city"
                   name="city"
                   required
                   className="w-full"
-                  placeholder="Paris"
+                  placeholder={tScope("city.placeholder")}
                 />
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="address">Adresse</Label>
+                <Label htmlFor="address">{tScope("address.label")}</Label>
                 <Input
                   id="address"
                   name="address"
                   required
                   className="w-full"
-                  placeholder="123 rue de la Paix"
+                  placeholder={tScope("address.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Mot de passe</Label>
+                <Label htmlFor="password">{tScope("password.label")}</Label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
                   required
                   className="w-full"
-                  placeholder="********"
+                  placeholder={tScope("password.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">
-                  Confirmer le mot de passe
+                  {tScope("confirmPassword.label")}
                 </Label>
                 <Input
                   id="confirmPassword"
@@ -233,7 +278,7 @@ const SignUpPage = () => {
                   type="password"
                   required
                   className="w-full"
-                  placeholder="********"
+                  placeholder={tScope("confirmPassword.placeholder")}
                 />
               </div>
             </div>
@@ -249,12 +294,48 @@ const SignUpPage = () => {
         </CardContent>
 
         <div className="text-center self-center text-sm text-slate-600 mb-4">
-          Déjà un compte ?{" "}
+          {tScope("alreadyAccount")}{" "}
           <Link href="/signin" className="text-amber-600 hover:underline ml-1">
-            Connectez-vous
+            {tScope("alreadyAccounSignup")}
           </Link>
         </div>
       </Card>
+      <Dialog open={showVerification} onOpenChange={setShowVerification}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{tScope("verification.title")}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <p className="text-center text-gray-600">
+              {tScope("verification.subtitle", { email: registrationEmail })}
+            </p>
+            <div className="space-y-2">
+              <Label htmlFor="verificationCode">
+                {tScope("verification.codeTitle")}
+              </Label>
+              <Input
+                id="verificationCode"
+                value={verificationCode}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setVerificationCode(e.target.value)
+                }
+                placeholder={tScope("verification.placeholder")}
+                className="text-center text-2xl tracking-widest"
+                maxLength={6}
+              />
+            </div>
+            <Button
+              onClick={handleVerification}
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading
+                ? tScope("verification.button.loading")
+                : tScope("verification.button")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

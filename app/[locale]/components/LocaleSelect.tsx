@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 export const LocaleSelect = () => {
   const [langSelected, setLangSelected] = useState<Language | null>(null);
   // const t = useI18n();
-  // const tScope = useScopedI18n("languageandcur");
+  const tScope = useScopedI18n("navbar");
   const locale = useCurrentLocale();
   const changeLocale = useChangeLocale();
 
@@ -36,9 +36,7 @@ export const LocaleSelect = () => {
   return (
     <div className="space-y-1 w-full">
       <Select
-        onValueChange={(value) =>
-          changeLocale(value as "en" | "fr" | "es" | "ar")
-        }
+        onValueChange={(value) => changeLocale(value as "en" | "fr" | "ar")}
       >
         <SelectTrigger className="w-full outline-none focus:outline-none focus:ring-0 focus:ring-offset-0">
           <SelectValue
@@ -52,7 +50,7 @@ export const LocaleSelect = () => {
                   className="rounded-sm"
                 />
                 <span className="flex-grow text-left text-sm font-medium -mt-0.5">
-                  {langSelected?.name || "Francais"}
+                  {tScope(langSelected?.code as "fr" | "en" | "ar")}
                 </span>
               </div>
             }
@@ -75,7 +73,7 @@ export const LocaleSelect = () => {
                     className="rounded-sm"
                   />
                   <span className="flex-grow text-left text-sm font-medium">
-                    {lang.name}
+                    {tScope(lang.code as "fr" | "en" | "ar")}
                   </span>
                 </div>
               </SelectItem>

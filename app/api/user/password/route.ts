@@ -3,10 +3,20 @@ import { NextResponse } from "next/server";
 
 import bcrypt from "bcrypt";
 import UserModel from "@/lib/models/user.model";
+import { getServerSession } from "next-auth";
+import { options } from "../../auth/[...nextauth]/option";
 
 connectDB();
 
 export async function POST(req: Request) {
+  const session = await getServerSession(options);
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { error: "Vous devez être connecté pour passer une commande" },
+      { status: 401 }
+    );
+  }
   const data = await req.json();
 
   try {

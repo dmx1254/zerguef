@@ -18,6 +18,8 @@ import CardHoverCon from "./HoverCard";
 // import MobileTopMenus from "./MobileTopMenus";
 
 const Navbar = () => {
+  const tScope = useScopedI18n("navbar");
+
   const pathname = usePathname();
   const { data: session } = useSession();
 
@@ -56,25 +58,25 @@ const Navbar = () => {
                 href="/categories/djellabas"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                Djellabas
+                {tScope("djel")}
               </Link>
               <Link
                 href="/categories/caftans"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                Caftans
+                {tScope("caf")}
               </Link>
               <Link
-                href="/categories/gandouras"
+                href="/categories/parfums"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                Gandouras
+                {tScope("parfum")}
               </Link>
               <Link
-                href="/vendre-des-kamas"
+                href="/contact"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                Accessoires
+                {tScope("contact")}
               </Link>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
@@ -91,10 +93,12 @@ const Navbar = () => {
               ) : (
                 <Link
                   href="/signin"
-                  className="hidden sm:inline-flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600"
+                  className="flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600"
                 >
                   <CiUser size={24} className="-mt-1" />
-                  <span className="text-base ">Compte</span>
+                  <span className="hidden sm:flex text-base">
+                    {tScope("account")}
+                  </span>
                 </Link>
               )}
 
