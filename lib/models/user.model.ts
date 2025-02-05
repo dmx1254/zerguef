@@ -1,10 +1,3 @@
-// firstName
-// lastName
-// email
-// country
-// city
-// address
-// password
 
 import mongoose, { Schema, Document } from "mongoose";
 

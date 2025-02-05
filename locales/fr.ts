@@ -2,13 +2,23 @@ export default {
   "navbar.djel": "Djellabas",
   "navbar.caf": "Caftans",
   "navbar.parfum": "Parfums",
-  "navbar.contact": "Contact",
+  "navbar.contact": "Contactez nous",
+  "navbar.abaya": "Abaya femme",
   "navbar.account": "Compte",
   "navbar.chooseLangue": "Choisr votre langue",
   "navbar.language": "Language",
   "navbar.fr": "Français",
   "navbar.en": "Englais",
   "navbar.ar": "Arabe",
+  "navbar.fm": "Djellabas femme",
+  "navbar.hm": "Djellabas homme",
+  "navbar.et": "Djellabas enfant",
+  "navbar.mikhwar": "Mikhwar emarati",
+  "navbar.abaya-femme": "Abaya femme",
+  "navbar.parfums": "Parfums",
+  "navbar.djellabas": "Djellabas",
+  "navbar.caftans": "caftans",
+  "navbar.or": "Or",
 
   "navbar.cartHoverTile": "Produits",
   "navbar.cartHoverBtn": "Aller au panier",
@@ -61,7 +71,7 @@ export default {
 
   "home.customerServiceTitle": "Service Client",
   "home.customerServiceFaq": "FAQ",
-  "home.customerServiceContact": "Contact",
+  "home.customerServiceContact": "Contactez nous",
   "home.customerServiceAbout": "À propos de nous",
 
   "home.contactUs": "Nous Contacter",
@@ -342,6 +352,18 @@ export default {
     "Date de dissolution : 9 juillet 2024",
   "termandconditions.legal.company.status": "Statut : Société dissoute",
 
+  "footer.satisfaction": "99,9% DE SATISFACTION",
+  "footer.satisfactionDesc":
+    "Plus de 10 000 clients ont bénéficié des services de zerguef",
+  "footer.secure": "PAIEMENT SÉCURISÉ",
+  "footer.secureDesc":
+    "Système de paiement 100% sécurisé, approuvé par plus de 10 000 clients !",
+  "footer.fast": "LIVRAISON RAPIDE",
+  "footer.fastDesc": "Plus de 95% des commandes livrées.",
+  "footer.refund": "SATISFAIT OU REMBOURSÉ",
+  "footer.refundDesc":
+    "Remboursement effectué si vous ne souhaitez pas attendre votre commande.",
+
   "termandconditions.legal.dataprotection.title":
     "Protection des données personnelles",
   "termandconditions.legal.dataprotection.content":
@@ -506,6 +528,7 @@ export default {
   "categories.price": "Prix",
   "categories.inStock": "En stock uniquement",
   "categories.promotion": "En promotion",
+  "categories.format": "Format",
   "categories.discover": "Découvrez notre collection de",
   "categories.goldJawel": "bijoux en or",
   "categories.filter": "Filtres",
@@ -575,4 +598,77 @@ export default {
   "notFound.backHome": "Retour à l'accueil",
   "notFound.desc":
     "Si vous pensez qu'il s'agit d'une erreur, veuillez contacter le support.",
+
+  "reviews.message-1":
+    "Excellente expérience, Mlle Khadija était très professionnelle, respectueuse et donnait du temps aux clients. Merci !",
+  "reviews.title-1": "Excellente expérience",
+
+  "reviews.message-2": "Excellent service, 100% fiable",
+  "reviews.title-2": "Excellent service, 100% fiable",
+
+  "reviews.message-3":
+    "J'ai déjà vendu et acheté avec cette personne sans même la connaître en vrai. Très professionnel, rien à dire, vous pouvez lui faire confiance les yeux fermés.",
+  "reviews.title-3": "Très professionnel, confiance les yeux fermés",
+
+  "reviews.message-4":
+    "Je recommande chaudement Bendouma pour son professionnalisme et son service irréprochable. C'est un partenaire sur lequel on peut compter en toute confiance à propos du kama, super fiable.",
+  "reviews.title-4": "Service fiable et rapide",
+
+  "reviews.message-5":
+    "Bonjour, je confirme que ce site est un site de confiance depuis plus de 5 ans. Je n'ai pas eu beaucoup de problèmes avec le service en ligne. Ils sont toujours disponibles aux horaires définis et à l'écoute de mes attentes. Je vous le recommande.",
+  "reviews.title-5": "Site de confiance, je recommande",
+
+  "reviews.message-6":
+    "Les agents sont sympas, les échanges rapides et les transactions bien sécurisées. Je recommande fortement !",
+  "reviews.title-6": "Super expérience client",
+
+  "reviews.message-7": "Meilleurs prix parmi tous les sites !",
+  "reviews.title-7": "Meilleurs prix garantis",
+
+  "reviews.message-8": "Rapide et efficace sans problème ni encombre.",
+  "reviews.title-8": "Rapide et efficace",
+
+  "reviews.message-9": "Site fiable avec un service de qualité, je recommande.",
+  "reviews.title-9": "Service fiable et de qualité",
+
+  "reviews.message-10": "Service rapide et fiable. Merci beaucoup.",
+  "reviews.title-10": "Service rapide et fiable",
+
+  "reviews.message-11": "Fiable, rapide et serviable ! Je recommande.",
+  "reviews.title-11": "Fiable, je recommande !",
+
+  "reviews.message-12": "Service au top et rapide, je recommande.",
+  "reviews.title-12": "Service au top",
+
+  "reviews.message-13":
+    "Service fiable, parfait, immédiat, accessible et sécurisé. :D",
+  "reviews.title-13": "Service fiable et professionnel",
+
+  "reviews.message-14": "Site fiable, je recommande !",
+  "reviews.title-14": "Retour d'expérience",
+
+  "reviews.message-15": "Fiable et rapide comme d'habitude.",
+  "reviews.title-15": "Fiable et rapide",
+
+  "reviews.message-16":
+    "Service de qualité, rapide et efficace, je recommande vivement.",
+  "reviews.title-16": "Service de qualité",
+
+  "reviews.message-17": "Service de qualité, rapidité, fiabilité 💯👌",
+  "reviews.title-17": "Service de qualité, je recommande",
+
+  "reviews.message-18": "Fiable et rapide comme d'habitude.",
+  "reviews.title-18": "Fiable et rapide",
+
+  "reviews.message-19": "Livraison rapide et service clientèle professionnel.",
+  "reviews.title-19": "Livraison rapide et service client professionnel",
+
+  "reviews.message-20": "Meilleur service !",
+  "reviews.title-20": "Meilleur service !",
+
+  "testimonials.desc":
+    "Zerguef est un site de vetements traditionnels qui garantit des livraisons ultra-rapides pour 99% des commandes, avec un service disponible 24h/24. Le site se démarque par ses prix compétitifs et maintient des stocks sur tous les produits, s'engageant à proposer les meilleurs tarifs du marché.",
+  "testimonials.delivery": "livraison facile et instantanée",
+  "testimonials.guarantee": "100% Sécurisé garanti",
+  "testimonials.refund": "Remboursement garanti",
 } as const;

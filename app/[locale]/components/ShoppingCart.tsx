@@ -67,7 +67,7 @@ export default function ShoppingCart() {
   const shipping = 0;
   const total = totalAmount + shipping;
 
-  // console.log(items);
+  console.log(items);
 
   const handleCheckout = async () => {
     if (!session?.user) {

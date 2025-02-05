@@ -7,6 +7,7 @@ interface CartItem extends Document {
   price: number;
   image: string;
   quantity: number;
+  volume?: string;
   size?: string;
 }
 
@@ -43,6 +44,10 @@ const cartItemSchema = new Schema({
     min: 1,
   },
   size: {
+    type: String,
+    required: false,
+  },
+  volume: {
     type: String,
     required: false,
   },

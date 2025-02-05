@@ -6,9 +6,26 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 import { useScopedI18n } from "@/locales/client";
+import Image from "next/image";
+
+import { AiFillLike } from "react-icons/ai";
+import { MdSecurity, MdFlashOn } from "react-icons/md";
+import { IoArrowUndo } from "react-icons/io5";
+
+import visa from "../../../assets/iben/visa.webp";
+import crypto from "../../../assets/iben/crypto.webp";
+import giropay from "../../../assets/iben/giropay.webp";
+import mastercard from "../../../assets/iben/mastercard.webp";
+import neosurf from "../../../assets/iben/neosurf.webp";
+import paysafecard from "../../../assets/iben/paysafecard.webp";
+import paypal from "../../../assets/iben/paypal.png";
 
 const Footer = () => {
   const tScope = useScopedI18n("home");
+  const tScope2 = useScopedI18n("about");
+  const tScope3 = useScopedI18n("footer");
+  const tScope4 = useScopedI18n("cart");
+
   const pathname = usePathname();
   const [email, setEmail] = useState<string>("");
   const [emailLoading, setEmailLoading] = useState<boolean>(false);
@@ -55,159 +72,227 @@ const Footer = () => {
     }
   };
 
+  const brands = [
+    { name: tScope4("brands.visa"), logo: "/visa.png" },
+    { name: tScope4("brands.mastercard"), logo: "/mastercard.png" },
+    { name: tScope4("brands.paypal"), logo: "/paypal.png" },
+  ];
+
   return (
     !pathname.includes("signin") &&
     !pathname.includes("signup") &&
     !pathname.includes("profile") &&
     !pathname.includes("forgot-password") && (
-      <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-gray-300 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-white">Zerguef</h3>
-              <p className="text-gray-400">{tScope("footDesc")}</p>
+      <footer className="bg-gradient-to-r bg-[#18191A] text-gray-300">
+        <div className="p-4">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:px-44">
+            <div className="flex flex-col items-start gap-2">
+              <p className="text-base font-semibold text-white/90 w-full border-b border-dashed pb-2 border-gray-400">
+                {tScope3("satisfaction")}
+              </p>
+              <div className="flex items-center gap-2 pt-2">
+                <span className="flex items-center justify-center rounded-full bg-white p-2 shadow-sm">
+                  <AiFillLike size={30} className="text-black" />
+                </span>
+                <p className="text-sm text-white/80">
+                  {tScope3("satisfactionDesc")}
+                </p>
+              </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">
-                {tScope("colTitle")}
-              </h4>
-              <ul className="space-y-2">
-                {categories.map((category) => (
-                  <li key={category.name}>
-                    <Link
-                      href={category.link}
-                      className="hover:text-white transition-colors"
-                    >
-                      {category.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">
-                {tScope("customerServiceTitle")}
-              </h4>
-              <ul className="space-y-2">
-                {/* <li>
-              <Link
-                href="/livraison"
-                className="hover:text-white transition-colors"
-              >
-                Livraison
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/retours"
-                className="hover:text-white transition-colors"
-              >
-                Retours & Échanges
-              </Link>
-            </li> */}
-                <li>
-                  <Link
-                    href="/faq"
-                    className="hover:text-white transition-colors"
-                  >
-                    {tScope("customerServiceFaq")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="hover:text-white transition-colors"
-                  >
-                    {tScope("customerServiceContact")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about-us"
-                    className="hover:text-white transition-colors"
-                  >
-                    {tScope("customerServiceAbout")}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">
-                {tScope("contactUs")}
-              </h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a
-                    href="mailto:contact@soukelegant.com"
-                    className="hover:text-white transition-colors flex items-center gap-2"
-                  >
-                    sup@zerguef.com
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="tel:+33123456789"
-                    className="hover:text-white transition-colors flex items-center gap-2"
-                  >
-                    +212660262544
-                  </a>
-                </li>
-                <li className="flex items-center gap-2">
-                  Shelton Street, Covent Garden, London, United Kingdom, WC2H
-                  9JQ
-                </li>
-              </ul>
 
-              {/* Newsletter */}
-              <div className="mt-6">
-                <h5 className="text-sm font-semibold text-white mb-2">
-                  {tScope("newsletterTitle")}
-                </h5>
-                <div className="flex gap-2">
-                  <input
-                    type="email"
-                    placeholder={tScope("newsletterPlace")}
-                    value={email}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      setEmail(e.target.value)
-                    }
-                    className="bg-white/10 rounded-lg px-4 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <Button
-                    size="sm"
-                    className="bg-blue-600 hover:bg-blue-700"
-                    onClick={handleSignToNewLetter}
-                  >
-                    {emailLoading
-                      ? tScope("newsletterLoading")
-                      : tScope("newsletterBtn")}
-                  </Button>
-                </div>
+            <div className="flex flex-col items-start gap-2">
+              <p className="text-base font-semibold text-white/90 w-full border-b border-dashed pb-2 border-gray-400">
+                {tScope3("secure")}
+              </p>
+
+              <div className="flex items-center gap-2 pt-2">
+                <span className="flex items-center justify-center rounded-full bg-white p-2 shadow-sm">
+                  <MdSecurity size={30} className="text-black" />
+                </span>
+                <p className="text-sm text-white/80">{tScope3("secureDesc")}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-start gap-2">
+              <p className="text-base font-semibold text-white/90 w-full border-b border-dashed pb-2 border-gray-400">
+                {tScope3("fast")}
+              </p>
+
+              <div className="flex items-center gap-2 pt-2">
+                <span className="flex items-center justify-center rounded-full bg-white p-2 shadow-sm">
+                  <MdFlashOn size={30} className="text-black" />
+                </span>
+                <p className="text-sm text-white/80">{tScope3("fastDesc")}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-start gap-2">
+              <p className="text-base font-semibold text-white/90 w-full border-b border-dashed pb-2 border-gray-400">
+                {tScope3("refund")}
+              </p>
+
+              <div className="flex items-center gap-2 pt-2">
+                <span className="flex items-center justify-center rounded-full bg-white p-2 shadow-sm">
+                  <IoArrowUndo size={30} className="text-black" />
+                </span>
+                <p className="text-sm text-white/80">{tScope3("refundDesc")}</p>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Sous-footer */}
-          <div className="border-t border-gray-800 mt-12 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="w-full">
+          <div className="w-full bg-white p-6">
+            <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-center gap-6 md:gap-12 bg-white">
+              {/* About Us Section */}
+              <div className="md:w-[500px] bg-[#18191A] p-2 rounded">
+                <h3 className="text-white/80 font-bold mb-4 w-full">
+                  {tScope2("whoWeAre")}
+                </h3>
+                <p className="text-[14px] text-gray-300 leading-6">
+                  {tScope2("whoWeAreDescription")}
+                </p>
+              </div>
+
+              {/* Security Badges */}
+              <div className="max-md:w-full bg-[#18191A] p-2 md:p-4 rounded">
+                <div className="flex max-md:w-full flex-row md:flex-col items-center justify-between md:justify-center gap-3 sm:gap-4">
+                  <Image
+                    src="/secure/ssl-shopper.svg"
+                    alt="ssl Shopper"
+                    width={120}
+                    height={120}
+                    className="max-sm:w-20 max-sm:h-10 object-contain md:object-cover"
+                  />
+                  <Image
+                    src="/secure/ssl.png"
+                    alt="SSL Certificate"
+                    width={120}
+                    height={120}
+                    className="max-sm:w-20 max-sm:h-10 object-contain md:object-cover"
+                  />
+                  <Image
+                    src="/secure/trustS.png"
+                    alt="TrustedSite"
+                    width={120}
+                    height={120}
+                    className="max-sm:w-20 max-sm:h-6 object-contain md:object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-[#18191A] w-full md:w-[220px] p-2 md:p-4 rounded">
+                <h3 className="text-white/80 font-bold mb-4">
+                  {tScope("colTitle")}
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  {categories.map((category) => (
+                    <li key={category.name}>
+                      <Link
+                        href={category.link}
+                        className="hover:text-white transition-colors"
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Information */}
+              <div className="bg-[#18191A] w-full md:w-[220px] p-2 md:p-4 rounded">
+                <h3 className="text-white/80 font-bold mb-4">
+                  {tScope("customerServiceTitle")}
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link
+                      href="/faq"
+                      className="text-gray-300 hover:text-white"
+                    >
+                      {tScope("customerServiceFaq")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/privacy-and-policy"
+                      className="text-gray-300 hover:text-white"
+                    >
+                      {tScope("customerServiceContact")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/terms-and-conditions"
+                      className="text-gray-300 hover:text-white"
+                    >
+                      {tScope("customerServiceAbout")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/privacy-policy"
+                      className="text-gray-300 hover:text-white"
+                    >
+                      {tScope("privacyPolicy")}
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl flex max-md:flex-col items-center justify-between border-t bg-[#18191A] mx-auto py-4">
+          <div className="flex items-center gap-4 mt-4">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-1">
               <p className="text-sm text-gray-400">
                 © 2024 Zerguef. {tScope("allrights")}
               </p>
-              <div className="flex gap-6">
-                <Link
-                  href="/privacy-policy"
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
-                >
-                  {tScope("privacyPolicy")}
-                </Link>
-                <Link
-                  href="/terms-and-conditions"
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
-                >
-                  {tScope("termsandconditions")}
-                </Link>
-              </div>
+
+              <Link
+                href="/terms-and-conditions"
+                className="text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                {tScope("termsandconditions")}
+              </Link>
             </div>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-4 mt-2">
+            <Image
+              src={brands[0].logo}
+              width={45}
+              height={45}
+              alt={brands[0].name}
+              className="object-cover"
+            />
+            <Image
+              src={brands[1].logo}
+              width={30}
+              height={30}
+              alt={brands[1].name}
+              className="object-cover"
+            />
+            <Image
+              src={brands[2].logo}
+              width={30}
+              height={30}
+              alt={brands[2].name}
+              className="object-cover"
+            />
+            <Image
+              src={neosurf}
+              width={70}
+              height={55}
+              alt="Neosurf"
+              className="object-cover"
+            />
+            <Image
+              src={giropay}
+              width={60}
+              height={40}
+              alt="Giropay"
+              className="object-cover"
+            />
           </div>
         </div>
       </footer>

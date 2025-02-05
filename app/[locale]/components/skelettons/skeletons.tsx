@@ -25,6 +25,12 @@ const CategorySkeleton = () => (
     </div>
   </div>
 );
+const CategoryMin = () => (
+  <div className="flex flex-col items-center justify-center gap-2">
+    <div className="h-16 w-16 rounded-full bg-gray-300 mb-3 animate-pulse" />
+    <div className="h-4 bg-gray-300 rounded w-16 animate-pulse" />
+  </div>
+);
 
 // Grids de squelettes
 export const ProductSkeletonGrid = () => (
@@ -36,9 +42,9 @@ export const ProductSkeletonGrid = () => (
 );
 
 export const CategorySkeletonGrid = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    {[...Array(3)].map((_, index) => (
-      <CategorySkeleton key={index} />
+  <div className="grid grid-cols-1 md:grid-cols-5 gap-8 ml-20">
+    {[...Array(5)].map((_, index) => (
+      <CategoryMin key={index} />
     ))}
   </div>
 );

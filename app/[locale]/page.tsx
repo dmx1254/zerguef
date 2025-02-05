@@ -22,7 +22,7 @@ import {
   Heart,
 } from "lucide-react";
 import Link from "next/link";
-import { formatPrice } from "@/lib/utils";
+import { categoriesClothes, formatPrice } from "@/lib/utils";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -30,14 +30,17 @@ import {
   ProductSkeletonGrid,
 } from "./components/skelettons/skeletons";
 import { useScopedI18n } from "@/locales/client";
+import { toast } from "sonner";
+import Testimonials from "./components/Testimonials";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Image from "next/image";
 
 // Types
 interface Category {
-  _id: string;
+  id: string;
   name: string;
-  image: string;
+  icon: StaticImport;
   slug: string;
-  description: string;
 }
 
 // Types des produits
@@ -223,15 +226,20 @@ const ProductCard = ({ product }: { product: Product }) => {
             size="sm"
             variant="outline"
             className="rounded-full"
-            onClick={() =>
+            onClick={() => {
               addItem({
                 id: product._id,
                 name: product.name,
                 price: discountedPrice,
                 image: product.image,
                 quantity: 1,
-              })
-            }
+              });
+              toast.success("Produit ajouté au panier", {
+                style: {
+                  color: "#22c55e",
+                },
+              });
+            }}
           >
             <ShoppingBag className="h-4 w-4" />
           </Button>
@@ -242,21 +250,32 @@ const ProductCard = ({ product }: { product: Product }) => {
 };
 
 const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
-  const tScope = useScopedI18n("home");
+  const tScope = useScopedI18n("navbar");
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
       {categories.map((category) => (
         <Link
-          key={category._id}
+          key={category.id}
           href={`/categories/${category.slug}`}
-          className="group relative overflow-hidden rounded-2xl aspect-[4/5]"
+          className="flex flex-col items-center gap-2"
         >
-          <img
-            src={category.image}
+          <Image
+            src={category.icon}
             alt={category.name}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            width={48}
+            height={48}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
+          <h3 className="text-base font-bold mb-3">
+            {tScope(
+              category.slug as
+                | "abaya-femme"
+                | "parfums"
+                | "djellabas"
+                | "caftans"
+                | "or"
+            )}
+          </h3>
+          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
             <h3 className="text-white text-3xl font-bold mb-3">
               {category.name}
             </h3>
@@ -268,7 +287,7 @@ const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
               {tScope("catBtnCollection")}
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
-          </div>
+          </div> */}
         </Link>
       ))}
     </div>
@@ -366,8 +385,11 @@ export default function Home() {
           {isLoadingCategories ? (
             <CategorySkeletonGrid />
           ) : (
-            <CategoryShowcase categories={categories} />
+            <CategoryShowcase categories={categoriesClothes} />
           )}
+        </section>
+        <section className="pb-24">
+          <Testimonials />
         </section>
         {/* Promo Banner */}
         <section className="pb-24">
@@ -394,7 +416,7 @@ export default function Home() {
           )}
         </section>
         {/* Features */}:
-        <section className="pb-24">
+        {/* <section className="pb-24">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature) => (
               <div
@@ -409,7 +431,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
       </div>
     </main>
   );

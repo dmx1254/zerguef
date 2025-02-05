@@ -15,6 +15,7 @@ export async function GET(req: Request) {
     const maxPrice = searchParams.get("maxPrice");
     const inStock = searchParams.get("inStock");
     const onSale = searchParams.get("onSale");
+    const volume = searchParams.get("volume");
 
     // Construire la requête de base
     let query: any = {};
@@ -49,6 +50,11 @@ export async function GET(req: Request) {
 
     if (inStock === "true") {
       products = products.filter((product) => product.stock > 0);
+    }
+
+    if (volume) {
+      const searchRegex = new RegExp(volume, "i");
+      products = products.filter((product) => searchRegex.test(product.volume));
     }
 
     if (onSale === "true") {

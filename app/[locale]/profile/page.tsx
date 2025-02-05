@@ -201,6 +201,8 @@ const ProfilePage = () => {
     enabled: !!session?.user?.id,
   });
 
+  // console.log(ordersData);
+
   // if (isLoading) {
   //   return <div>Chargement...</div>;
   // }
@@ -432,7 +434,13 @@ const ProfilePage = () => {
                                 <h4 className="font-medium">{product.name}</h4>
                                 <p className="text-sm text-gray-500">
                                   {tScope("qty")}: {product.quantity}
+                                  {product.volume &&
+                                    ` • Format: ${product.volume}`}
                                   {product.size && ` • Taille: ${product.size}`}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  {product.volume &&
+                                    `Format: ${product.volume}`}
                                 </p>
                               </div>
                               <div className="text-right">
@@ -445,7 +453,9 @@ const ProfilePage = () => {
                         </div>
                         <div className="mt-4 pt-4 border-t">
                           <div className="flex justify-between">
-                            <span className="font-semibold">{tScope("total")}</span>
+                            <span className="font-semibold">
+                              {tScope("total")}
+                            </span>
                             <span className="font-semibold">
                               {formatPrice(order.total.toFixed(2))}
                             </span>
@@ -463,9 +473,7 @@ const ProfilePage = () => {
               <Card>
                 <CardHeader>
                   <CardTitle>{tScope("settingTitle")}</CardTitle>
-                  <CardDescription>
-                    {tScope("settingDesc")}
-                  </CardDescription>
+                  <CardDescription>{tScope("settingDesc")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">

@@ -47,6 +47,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScopedI18n } from "@/locales/client";
+import { toast } from "sonner";
 
 interface Product {
   _id: string;
@@ -55,6 +56,7 @@ interface Product {
   image: string;
   description: string;
   category: string;
+  volume?: string;
   details: {
     material?: string;
     origin: string;
@@ -71,7 +73,10 @@ interface Filters {
   materials: string[];
   onlyInStock: boolean;
   onSale: boolean;
+  volume: string;
 }
+
+const volumes = ["60ml", "100ml", "200ml"];
 
 const availableSizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
@@ -102,6 +107,8 @@ const ProductCard = ({ product }: { product: Product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
+  // console.log(product);
+
   const handleAddToCart = () => {
     addItem({
       id: product._id,
@@ -110,7 +117,13 @@ const ProductCard = ({ product }: { product: Product }) => {
         ? product.price * (1 - product.discount / 100)
         : product.price,
       image: product.image,
+      volume: "60ml",
       quantity: 1,
+    });
+    toast.success("Produit ajouté au panier", {
+      style: {
+        color: "#22c55e",
+      },
     });
   };
 
@@ -203,9 +216,11 @@ export default function CategoryPage() {
     materials: [],
     onlyInStock: false,
     onSale: false,
+    volume: "",
   });
   const [sortBy, setSortBy] = useState("newest");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [parfumsSeleced, setParfumsSelected] = useState<string>("");
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", category, activeFilters],
@@ -275,8 +290,19 @@ export default function CategoryPage() {
       materials: [],
       onlyInStock: false,
       onSale: false,
+      volume: "",
     });
   };
+
+  const handleVolumeFilter = (volume: string) => {
+    setParfumsSelected(volume);
+    setActiveFilters((prev) => ({
+      ...prev,
+      volume: volume,
+    }));
+  };
+
+  // console.log(parfumsSeleced);
 
   // Composant des filtres mobiles et desktop
   const FiltersContent = () => (
@@ -393,6 +419,22 @@ export default function CategoryPage() {
           <label htmlFor="onSale">{tScope("promotion")}</label>
         </div>
       </div>
+      {category === "parfums" && (
+        <div>
+          <Select value={parfumsSeleced} onValueChange={handleVolumeFilter}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder={tScope("format")} />
+            </SelectTrigger>
+            <SelectContent>
+              {volumes.map((v) => (
+                <SelectItem key={v} value={v}>
+                  {v}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
     </div>
   );
 

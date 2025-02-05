@@ -15,13 +15,38 @@ import { useSession } from "next-auth/react";
 import SocialMediaDropdown from "./SocialMediaDropdown ";
 import ProfilePopover from "./ProfilePopover";
 import CardHoverCon from "./HoverCard";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { FaSortDown } from "react-icons/fa";
 // import MobileTopMenus from "./MobileTopMenus";
 
 const Navbar = () => {
   const tScope = useScopedI18n("navbar");
+  const tScope2 = useScopedI18n("home");
 
   const pathname = usePathname();
   const { data: session } = useSession();
+
+  const djellabas = [
+    {
+      id: "HG15LP",
+      name: tScope("fm"),
+      slug: "djellabas-femme",
+    },
+    {
+      id: "PA37KW",
+      name: tScope("hm"),
+      slug: "djellabas-homme",
+    },
+    {
+      id: "PA37KW",
+      name: tScope("et"),
+      slug: "djellabas-enfant",
+    },
+  ];
 
   // console.log(session);
 
@@ -55,11 +80,44 @@ const Navbar = () => {
             </div>
             <div className="flex items-center gap-4 max-lg:hidden">
               <Link
+                href="/categories/mikhwar-emarati"
+                className="text-base text-white transition-colors hover:text-yellow-600"
+              >
+                Mikhwar emarati
+              </Link>
+              <Link
+                href="/abaya-femme"
+                className="text-base text-white transition-colors hover:text-yellow-600"
+              >
+                {/* {tScope("contact")} */}
+                {tScope("abaya")}
+              </Link>
+              <Popover>
+                <PopoverTrigger className="flex items-center text-base text-white transition-colors hover:text-yellow-600">
+                  {tScope("djel")} <FaSortDown className="-mt-1.5" />
+                </PopoverTrigger>
+                <PopoverContent className="max-w-48 shadow-none p-2 bg-[#1A1D21] border-[#45494e]">
+                  <div className="flex flex-col items-start text-base font-semibold">
+                    {djellabas.map((djel) => (
+                      <Link
+                        key={djel.id}
+                        href={`/categories/${djel.slug}`}
+                        // onClick={() => handleActiveJeu(dofs.slug)}
+                        className="outline-none text-left w-full text-white cursor-pointer p-1.5 transition-all rounded-[10px] hover:bg-[#363A3D] hover:text-white"
+                        aria-label="Server dofus selection"
+                      >
+                        {djel.name}
+                      </Link>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
+              {/* <Link
                 href="/categories/djellabas"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
                 {tScope("djel")}
-              </Link>
+              </Link> */}
               <Link
                 href="/categories/caftans"
                 className="text-base text-white transition-colors hover:text-yellow-600"
@@ -73,10 +131,10 @@ const Navbar = () => {
                 {tScope("parfum")}
               </Link>
               <Link
-                href="/contact"
+                href="/categories/or"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                {tScope("contact")}
+                {tScope2("colOr")}
               </Link>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">

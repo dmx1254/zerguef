@@ -10,6 +10,7 @@ import { useCartStore } from "@/lib/manage";
 import { formatPrice } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useScopedI18n } from "@/locales/client";
+import { toast } from "sonner";
 
 interface ProductDetails {
   material?: string;
@@ -29,6 +30,8 @@ interface Product {
   discount?: number;
   stock: number;
 }
+
+const volumes = ["60ml", "100ml", "200ml"];
 
 // Loading Skeleton
 const ProductSkeleton = () => (
@@ -91,6 +94,7 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [selectV, setSelectedV] = useState<string>("");
 
   const showSizesAndCare = !["or", "parfums"].includes(
     product?.category.toLowerCase() || ""
@@ -103,14 +107,15 @@ export default function ProductPage() {
       <main className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-7xl mx-auto">
           <Alert variant="destructive">
-            <AlertDescription>
-              {tScope("notFoundProduct")}
-            </AlertDescription>
+            <AlertDescription>{tScope("notFoundProduct")}</AlertDescription>
           </Alert>
         </div>
       </main>
     );
   }
+
+  // console.log(selectV);
+  // console.log(items);
 
   const handleAddToCart = () => {
     addItem({
@@ -121,7 +126,13 @@ export default function ProductPage() {
         : product.price,
       image: product.image,
       quantity: quantity,
+      volume: selectV,
       ...(showSizesAndCare && { size: selectedSize }),
+    });
+    toast.success("Produit ajouté au panier", {
+      style: {
+        color: "#22c55e",
+      },
     });
   };
 
@@ -190,7 +201,7 @@ export default function ProductPage() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold">
-                   {tScope("chooseTaile")}
+                    {tScope("chooseTaile")}
                   </h3>
                   <button className="text-sm text-yellow-600 hover:underline">
                     {tScope("guideTaille")}
@@ -210,6 +221,23 @@ export default function ProductPage() {
                     </Button>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {product?.category === "parfums" && (
+              <div className="grid grid-cols-4 gap-2">
+                {volumes.map((v: string) => (
+                  <Button
+                    key={v}
+                    variant={selectV === v ? "default" : "outline"}
+                    className={`w-full ${
+                      selectV === v ? "ring-2 ring-yellow-500" : ""
+                    }`}
+                    onClick={() => setSelectedV(v)}
+                  >
+                    {v}
+                  </Button>
+                ))}
               </div>
             )}
 
@@ -244,7 +272,7 @@ export default function ProductPage() {
               size="lg"
               className="w-full text-lg py-6 rounded-xl bg-yellow-600 hover:bg-yellow-700 transition-colors"
               onClick={handleAddToCart}
-              disabled={showSizesAndCare && !selectedSize}
+              disabled={(showSizesAndCare && !selectedSize) || !selectV}
             >
               {tScope("addToCart")} • {formatPrice(product.price * quantity)}
             </Button>
@@ -258,7 +286,9 @@ export default function ProductPage() {
                 <div className="space-y-3">
                   {product.details.material && showSizesAndCare && (
                     <div className="flex justify-between border-b border-gray-200 pb-2">
-                      <span className="text-gray-600">{tScope("materDet")}</span>
+                      <span className="text-gray-600">
+                        {tScope("materDet")}
+                      </span>
                       <span className="font-medium">
                         {product.details.material}
                       </span>
@@ -266,7 +296,9 @@ export default function ProductPage() {
                   )}
                   {product.details.origin && (
                     <div className="flex justify-between border-b border-gray-200 pb-2">
-                      <span className="text-gray-600">{tScope("origDetail")}</span>
+                      <span className="text-gray-600">
+                        {tScope("origDetail")}
+                      </span>
                       <span className="font-medium">
                         {product.details.origin}
                       </span>
@@ -274,7 +306,9 @@ export default function ProductPage() {
                   )}
                   {product.details.care && showSizesAndCare && (
                     <div className="flex justify-between">
-                      <span className="text-gray-600">{tScope("entretien")}</span>
+                      <span className="text-gray-600">
+                        {tScope("entretien")}
+                      </span>
                       <span className="font-medium">
                         {product.details.care}
                       </span>
