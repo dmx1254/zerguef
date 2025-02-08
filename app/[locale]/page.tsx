@@ -382,11 +382,7 @@ export default function Home() {
               {tScope("catDescription")}
             </p>
           </div>
-          {isLoadingCategories ? (
-            <CategorySkeletonGrid />
-          ) : (
-            <CategoryShowcase categories={categoriesClothes} />
-          )}
+          <CategoryShowcase categories={categoriesClothes} />
         </section>
         <section className="pb-24">
           <Testimonials />

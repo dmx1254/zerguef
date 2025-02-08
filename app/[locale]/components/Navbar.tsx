@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import SheetMenu from "./SheetMenu";
@@ -26,6 +26,7 @@ import { FaSortDown } from "react-icons/fa";
 const Navbar = () => {
   const tScope = useScopedI18n("navbar");
   const tScope2 = useScopedI18n("home");
+  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
 
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -37,7 +38,7 @@ const Navbar = () => {
       slug: "djellabas-femme",
     },
     {
-      id: "PA37KW",
+      id: "KP97LX",
       name: tScope("hm"),
       slug: "djellabas-homme",
     },
@@ -83,20 +84,26 @@ const Navbar = () => {
                 href="/categories/mikhwar-emarati"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                Mikhwar emarati
+                {tScope("mikhwar")}
               </Link>
               <Link
-                href="/abaya-femme"
+                href="/categories/abaya-femme"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
                 {/* {tScope("contact")} */}
                 {tScope("abaya")}
               </Link>
-              <Popover>
-                <PopoverTrigger className="flex items-center text-base text-white transition-colors hover:text-yellow-600">
+              <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                <PopoverTrigger
+                  className="flex items-center text-base text-white transition-colors hover:text-yellow-600"
+                  onMouseEnter={() => setPopoverOpen(true)}
+                >
                   {tScope("djel")} <FaSortDown className="-mt-1.5" />
                 </PopoverTrigger>
-                <PopoverContent className="max-w-48 shadow-none p-2 bg-[#1A1D21] border-[#45494e]">
+                <PopoverContent
+                  className="max-w-48 shadow-none p-2 bg-[#1A1D21] border-[#45494e]"
+                  onMouseLeave={() => setPopoverOpen(false)}
+                >
                   <div className="flex flex-col items-start text-base font-semibold">
                     {djellabas.map((djel) => (
                       <Link
@@ -131,7 +138,7 @@ const Navbar = () => {
                 {tScope("parfum")}
               </Link>
               <Link
-                href="/categories/or"
+                href="/categories/folar"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
                 {tScope2("colOr")}

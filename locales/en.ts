@@ -31,7 +31,7 @@ export default {
 
   "home.catTitle": "Our Collections",
   "home.catDescription":
-    "A refined selection of traditional Moroccan clothing, where each piece tells a story of craftsmanship and tradition",
+    "A refined collection of traditional Emirati and Moroccan clothing, where each piece tells a story of craftsmanship and tradition.",
 
   "home.parfumTitle": "Perfumes",
   "home.parfumDesc": "High-end perfumes",
@@ -67,7 +67,7 @@ export default {
   "home.colDjel": "Djellabas",
   "home.colCaf": "Caftans",
   "home.colParf": "Perfumes",
-  "home.colOr": "Gold",
+  "home.colOr": "Folar",
 
   "home.customerServiceTitle": "Customer Service",
   "home.customerServiceFaq": "FAQ",
@@ -578,9 +578,34 @@ export default {
   "cart.brands.paypal": "Paypal",
   "cart.bankHomeDeliver": "Cash on Delivery",
   "cart.bankHomeDeliverDesc": "Pay in cash upon receipt",
-  "cart.cartSuccess": "Order successfully placed!",
+  "cart.cartSuccess":
+    "Your order has been successfully recorded. We thank you for your purchase and will keep you informed about the status of your order.",
   "cart.cartErrorPay": "An error occurred during payment.",
   "cart.cartErrorLogin": "Please log in to complete the payment.",
+
+  "cart.mikhwarDesc":
+    "Discover the elegance of the Emirati Mikhwar on [zarguef.com]. We offer an exclusive collection of Emirati Mikhwars, designed to the highest standards of quality and craftsmanship. Each piece blends tradition and modernity, adding a touch of refinement and luxury to your look, whether for special occasions or everyday wear.",
+
+  "cart.folarDesc":
+    "Discover the elegance of the scarf on zarguef.com. Explore our refined collection of scarves, combining comfort and style. From modern designs to timeless classics, each piece is carefully selected to bring a touch of sophistication to your daily look.",
+
+  "cart.djellaDesc":
+    "Discover the elegance of Djellabas on zarguef.com. We offer an exclusive collection of Djellabas, combining comfort, tradition, and modernity. Each piece is carefully designed to provide the perfect fit and a refined look, ideal for special occasions or an elegant everyday outfit.",
+
+  "cart.cafDesc":
+    "Discover the elegance of the Caftan on zarguef.com. Explore our collection of refined Caftans, blending comfort and style. From traditional designs to modern creations, each piece is meticulously crafted to enhance your special occasions or add a touch of elegance to your daily life.",
+
+  "cart.parfDesc":
+    "Discover your ideal fragrance on zarguef.com. We offer a unique selection of refined perfumes, combining quality and elegance. Whether you're looking for a timeless scent or a captivating new fragrance, find the essence that suits you with us.",
+
+  "cart.dialogTitle": "Choose a delivery method",
+  "cart.dialogDesc":
+    "Select your delivery area. The fees will be calculated based on your choice.",
+  "cart.dialogCa": "Casablanca",
+  "cart.dialogCaHours": "Delivery within Casablanca (4-16h)",
+  "cart.dialogHorsCa": "Outside Casablanca",
+  "cart.dialogHorsCaHours": "Delivery outside Casablanca (1-3 days)",
+  "cart.dialogBtn": "Confirm",
 
   "notFound.title": "Page not found",
   "notFound.subtitle": "Oops! The page you're looking for doesn't exist.",

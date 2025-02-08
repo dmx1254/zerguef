@@ -208,6 +208,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 // Page principale des catégories
 export default function CategoryPage() {
   const tScope = useScopedI18n("categories");
+  const tScopeCart = useScopedI18n("cart");
   const params = useParams();
   const category = params.category as string;
   const [activeFilters, setActiveFilters] = useState<Filters>({
@@ -221,6 +222,8 @@ export default function CategoryPage() {
   const [sortBy, setSortBy] = useState("newest");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [parfumsSeleced, setParfumsSelected] = useState<string>("");
+
+  // console.log(category);
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", category, activeFilters],
@@ -309,30 +312,32 @@ export default function CategoryPage() {
     <div className="space-y-6">
       {showSizesAndMaterials && (
         <>
-          <div>
-            <h3 className="font-semibold mb-3">{tScope("taile")}</h3>
-            <div className="grid grid-cols-3 gap-2">
-              {availableSizes.map((size) => (
-                <Button
-                  key={size}
-                  variant={
-                    activeFilters.sizes.includes(size) ? "default" : "outline"
-                  }
-                  className="w-full"
-                  onClick={() =>
-                    setActiveFilters((prev) => ({
-                      ...prev,
-                      sizes: prev.sizes.includes(size)
-                        ? prev.sizes.filter((s) => s !== size)
-                        : [...prev.sizes, size],
-                    }))
-                  }
-                >
-                  {size}
-                </Button>
-              ))}
+          {category !== "mikhwar-emarati" && (
+            <div>
+              <h3 className="font-semibold mb-3">{tScope("taile")}</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {availableSizes.map((size) => (
+                  <Button
+                    key={size}
+                    variant={
+                      activeFilters.sizes.includes(size) ? "default" : "outline"
+                    }
+                    className="w-full"
+                    onClick={() =>
+                      setActiveFilters((prev) => ({
+                        ...prev,
+                        sizes: prev.sizes.includes(size)
+                          ? prev.sizes.filter((s) => s !== size)
+                          : [...prev.sizes, size],
+                      }))
+                    }
+                  >
+                    {size}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div>
             <h3 className="font-semibold mb-3">{tScope("matTitle")}</h3>
@@ -447,10 +452,12 @@ export default function CategoryPage() {
             {category.charAt(0).toUpperCase() + category.slice(1)}
           </h1>
           <p className="text-gray-600">
-            {tScope("discov")}{" "}
-            {category.toLowerCase() === "or"
-              ? tScope("goldJawel")
-              : category.toLowerCase()}
+            {category === "mikhwar-emarati" && tScopeCart("mikhwarDesc")}
+            {category === "folar" && tScopeCart("folarDesc")}
+            {category.includes("djellabas") && tScopeCart("djellaDesc")}
+
+            {category === "caftans" && tScopeCart("cafDesc")}
+            {category === "parfums" && tScopeCart("parfDesc")}
           </p>
         </div>
 

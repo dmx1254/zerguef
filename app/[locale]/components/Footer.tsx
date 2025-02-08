@@ -12,13 +12,9 @@ import { AiFillLike } from "react-icons/ai";
 import { MdSecurity, MdFlashOn } from "react-icons/md";
 import { IoArrowUndo } from "react-icons/io5";
 
-import visa from "../../../assets/iben/visa.webp";
-import crypto from "../../../assets/iben/crypto.webp";
 import giropay from "../../../assets/iben/giropay.webp";
-import mastercard from "../../../assets/iben/mastercard.webp";
 import neosurf from "../../../assets/iben/neosurf.webp";
-import paysafecard from "../../../assets/iben/paysafecard.webp";
-import paypal from "../../../assets/iben/paypal.png";
+import marocbank from "../../../assets/iben/marocbank.webp";
 
 const Footer = () => {
   const tScope = useScopedI18n("home");
@@ -288,11 +284,33 @@ const Footer = () => {
             />
             <Image
               src={giropay}
-              width={60}
-              height={40}
+              width={55}
+              height={35}
               alt="Giropay"
               className="object-cover"
             />
+            <Image
+              src={marocbank}
+              width={100}
+              height={50}
+              alt="Marocco bank"
+              className="object-cover"
+            />
+
+            {/* <Image
+                  src={crd_agricole}
+                  width={120}
+                  height={60}
+                  alt="Marocco bank"
+                  className="object-cover"
+                />
+                <Image
+                  src={sg}
+                  width={100}
+                  height={50}
+                  alt="Marocco bank"
+                  className="object-cover"
+                /> */}
           </div>
         </div>
       </footer>

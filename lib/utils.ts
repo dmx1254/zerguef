@@ -12,6 +12,7 @@ import or from "@/public/assets/or.png";
 
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { LucideIcon } from "lucide-react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -88,24 +89,6 @@ export interface Order extends Document {
   updatedAt: Date;
 }
 
-export const djellabas = [
-  {
-    id: "HG15LP",
-    name: "Djellabas femme",
-    slug: "djellabas-femme",
-  },
-  {
-    id: "PA37KW",
-    name: "Djellabas homme",
-    slug: "djellabas-homme",
-  },
-  {
-    id: "PA37KW",
-    name: "Djellabas enfant",
-    slug: "djellabas-enfant",
-  },
-];
-
 export function maskDisplayName(name: string) {
   if (!name || name.length < 3) {
     // Si le nom est trop court, ne pas le masquer complètement
@@ -129,6 +112,21 @@ export interface Review {
   message: string;
   titre: string;
   image: string;
+}
+
+interface Brand {
+  name: string;
+  logo: string;
+}
+
+export interface CardBank {
+  id: string;
+  name: string;
+  description: string;
+  icon?: LucideIcon;
+  bgColor: string;
+  brands?: Brand[];
+  bankIcon?: string;
 }
 
 export const trustpilotReviews: Review[] = [

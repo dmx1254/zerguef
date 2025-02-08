@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MinusIcon,
   PlusIcon,
@@ -17,11 +17,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "./ui/card";
 import { Label } from "@/components/ui/label";
-import { formatPrice, generateOrderNumber } from "@/lib/utils";
+import { CardBank, formatPrice, generateOrderNumber } from "@/lib/utils";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { useScopedI18n } from "@/locales/client";
+import Image from "next/image";
+import { DialogShipping } from "./DialogShipping";
 
 const CartStats = () => {
   const tScope = useScopedI18n("cart");
@@ -63,70 +65,83 @@ export default function ShoppingCart() {
   const isEmpty = useIsCartEmpty();
   const [selectedPayment, setSelectedPayment] = useState("card");
   const [isOrderLoading, setIsOrderLoading] = useState<boolean>(false);
+  const [shipping, setShipping] = useState<number>(0);
+  const [shippingRegion, setShippingRegion] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
 
-  const shipping = 0;
   const total = totalAmount + shipping;
 
-  console.log(items);
+  // console.log(items);
+
+  useEffect(() => {
+    if (!shippingRegion || shippingRegion === "casablanca") {
+      setShipping(0);
+    } else {
+      setShipping(20);
+    }
+  }, [shippingRegion]);
 
   const handleCheckout = async () => {
-    if (!session?.user) {
+    if (!shippingRegion) {
+      setOpen(true);
+    } else if (!session?.user) {
       toast.error(tScope("cartErrorLogin"), {
         style: {
           color: "#f8312f",
         },
       });
       return;
-    }
+    } else {
+      try {
+        setIsOrderLoading(true);
+        const orderData = {
+          orderNumber: generateOrderNumber(),
+          userId: session.user.id,
+          items: items,
+          total: total,
+          shipping: shipping,
+          paymentMethod: selectedPayment,
+          shippingRegion,
+        };
 
-    try {
-      setIsOrderLoading(true);
-      const orderData = {
-        orderNumber: generateOrderNumber(),
-        userId: session.user.id,
-        items: items,
-        total: total,
-        shipping: shipping,
-        paymentMethod: selectedPayment,
-      };
-
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erreur lors du paiement");
-      }
-
-      const result = await response.json();
-
-      if (result) {
-        toast.success(tScope("cartSuccess"), {
-          style: {
-            color: "#22c55e",
+        const response = await fetch("/api/order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify(orderData),
         });
 
-        clearCart();
-        setSelectedPayment("card");
+        if (!response.ok) {
+          throw new Error("Erreur lors du paiement");
+        }
+
+        const result = await response.json();
+
+        if (result) {
+          toast.success(tScope("cartSuccess"), {
+            style: {
+              color: "#22c55e",
+            },
+          });
+
+          clearCart();
+          setSelectedPayment("card");
+        }
+      } catch (error) {
+        console.error("Erreur:", error);
+        toast.error(tScope("cartErrorPay"), {
+          style: {
+            color: "#f8312f",
+          },
+        });
+      } finally {
+        setIsOrderLoading(false);
       }
-    } catch (error) {
-      console.error("Erreur:", error);
-      toast.error(tScope("cartErrorPay"), {
-        style: {
-          color: "#f8312f",
-        },
-      });
-    } finally {
-      setIsOrderLoading(false);
     }
   };
 
-  const paymentMethods = [
+  const paymentMethods: CardBank[] = [
     {
       id: "card",
       name: tScope("bankCard"),
@@ -144,6 +159,13 @@ export default function ShoppingCart() {
       name: tScope("bankHomeDeliver"),
       description: tScope("bankHomeDeliverDesc"),
       icon: Wallet,
+      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    },
+    {
+      id: "virement",
+      name: "Virement bancaire",
+      description: "Paiement par virement bancaire marocain",
+      bankIcon: "/marocbank.webp",
       bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
     },
   ];
@@ -251,7 +273,10 @@ export default function ShoppingCart() {
             <div className="flex justify-end">
               <Button
                 variant="outline"
-                onClick={clearCart}
+                onClick={() => {
+                  clearCart();
+                  setShippingRegion("");
+                }}
                 className="text-gray-600 hover:text-red-500 transition-colors"
               >
                 {tScope("clearCart")}
@@ -309,7 +334,18 @@ export default function ShoppingCart() {
                         className="flex items-center gap-3 cursor-pointer"
                       >
                         <div className={`p-2 rounded-lg ${method.bgColor}`}>
-                          <method.icon className="h-5 w-5 text-white" />
+                          {method.icon && (
+                            <method.icon className="h-5 w-5 text-white" />
+                          )}
+                          {method.bankIcon && (
+                            <Image
+                              src={method.bankIcon}
+                              width={100}
+                              height={50}
+                              alt="Marocco bank"
+                              className="object-cover"
+                            />
+                          )}
                         </div>
                         <div>
                           <div className="font-medium text-gray-900">
@@ -354,6 +390,12 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
+      <DialogShipping
+        open={open}
+        setOpen={setOpen}
+        shippingRegion={shippingRegion}
+        setShippingRegion={setShippingRegion}
+      />
     </div>
   );
 }

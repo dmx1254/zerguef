@@ -31,7 +31,7 @@ export default {
 
   "home.catTitle": "Nos Collections",
   "home.catDescription":
-    "Une sélection raffinée de vêtements traditionnels marocains, où chaque pièce raconte une histoire d'artisanat et de tradition",
+    "Une collection raffinée de vêtements traditionnels émiratis et marocains, où chaque pièce raconte une histoire d’artisanat et de traditions.",
 
   "home.parfumTitle": "Parfums",
   "home.parfumDesc": "Parfums haut de gamme",
@@ -67,7 +67,7 @@ export default {
   "home.colDjel": "Djellabas",
   "home.colCaf": "Caftans",
   "home.colParf": "Parfums",
-  "home.colOr": "Or",
+  "home.colOr": "Folar",
 
   "home.customerServiceTitle": "Service Client",
   "home.customerServiceFaq": "FAQ",
@@ -589,9 +589,29 @@ export default {
   "cart.brands.paypal": "Paypal",
   "cart.bankHomeDeliver": "Paiement à la livraison",
   "cart.bankHomeDeliverDesc": "Payez en espèces à la réception",
-  "cart.cartSuccess": "Commande effectuée avec succès!",
+  "cart.cartSuccess":
+    "Votre commande a été enregistrée avec succès. Nous vous remercions de votre achat et vous tiendrons informé de l'état de votre commande.",
   "cart.cartErrorPay": "Une erreur est survenue lors du paiement.",
   "cart.cartErrorLogin": "Veuillez vous connecter pour effectuer un paiement.",
+  "cart.mikhwarDesc":
+    "Découvrez l'élégance du mikhwar émirati sur [zarguef.com] Nous vous proposons une collection exclusive de mikhwar émiratis, conçus selon les plus hauts standards de qualité et de savoir-faire. Chaque pièce allie tradition et modernité, apportant une touche de raffinement et de luxe à votre look, que ce soit pour des occasions spéciales ou au quotidie",
+  "cart.folarDesc":
+    "Découvrez l’élégance du foulard surzarguef.com Explorez notre collection raffinée de foulards alliant confort et style. Des designs modernes aux classiques intemporels, chaque pièce est choisie avec soin pour apporter une touche de sophistication à votre look quotidien.",
+  "cart.djellaDesc":
+    "Découvrez l’élégance de la djellabas sur zarguef.com Nous vous proposons une collection exclusive de jelabas, alliant confort, tradition et modernité. Chaque pièce est soigneusement conçue pour offrir une coupe parfaite et une allure raffinée, idéale pour toutes vos occasions spéciales ou pour un look élégant au quotidien.",
+  "cart.cafDesc":
+    "Découvrez l’élégance du caftan sur zarguef.com Explorez notre collection de caftans raffinés, alliant confort et style. Des designs traditionnels aux créations modernes, chaque pièce est confectionnée avec soin pour sublimer toutes vos occasions spéciales ou apporter une touche d’élégance au quotidien.",
+  "cart.parfDesc":
+    "Découvrez votre parfum idéal sur zarguef.com Nous vous proposons une sélection unique de parfums raffinés, alliant qualité et élégance. Que vous cherchiez une fragrance intemporelle ou une nouveauté envoûtante, trouvez chez nous l'essence qui vous correspond.",
+
+  "cart.dialogTitle": "Choisissez un mode de livraison",
+  "cart.dialogDesc":
+    "Sélectionnez votre zone de livraison. Les frais seront calculés en fonction de votre choix.",
+  "cart.dialogCa": "Casablanca",
+  "cart.dialogCaHours": "Livraison dans Casablanca (4-16h)",
+  "cart.dialogHorsCa": "Hors Casablanca",
+  "cart.dialogHorsCaHours": "Livraison hors Casablanca (1-3 jours)",
+  "cart.dialogBtn": "Confirmer",
 
   "notFound.title": "Page non trouvée",
   "notFound.subtitle": "Oups ! La page que vous recherchez n'existe pas.",

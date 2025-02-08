@@ -17,7 +17,8 @@ interface Order extends Document {
   items: CartItem[];
   total: number;
   shipping: number;
-  paymentMethod: "card" | "cash";
+  shippingRegion: string;
+  paymentMethod: "card" | "cash" | "virement";
   status: "pending" | "processing" | "completed" | "cancelled";
 }
 
@@ -76,11 +77,16 @@ const orderSchema = new Schema(
     shipping: {
       type: Number,
       required: true,
-      default: 30,
+      default: 0,
+    },
+    shippingRegion: {
+      type: String,
+      required: true,
+      default: "Casablanca",
     },
     paymentMethod: {
       type: String,
-      enum: ["card", "cash"],
+      enum: ["card", "cash", "virement"],
       required: true,
     },
     status: {

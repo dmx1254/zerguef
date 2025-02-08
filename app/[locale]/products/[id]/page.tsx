@@ -272,7 +272,7 @@ export default function ProductPage() {
               size="lg"
               className="w-full text-lg py-6 rounded-xl bg-yellow-600 hover:bg-yellow-700 transition-colors"
               onClick={handleAddToCart}
-              disabled={(showSizesAndCare && !selectedSize) || !selectV}
+              disabled={showSizesAndCare && !selectedSize}
             >
               {tScope("addToCart")} • {formatPrice(product.price * quantity)}
             </Button>
