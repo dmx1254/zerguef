@@ -24,6 +24,7 @@ import { useSession } from "next-auth/react";
 import { useScopedI18n } from "@/locales/client";
 import Image from "next/image";
 import { DialogShipping } from "./DialogShipping";
+import { useRouter } from "next/navigation";
 
 const CartStats = () => {
   const tScope = useScopedI18n("cart");
@@ -57,6 +58,7 @@ const CartStats = () => {
 };
 
 export default function ShoppingCart() {
+  const router = useRouter();
   const tScope = useScopedI18n("cart");
   const { data: session } = useSession();
   const { items, totalAmount, removeItem, updateQuantity, clearCart } =
@@ -66,7 +68,7 @@ export default function ShoppingCart() {
   const [selectedPayment, setSelectedPayment] = useState("card");
   const [isOrderLoading, setIsOrderLoading] = useState<boolean>(false);
   const [shipping, setShipping] = useState<number>(0);
-  const [shippingRegion, setShippingRegion] = useState<string>("");
+  const [shippingRegion, setShippingRegion] = useState<string>("casablanca");
   const [open, setOpen] = useState<boolean>(false);
 
   const total = totalAmount + shipping;
@@ -127,6 +129,7 @@ export default function ShoppingCart() {
 
           clearCart();
           setSelectedPayment("card");
+          router.push("/checkout-success");
         }
       } catch (error) {
         console.error("Erreur:", error);
@@ -282,6 +285,68 @@ export default function ShoppingCart() {
                 {tScope("clearCart")}
               </Button>
             </div>
+
+            <div className="">
+              <div>
+                <p>{tScope("dialogTitle")}</p>
+                <p>{tScope("dialogDesc")}</p>
+              </div>
+
+              <div className="flex flex-col gap-4 py-4">
+                <RadioGroup
+                  value={shippingRegion}
+                  onValueChange={setShippingRegion}
+                  className="gap-6 cursor-pointer"
+                >
+                  <div
+                    className="flex items-center space-x-2 p-4 bg-white rounded-[12px]"
+                    style={{
+                      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                      border:
+                        shippingRegion === "casablanca"
+                          ? "2px solid #3b82f6"
+                          : "",
+                      background:
+                        shippingRegion === "casablanca" ? "#dbeafe" : "",
+                    }}
+                  >
+                    <RadioGroupItem value="casablanca" id="casablanca" />
+                    <Label htmlFor="casablanca" className="flex flex-col">
+                      <span className="font-medium">{tScope("dialogCa")}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {tScope("dialogCaHours")}
+                      </span>
+                    </Label>
+                  </div>
+
+                  <div
+                    className="flex items-center space-x-2 p-4 bg-white rounded-[12px]"
+                    style={{
+                      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                      border:
+                        shippingRegion === "hors-casablanca"
+                          ? "2px solid #3b82f6"
+                          : "",
+                      background:
+                        shippingRegion === "hors-casablanca" ? "#dbeafe" : "",
+                    }}
+                  >
+                    <RadioGroupItem
+                      value="hors-casablanca"
+                      id="hors-casablanca"
+                    />
+                    <Label htmlFor="hors-casablanca" className="flex flex-col">
+                      <span className="font-medium">
+                        {tScope("dialogHorsCa")}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {tScope("dialogHorsCaHours")}
+                      </span>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -390,12 +455,12 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
-      <DialogShipping
+      {/* <DialogShipping
         open={open}
         setOpen={setOpen}
         shippingRegion={shippingRegion}
         setShippingRegion={setShippingRegion}
-      />
+      /> */}
     </div>
   );
 }

@@ -252,7 +252,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
   const tScope = useScopedI18n("navbar");
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
       {categories.map((category) => (
         <Link
           key={category.id}
@@ -273,6 +273,7 @@ const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
                 | "djellabas"
                 | "caftans"
                 | "or"
+                | "mikhwar-emarati"
             )}
           </h3>
           {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">

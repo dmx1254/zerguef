@@ -231,7 +231,7 @@ export default function CategoryPage() {
     staleTime: 0,
   });
 
-  const showSizesAndMaterials = !["or", "parfums"].includes(
+  const showSizesAndMaterials = !["folar", "parfums"].includes(
     category.toLowerCase()
   );
 

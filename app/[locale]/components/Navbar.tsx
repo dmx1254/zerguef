@@ -84,7 +84,7 @@ const Navbar = () => {
                 href="/categories/mikhwar-emarati"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
-                {tScope("mikhwar")}
+                {tScope("mikhwar-emarati")}
               </Link>
               <Link
                 href="/categories/abaya-femme"

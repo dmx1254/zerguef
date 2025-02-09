@@ -9,6 +9,7 @@ import abayafemme from "@/public/assets/abaya-femme.png";
 import djel from "@/public/assets/djellabas.png";
 import parfums from "@/public/assets/parfums.png";
 import or from "@/public/assets/or.png";
+import mikhwar from "@/public/assets/mikhwar.png";
 
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -313,6 +314,12 @@ export const trustpilotReviews: Review[] = [
 ];
 
 export const categoriesClothes = [
+  {
+    id: "M6QP",
+    name: "Mikhwar emarati",
+    slug: "mikhwar-emarati",
+    icon: mikhwar,
+  },
   {
     id: "A6WD",
     name: "Abaya femme",
