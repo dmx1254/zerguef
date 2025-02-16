@@ -48,6 +48,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScopedI18n } from "@/locales/client";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface Product {
   _id: string;
@@ -135,11 +136,13 @@ const ProductCard = ({ product }: { product: Product }) => {
     >
       <Link href={`/products/${product._id}`}>
         <CardHeader className="p-0 relative">
-          <div className="aspect-[4/5] relative overflow-hidden bg-gray-100">
-            <img
+          <div className="relative overflow-hidden bg-gray-100">
+            <Image
               src={product.image}
               alt={product.name}
-              className={`object-cover w-full h-full transition-transform duration-700 ${
+              width={200}
+              height={200}
+              className={`object-cover w-[200px] h-[200px] transition-transform duration-700 ${
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
@@ -149,7 +152,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               </div>
             )}
           </div>
-          <button
+          {/* <button
             onClick={(e) => {
               e.preventDefault();
               setIsFavorite(!isFavorite);
@@ -161,17 +164,17 @@ const ProductCard = ({ product }: { product: Product }) => {
                 isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
               }`}
             />
-          </button>
+          </button> */}
         </CardHeader>
       </Link>
 
       <CardContent className="p-6">
         <Link href={`/products/${product._id}`}>
-          <CardTitle className="mb-2 hover:text-blue-600 transition-colors">
+          <CardTitle className="mb-2 line-clamp-1 hover:text-blue-600 transition-colors">
             {product.name}
           </CardTitle>
         </Link>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2 h-10 overflow-hidden">
           {product.description}
         </p>
         <div className="flex items-center justify-between">
@@ -213,7 +216,7 @@ export default function CategoryPage() {
   const category = params.category as string;
   const [activeFilters, setActiveFilters] = useState<Filters>({
     sizes: [],
-    priceRange: [0, 1000],
+    priceRange: [0, 10000],
     materials: [],
     onlyInStock: false,
     onSale: false,
@@ -231,9 +234,14 @@ export default function CategoryPage() {
     staleTime: 0,
   });
 
-  const showSizesAndMaterials = !["folar", "parfums"].includes(
-    category.toLowerCase()
-  );
+  const showSizesAndMaterials = ![
+    "folar",
+    "parfums",
+    "mikhwar-emarati",
+    "abaya-femme",
+    "djellabas",
+    "caftans",
+  ].includes(category.toLowerCase());
 
   const sortOptions = [
     { value: "newest", label: tScope("newestLab1") },

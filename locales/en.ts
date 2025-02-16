@@ -602,10 +602,14 @@ export default {
   "cart.dialogDesc":
     "Select your delivery area. The fees will be calculated based on your choice.",
   "cart.dialogCa": "Casablanca",
-  "cart.dialogCaHours": "Delivery within Casablanca (4-16h)",
+  "cart.dialogCaHours": "Delivery within Casablanca (1-8h)",
   "cart.dialogHorsCa": "Outside Casablanca",
   "cart.dialogHorsCaHours": "Delivery outside Casablanca (1-3 days)",
   "cart.dialogBtn": "Confirm",
+  "cart.free": "FREE",
+  "cart.freeDel": "FREE delivery in Casablanca!",
+  "cart.remise": "5% discount on bank transfer",
+  "cart.percentRemise": "5%",
 
   "notFound.title": "Page not found",
   "notFound.subtitle": "Oops! The page you're looking for doesn't exist.",
@@ -685,4 +689,15 @@ export default {
   "testimonials.delivery": "Easy and instant delivery",
   "testimonials.guarantee": "100% Secure guarantee",
   "testimonials.refund": "Guaranteed refund",
+
+  "pageicon.sell1": "Sell",
+  "pageicon.sell2": "kamas",
+  "pageicon.memb1": "Become",
+  "pageicon.memb2": "a member",
+  "pageicon.buy1": "Buy",
+  "pageicon.buy2": "kamas",
+  "pageicon.exchange1": "Exchange",
+  "pageicon.exchange2": "kamas",
+  "pageicon.social1": "Social",
+  "pageicon.social2": "media",
 } as const;

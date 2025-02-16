@@ -23,10 +23,14 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const skip = parseInt(searchParams.get("skip") || "0");
   try {
     const products = await ProductModel.find({})
-      .sort({ createdAt: -1 }) // Tri par date de création décroissante
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .skip(skip) // Tri par date de création décroissante
       .select("-__v") // Exclure le champ __v de mongoose
       .lean(); // Convertir en objets JavaScript simples
 

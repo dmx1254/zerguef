@@ -20,10 +20,11 @@ import {
   ShoppingBag,
   Search,
   Heart,
+  Loader,
 } from "lucide-react";
 import Link from "next/link";
 import { categoriesClothes, formatPrice } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   CategorySkeletonGrid,
@@ -34,6 +35,7 @@ import { toast } from "sonner";
 import Testimonials from "./components/Testimonials";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
+import SocialMedia from "./components/SocialMedia";
 
 // Types
 interface Category {
@@ -66,17 +68,6 @@ interface Product {
 interface ProductCardProps {
   product: Product;
 }
-
-// API Fetchers
-const fetchCategories = async () => {
-  const res = await fetch("/api/categories", {
-    method: "GET",
-  });
-  if (!res.ok) {
-    throw new Error("Erreur lors du chargement des catégories");
-  }
-  return res.json();
-};
 
 const fetchProducts = async () => {
   const res = await fetch("/api/products", {
@@ -158,17 +149,19 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card
-      className="group overflow-hidden bg-white hover:shadow-xl transition-all duration-300 border-0"
+      className="group w-full md:w-[200px] overflow-hidden bg-white hover:shadow-xl transition-all duration-300 border-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link href={`/products/${product._id}`}>
         <CardHeader className="p-0 relative">
-          <div className="aspect-[3/4] relative overflow-hidden bg-gray-100">
-            <img
+          <div className="w-full relative overflow-hidden bg-gray-100">
+            <Image
               src={product.image}
               alt={product.name}
-              className={`object-cover w-full h-full transition-transform duration-700 ${
+              width={200}
+              height={200}
+              className={`object-cover w-full md:w-[200px] h-[200px] transition-transform duration-700 ${
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
@@ -178,7 +171,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               </div>
             )}
           </div>
-          <button
+          {/* <button
             onClick={(e) => {
               e.preventDefault();
               setIsFavorite(!isFavorite);
@@ -190,18 +183,18 @@ const ProductCard = ({ product }: { product: Product }) => {
                 isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
               }`}
             />
-          </button>
+          </button> */}
         </CardHeader>
       </Link>
 
       <CardContent className="p-6">
         <Link href={`/products/${product._id}`}>
-          <CardTitle className="mb-2 hover:text-blue-600 transition-colors">
+          <CardTitle className="mb-2 hover:text-blue-600 line-clamp-1 transition-colors">
             {product.name}
           </CardTitle>
         </Link>
 
-        <CardDescription className="text-sm mb-4 line-clamp-2">
+        <CardDescription className="text-sm mb-4 line-clamp-2 h-10">
           {product.description}
         </CardDescription>
 
@@ -276,19 +269,6 @@ const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
                 | "mikhwar-emarati"
             )}
           </h3>
-          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
-            <h3 className="text-white text-3xl font-bold mb-3">
-              {category.name}
-            </h3>
-            <p className="text-white/90 text-lg mb-6">{category.description}</p>
-            <Button
-              variant="outline"
-              className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-black transition-all"
-            >
-              {tScope("catBtnCollection")}
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div> */}
         </Link>
       ))}
     </div>
@@ -324,38 +304,13 @@ const PromoBanner = () => {
 
 // Home Page
 export default function Home() {
+  const [skipProduct, setSkipProduct] = useState<number>(0);
   const tScope = useScopedI18n("home");
-
-  const features = [
-    {
-      icon: Truck,
-      title: tScope("expressDeliverTitle"),
-      description: tScope("expressDeliverDesc", { price: formatPrice(250) }),
-    },
-    {
-      icon: Shield,
-      title: tScope("securepaymentTitle"),
-      description: tScope("securepaymentDesc"),
-    },
-    {
-      icon: Clock,
-      title: tScope("refundTitle"),
-      description: tScope("refundDesc"),
-    },
-  ];
-  // Requête pour les catégories
-  const {
-    data: categories,
-    isLoading: isLoadingCategories,
-    error: categoriesError,
-  } = useQuery({
-    queryKey: ["categories"],
-    queryFn: fetchCategories,
-    refetchOnMount: true,
-    staleTime: 0,
-  });
+  const [seeMoreLoading, setSeeMoreLoading] = useState<boolean>(false);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
 
   // Requête pour les produits
+
   const {
     data: products,
     isLoading: isLoadingProducts,
@@ -366,6 +321,32 @@ export default function Home() {
     refetchOnMount: true,
     staleTime: 0,
   });
+
+  useEffect(() => {
+    if (products) {
+      setAllProducts(products);
+    }
+  }, [products]);
+
+  const handleLoadMore = async () => {
+    try {
+      setSeeMoreLoading(true);
+      const res = await fetch(`/api/products?skip=${allProducts.length}`, {
+        method: "GET",
+      });
+      if (!res.ok) {
+        throw new Error("Erreur lors du chargement des produits");
+      }
+      const data = await res.json();
+      if (data) {
+        setAllProducts((prev) => [...prev, ...data]);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSeeMoreLoading(false);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 font-poppins">
@@ -405,31 +386,37 @@ export default function Home() {
           {isLoadingProducts ? (
             <ProductSkeletonGrid />
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {products?.map((product: Product) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {allProducts?.map((product: Product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
             </div>
           )}
+
+          {seeMoreLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 my-10">
+              {[...Array(10)].map((_, i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="w-full h-[200px] bg-gray-200" />
+                  <CardContent className="p-6">
+                    <div className="h-6 bg-gray-200 rounded mb-4" />
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
+                    <div className="h-8 bg-gray-200 rounded" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <button
+              className="flex items-center justify-center mx-auto my-8 bg-gradient-to-r from-purple-600 to-blue-600 text-sm text-white p-3 rounded"
+              onClick={handleLoadMore}
+            >
+              Voir plus
+            </button>
+          )}
         </section>
-        {/* Features */}:
-        {/* <section className="pb-24">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="flex flex-col items-center text-center p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all group"
-              >
-                <div className="bg-blue-50 p-4 rounded-full mb-6 group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </section> */}
       </div>
+      <SocialMedia />
     </main>
   );
 }

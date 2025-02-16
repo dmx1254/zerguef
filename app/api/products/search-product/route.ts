@@ -28,7 +28,7 @@ export async function GET(req: Request) {
     // Récupérer les produits de la catégorie
     let products = await ProductModel.find(query).select("-__v").lean();
 
-    // Appliquer les filtres supplémentaires
+    //Appliquer les filtres supplémentaires
     if (search) {
       const searchRegex = new RegExp(search, "i");
       products = products.filter(
@@ -61,6 +61,7 @@ export async function GET(req: Request) {
       products = products.filter((product) => product.discount > 0);
     }
 
+    // console.log(products.length);
     // Retourner les produits filtrés
     return NextResponse.json(products);
   } catch (error) {

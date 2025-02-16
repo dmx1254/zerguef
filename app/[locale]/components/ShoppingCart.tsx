@@ -171,6 +171,20 @@ export default function ShoppingCart() {
       bankIcon: "/marocbank.webp",
       bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
     },
+    {
+      id: "virement",
+      name: "Virement bancaire",
+      description: "Paiement par crédit agricole",
+      bankIcon: "/crd_agricole.png",
+      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    },
+    {
+      id: "virement",
+      name: "Virement bancaire",
+      description: "Paiement par Société Générale",
+      bankIcon: "/sg.png",
+      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    },
   ];
 
   if (isEmpty) {
@@ -299,7 +313,7 @@ export default function ShoppingCart() {
                   className="gap-6 cursor-pointer"
                 >
                   <div
-                    className="flex items-center space-x-2 p-4 bg-white rounded-[12px]"
+                    className="flex items-center space-x-2 p-4 bg-white rounded-[12px] relative overflow-hidden"
                     style={{
                       boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
                       border:
@@ -309,16 +323,31 @@ export default function ShoppingCart() {
                       background:
                         shippingRegion === "casablanca" ? "#dbeafe" : "",
                     }}
+                    onClick={() => setShippingRegion("casablanca")}
                   >
+                    {/* Badge Livraison Gratuite */}
+                    <div className="absolute -right-12 top-2 bg-green-500 text-white px-12 py-1 transform rotate-45 text-xs font-bold">
+                      {tScope("free")}
+                    </div>
+
                     <RadioGroupItem value="casablanca" id="casablanca" />
                     <Label htmlFor="casablanca" className="flex flex-col">
-                      <span className="font-medium">{tScope("dialogCa")}</span>
-                      <span className="text-sm text-muted-foreground">
-                        {tScope("dialogCaHours")}
+                      <span className="font-medium flex items-center gap-2">
+                        {tScope("dialogCa")}
+                        <span className="text-green-500">🚚</span>
                       </span>
+                      <div className="flex flex-col gap-1">
+                        <span className="text-sm font-semibold text-green-600">
+                          {tScope("freeDel")} ✅
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {tScope("dialogCaHours")}
+                        </span>
+                      </div>
                     </Label>
                   </div>
 
+                  {/* Le reste du code reste inchangé */}
                   <div
                     className="flex items-center space-x-2 p-4 bg-white rounded-[12px]"
                     style={{
@@ -330,6 +359,7 @@ export default function ShoppingCart() {
                       background:
                         shippingRegion === "hors-casablanca" ? "#dbeafe" : "",
                     }}
+                    onClick={() => setShippingRegion("hors-casablanca")}
                   >
                     <RadioGroupItem
                       value="hors-casablanca"
@@ -377,6 +407,17 @@ export default function ShoppingCart() {
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
                 {tScope("cartPaymentMode")}
               </h2>
+              <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-green-50 rounded-lg border border-green-200">
+                <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                  {tScope("percentRemise")}
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-sm">
+                    {tScope("remise")}
+                  </span>
+                  <span className="text-green-500 text-2xl">💳</span>
+                </div>
+              </div>
 
               <RadioGroup
                 value={selectedPayment}

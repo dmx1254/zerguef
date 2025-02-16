@@ -595,10 +595,14 @@ export default {
   "cart.dialogDesc":
     "حدد منطقة التوصيل الخاصة بك. سيتم احتساب الرسوم بناءً على اختيارك.",
   "cart.dialogCa": "الدار البيضاء",
-  "cart.dialogCaHours": "التوصيل داخل الدار البيضاء (4-16 ساعة)",
+  "cart.dialogCaHours": "التوصيل داخل الدار البيضاء (1-8 ساعة)",
   "cart.dialogHorsCa": "خارج الدار البيضاء",
   "cart.dialogHorsCaHours": "التوصيل خارج الدار البيضاء (1-3 أيام)",
   "cart.dialogBtn": "تأكيد",
+  "cart.free": "مجانًا",
+  "cart.freeDel": "توصيل مجاني في الدار البيضاء!",
+  "cart.remise": "خصم 5٪ على التحويل المصرفي",
+  "cart.percentRemise": "5٪",
 
   "notFound.title": "الصفحة غير موجودة",
   "notFound.subtitle": "عذرًا! الصفحة التي تبحث عنها غير موجودة.",
@@ -675,4 +679,15 @@ export default {
   "testimonials.delivery": "توصيل سهل وفوري",
   "testimonials.guarantee": "ضمان أمان 100٪",
   "testimonials.refund": "ضمان استرجاع الأموال",
+
+  "pageicon.sell1": "بيع",
+  "pageicon.sell2": "الكاماس",
+  "pageicon.memb1": "أصبح",
+  "pageicon.memb2": "عضوًا",
+  "pageicon.buy1": "شراء",
+  "pageicon.buy2": "الكاماس",
+  "pageicon.exchange1": "تبادل",
+  "pageicon.exchange2": "الكاماس",
+  "pageicon.social1": "وسائل",
+  "pageicon.social2": "التواصل الاجتماعي",
 } as const;

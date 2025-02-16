@@ -15,6 +15,8 @@ import { IoArrowUndo } from "react-icons/io5";
 import giropay from "../../../assets/iben/giropay.webp";
 import neosurf from "../../../assets/iben/neosurf.webp";
 import marocbank from "../../../assets/iben/marocbank.webp";
+import crd_agricole from "../../../assets/iben/crd_agricole.png";
+import sg from "../../../assets/iben/sg.png";
 
 const Footer = () => {
   const tScope = useScopedI18n("home");
@@ -297,20 +299,20 @@ const Footer = () => {
               className="object-cover"
             />
 
-            {/* <Image
-                  src={crd_agricole}
-                  width={120}
-                  height={60}
-                  alt="Marocco bank"
-                  className="object-cover"
-                />
-                <Image
-                  src={sg}
-                  width={100}
-                  height={50}
-                  alt="Marocco bank"
-                  className="object-cover"
-                /> */}
+            <Image
+              src={crd_agricole}
+              width={120}
+              height={60}
+              alt="Marocco bank"
+              className="object-cover"
+            />
+            <Image
+              src={sg}
+              width={100}
+              height={50}
+              alt="Marocco bank"
+              className="object-cover"
+            />
           </div>
         </div>
       </footer>

@@ -346,8 +346,8 @@ export const categoriesClothes = [
   },
   {
     id: "T8KW",
-    name: "Or",
-    slug: "or",
+    name: "Folar",
+    slug: "folar",
     icon: or,
   },
 ];

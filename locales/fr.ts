@@ -608,10 +608,15 @@ export default {
   "cart.dialogDesc":
     "Sélectionnez votre zone de livraison. Les frais seront calculés en fonction de votre choix.",
   "cart.dialogCa": "Casablanca",
-  "cart.dialogCaHours": "Livraison dans Casablanca (4-16h)",
+  "cart.dialogCaHours": "Livraison dans Casablanca (1-8h)",
   "cart.dialogHorsCa": "Hors Casablanca",
   "cart.dialogHorsCaHours": "Livraison hors Casablanca (1-3 jours)",
   "cart.dialogBtn": "Confirmer",
+
+  "cart.free": "GRATUIT",
+  "cart.freeDel": "Livraison GRATUITE sur Casablanca !",
+  "cart.remise": "Remise de 5% sur le virement bancaire",
+  "cart.percentRemise": "5%",
 
   "notFound.title": "Page non trouvée",
   "notFound.subtitle": "Oups ! La page que vous recherchez n'existe pas.",
@@ -691,4 +696,15 @@ export default {
   "testimonials.delivery": "livraison facile et instantanée",
   "testimonials.guarantee": "100% Sécurisé garanti",
   "testimonials.refund": "Remboursement garanti",
+
+  "pageicon.sell1": "Vendre",
+  "pageicon.sell2": "des kamas",
+  "pageicon.memb1": "Devenir",
+  "pageicon.memb2": "membre",
+  "pageicon.buy1": "Acheter",
+  "pageicon.buy2": "des kamas",
+  "pageicon.exchange1": "Echange",
+  "pageicon.exchange2": "de kamas",
+  "pageicon.social1": "Media",
+  "pageicon.social2": "sociaux",
 } as const;
