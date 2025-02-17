@@ -42,10 +42,12 @@ const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
         <button
           aria-label="Language and currency"
           className={clsx(
-            "outline-none inline-flex items-center gap-2 px-3 py-2 transition-all duration-200 cursor-pointer rounded-full hover:opacity-90",
+            "outline-none inline-flex gap-2 px-3 py-2 transition-all duration-200 cursor-pointer rounded-full hover:opacity-90",
             {
-              "border border-[#76828D] focus:ring-0 bg-[#363A3D] max-md:hidden":
+              "border border-[#76828D] items-center focus:ring-0 bg-[#363A3D]":
                 isShowBg,
+              "border border-white/30 items-end self-end focus:ring-0 bg-[#363A3D]":
+                !isShowBg,
             }
           )}
         >
@@ -69,7 +71,9 @@ const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
             {tScope("chooseLangue")}
           </h2>
           <div className="p-4 space-y-3">
-            <h4 className="font-semibold text-lg text-gray-800">{tScope("language")}</h4>
+            <h4 className="font-semibold text-lg text-gray-800">
+              {tScope("language")}
+            </h4>
             <LocaleSelect />
           </div>
         </div>

@@ -291,15 +291,22 @@ const Footer = () => {
               alt="Giropay"
               className="object-cover"
             />
-            <Image
+            {/* <Image
               src={marocbank}
               width={100}
               height={50}
               alt="Marocco bank"
               className="object-cover"
+            /> */}
+            <Image
+              src="/paymentfoot2.png"
+              width={260}
+              height={260}
+              alt="Marocco bank"
+              className="object-cover"
             />
 
-            <Image
+            {/* <Image
               src={crd_agricole}
               width={120}
               height={60}
@@ -312,7 +319,7 @@ const Footer = () => {
               height={50}
               alt="Marocco bank"
               className="object-cover"
-            />
+            /> */}
           </div>
         </div>
       </footer>

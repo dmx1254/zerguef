@@ -595,7 +595,7 @@ export default {
   "cart.dialogDesc":
     "حدد منطقة التوصيل الخاصة بك. سيتم احتساب الرسوم بناءً على اختيارك.",
   "cart.dialogCa": "الدار البيضاء",
-  "cart.dialogCaHours": "التوصيل داخل الدار البيضاء (1-8 ساعة)",
+  "cart.dialogCaHours": "التوصيل في الدار البيضاء (24 ساعة)",
   "cart.dialogHorsCa": "خارج الدار البيضاء",
   "cart.dialogHorsCaHours": "التوصيل خارج الدار البيضاء (1-3 أيام)",
   "cart.dialogBtn": "تأكيد",

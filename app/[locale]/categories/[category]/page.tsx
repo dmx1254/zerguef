@@ -136,13 +136,13 @@ const ProductCard = ({ product }: { product: Product }) => {
     >
       <Link href={`/products/${product._id}`}>
         <CardHeader className="p-0 relative">
-          <div className="relative overflow-hidden bg-gray-100">
+          <div className="w-full relative overflow-hidden bg-gray-100">
             <Image
               src={product.image}
               alt={product.name}
               width={200}
               height={200}
-              className={`object-cover w-[200px] h-[200px] transition-transform duration-700 ${
+              className={`object-cover w-full h-[200px] transition-transform duration-700 ${
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
@@ -239,7 +239,9 @@ export default function CategoryPage() {
     "parfums",
     "mikhwar-emarati",
     "abaya-femme",
-    "djellabas",
+    "djellabas-femme",
+    "djellabas-homme",
+    "djellabas-enfant",
     "caftans",
   ].includes(category.toLowerCase());
 

@@ -21,6 +21,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { FaSortDown } from "react-icons/fa";
+import SocialMedia from "./SocialMedia";
+import MobileTopMenus from "./MobileTopMenus";
 // import MobileTopMenus from "./MobileTopMenus";
 
 const Navbar = () => {
@@ -60,7 +62,7 @@ const Navbar = () => {
     !pathname.includes("profile") &&
     !pathname.includes("resetpassword") && (
       <>
-        {/* <MobileTopMenus /> */}
+        <MobileTopMenus />
         <div className="z-50 font-poppins flex  sticky top-0 left-0 right-0 w-full items-center justify-center text-center px-2 md:px-4 bg-[#18191A]">
           <div className="w-full max-w-6xl flex items-center justify-between">
             <div className="flex items-center gap-0">
@@ -146,7 +148,7 @@ const Navbar = () => {
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               {session?.user ? (
-                <Link href="/profile" className="cursor-pointer">
+                <Link href="/profile" className="cursor-pointer max-sm:hidden">
                   <Image
                     src="/defaultuser.png"
                     alt="use"
@@ -158,7 +160,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   href="/signin"
-                  className="flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600"
+                  className="flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600 max-sm:hidden"
                 >
                   <CiUser size={24} className="-mt-1" />
                   <span className="hidden sm:flex text-base">
@@ -166,12 +168,13 @@ const Navbar = () => {
                   </span>
                 </Link>
               )}
-
-              <LanguageAndCurrency />
+              <div className="max-sm:hidden">
+                <LanguageAndCurrency />
+              </div>
               <CardHoverCon />
-              {/* <div>
-                <SocialMediaDropdown />
-              </div> */}
+              <div>
+                <SocialMedia />
+              </div>
             </div>
           </div>
         </div>

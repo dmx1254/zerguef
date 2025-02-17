@@ -608,7 +608,7 @@ export default {
   "cart.dialogDesc":
     "Sélectionnez votre zone de livraison. Les frais seront calculés en fonction de votre choix.",
   "cart.dialogCa": "Casablanca",
-  "cart.dialogCaHours": "Livraison dans Casablanca (1-8h)",
+  "cart.dialogCaHours": "Livraison dans Casablanca (24h)",
   "cart.dialogHorsCa": "Hors Casablanca",
   "cart.dialogHorsCaHours": "Livraison hors Casablanca (1-3 jours)",
   "cart.dialogBtn": "Confirmer",

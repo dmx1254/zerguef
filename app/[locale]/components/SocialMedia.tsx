@@ -70,7 +70,7 @@ const SocialMedia = ({ isSource = false }) => {
       <PopoverTrigger asChild>
         <button
           className={clsx(
-            "flex fixed bottom-4 left-4 flex-col items-center gap-2 justify-center p-1.5 rounded-full text-white hover:opacity-80",
+            "flex flex-col items-center gap-2 justify-center p-1.5 rounded-full text-white hover:opacity-80",
             {
               "border-[2px] bg-[#363A3D] border-[#45494e]": !isSource,
             }
@@ -78,8 +78,8 @@ const SocialMedia = ({ isSource = false }) => {
         >
           <img
             className={clsx("object-cover object-center rounded-full", {
-              "w-8 h-8 sm:w-9 sm:h-9": !isSource,
-              "w-10 h-10 sm:w-12 sm:h-12": isSource,
+              "w-6 h-6 sm:w-8 sm:h-8": !isSource,
+              "w-8 h-8 sm:w-10 sm:h-10": isSource,
             })}
             src="/social.png"
             alt="Social media"

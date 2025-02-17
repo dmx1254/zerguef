@@ -602,7 +602,7 @@ export default {
   "cart.dialogDesc":
     "Select your delivery area. The fees will be calculated based on your choice.",
   "cart.dialogCa": "Casablanca",
-  "cart.dialogCaHours": "Delivery within Casablanca (1-8h)",
+  "cart.dialogCaHours": "Delivery within Casablanca (24h)",
   "cart.dialogHorsCa": "Outside Casablanca",
   "cart.dialogHorsCaHours": "Delivery outside Casablanca (1-3 days)",
   "cart.dialogBtn": "Confirm",

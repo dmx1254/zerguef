@@ -168,23 +168,23 @@ export default function ShoppingCart() {
       id: "virement",
       name: "Virement bancaire",
       description: "Paiement par virement bancaire marocain",
-      bankIcon: "/marocbank.webp",
+      bankIcon: "/paymentfoot2.png",
       bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
     },
-    {
-      id: "virement",
-      name: "Virement bancaire",
-      description: "Paiement par crédit agricole",
-      bankIcon: "/crd_agricole.png",
-      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
-    },
-    {
-      id: "virement",
-      name: "Virement bancaire",
-      description: "Paiement par Société Générale",
-      bankIcon: "/sg.png",
-      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
-    },
+    // {
+    //   id: "virement",
+    //   name: "Virement bancaire",
+    //   description: "Paiement par crédit agricole",
+    //   bankIcon: "/crd_agricole.png",
+    //   bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    // },
+    // {
+    //   id: "virement",
+    //   name: "Virement bancaire",
+    //   description: "Paiement par Société Générale",
+    //   bankIcon: "/sg.png",
+    //   bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    // },
   ];
 
   if (isEmpty) {
@@ -434,26 +434,29 @@ export default function ShoppingCart() {
                     } transition-colors duration-200 p-4`}
                   >
                     <div className="flex items-center space-x-3">
-                      <RadioGroupItem value={method.id} id={method.id} />
                       <Label
                         htmlFor={method.id}
-                        className="flex items-center gap-3 cursor-pointer"
+                        className="flex flex-col items-start gap-3 cursor-pointer"
                       >
-                        <div className={`p-2 rounded-lg ${method.bgColor}`}>
-                          {method.icon && (
-                            <method.icon className="h-5 w-5 text-white" />
-                          )}
-                          {method.bankIcon && (
-                            <Image
-                              src={method.bankIcon}
-                              width={100}
-                              height={50}
-                              alt="Marocco bank"
-                              className="object-cover"
-                            />
-                          )}
+                        <div className="flex items-center gap-2">
+                          <RadioGroupItem value={method.id} id={method.id} />
+
+                          <div className={`p-2 rounded-lg ${method.bgColor}`}>
+                            {method.icon && (
+                              <method.icon className="h-5 w-5 text-white" />
+                            )}
+                            {method.bankIcon && (
+                              <Image
+                                src={method.bankIcon}
+                                width={method.id === "virement" ? 200 : 100}
+                                height={method.id === "virement" ? 100 : 50}
+                                alt="Marocco bank"
+                                className="object-cover"
+                              />
+                            )}
+                          </div>
                         </div>
-                        <div>
+                        <div className="flex flex-col items-start gap-2">
                           <div className="font-medium text-gray-900">
                             {method.name}
                           </div>

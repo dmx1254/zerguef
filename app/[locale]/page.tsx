@@ -10,32 +10,18 @@ import {
   CardHeader,
   CardTitle,
 } from "./components/ui/card";
-import {
-  ArrowRight,
-  Truck,
-  Shield,
-  Clock,
-  ChevronRight,
-  Tag,
-  ShoppingBag,
-  Search,
-  Heart,
-  Loader,
-} from "lucide-react";
+import { Tag, ShoppingBag, Search } from "lucide-react";
 import Link from "next/link";
 import { categoriesClothes, formatPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  CategorySkeletonGrid,
-  ProductSkeletonGrid,
-} from "./components/skelettons/skeletons";
+import { ProductSkeletonGrid } from "./components/skelettons/skeletons";
 import { useScopedI18n } from "@/locales/client";
 import { toast } from "sonner";
 import Testimonials from "./components/Testimonials";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import SocialMedia from "./components/SocialMedia";
+import MobileTopMenus from "./components/MobileTopMenus";
 
 // Types
 interface Category {
@@ -82,6 +68,25 @@ const fetchProducts = async () => {
 // Components
 const HeroSection = () => {
   const tScope = useScopedI18n("home");
+
+  const getVideo = async () => {
+    const res = await fetch("/api/settings", {
+      method: "GET",
+      cache: "force-cache",
+    });
+    if (!res.ok) throw new Error("Erreur de chargement de la vidéo");
+    return res.json();
+  };
+
+  const { data: videoData, isLoading } = useQuery({
+    queryKey: ["coverVideo"],
+    queryFn: getVideo,
+  });
+
+  const videoSrc = videoData?.data
+    ? `data:${videoData.contentType};base64,${videoData.data}`
+    : "";
+
   return (
     <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -92,7 +97,10 @@ const HeroSection = () => {
           className="w-full h-full object-cover"
           poster="https://images.unsplash.com/photo-1579493934830-eab45746b51b?auto=format&fit=crop&q=80&w=1200"
         >
-          <source src="/assets/background-video.mp4" type="video/mp4" />
+          <source
+            src={videoSrc ? videoSrc : "/assets/background-video.mp4"}
+            type="video/mp4"
+          />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
       </div>
@@ -171,19 +179,6 @@ const ProductCard = ({ product }: { product: Product }) => {
               </div>
             )}
           </div>
-          {/* <button
-            onClick={(e) => {
-              e.preventDefault();
-              setIsFavorite(!isFavorite);
-            }}
-            className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          >
-            <Heart
-              className={`h-5 w-5 ${
-                isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
-              }`}
-            />
-          </button> */}
         </CardHeader>
       </Link>
 
@@ -416,7 +411,6 @@ export default function Home() {
           )}
         </section>
       </div>
-      <SocialMedia />
     </main>
   );
 }
