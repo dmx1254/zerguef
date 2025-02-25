@@ -7,7 +7,7 @@ import UserModel from "@/lib/models/user.model";
 
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_Zarguef_API_KEY);
+const resend = new Resend(process.env.RESEND_ZERGUEF_API_KEY);
 
 connectDB();
 
