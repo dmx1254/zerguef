@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
     // Envoyer l'email
     await resend.emails.send({
-      from: "Zarguef <noreply@zarguef.com>",
+      from: "Zarguef <noreply@ibendouma.com>",
       to: email,
       subject: "Réinitialisation de votre mot de passe",
       html: `
