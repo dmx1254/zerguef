@@ -74,7 +74,7 @@ const SignInPage = () => {
       <Card className="w-full max-w-md bg-white/90 backdrop-blur">
         <CardHeader className="space-y-3 text-center">
           <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-            Zerguef
+            Zarguef
           </div>
           <p className="text-slate-600">{tScope("subtitle")}</p>
         </CardHeader>

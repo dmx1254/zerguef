@@ -83,6 +83,7 @@ export default {
   "home.allrights": "Tous droits réservés.",
   "home.privacyPolicy": "Politique de confidentialité",
   "home.termsandconditions": "Conditions d'utilisation",
+  "home.followUs": "Suivez-nous",
 
   "contact.title": "Contactez-nous – Nous sommes là pour vous servir !",
   "contact.description":
@@ -354,7 +355,7 @@ export default {
 
   "footer.satisfaction": "99,9% DE SATISFACTION",
   "footer.satisfactionDesc":
-    "Plus de 10 000 clients ont bénéficié des services de zerguef",
+    "Plus de 10 000 clients ont bénéficié des services de Zarguef",
   "footer.secure": "PAIEMENT SÉCURISÉ",
   "footer.secureDesc":
     "Système de paiement 100% sécurisé, approuvé par plus de 10 000 clients !",
@@ -556,6 +557,8 @@ export default {
   "productDetail.materDet": "Matériau",
   "productDetail.origDetail": "Origine",
   "productDetail.entretien": "Entretien",
+  "productDetail.inStock": "En stock",
+  "productDetail.epuise": "Épuisé",
 
   "search.start": "Commencez votre recherche",
   "search.startDesc": "Entrez un terme de recherche pour trouver des produits",
@@ -692,7 +695,7 @@ export default {
   "reviews.title-20": "Meilleur service !",
 
   "testimonials.desc":
-    "Zerguef est un site de vetements traditionnels qui garantit des livraisons ultra-rapides pour 99% des commandes, avec un service disponible 24h/24. Le site se démarque par ses prix compétitifs et maintient des stocks sur tous les produits, s'engageant à proposer les meilleurs tarifs du marché.",
+    "Zarguef est un site de vetements traditionnels qui garantit des livraisons ultra-rapides pour 99% des commandes, avec un service disponible 24h/24. Le site se démarque par ses prix compétitifs et maintient des stocks sur tous les produits, s'engageant à proposer les meilleurs tarifs du marché.",
   "testimonials.delivery": "livraison facile et instantanée",
   "testimonials.guarantee": "100% Sécurisé garanti",
   "testimonials.refund": "Remboursement garanti",

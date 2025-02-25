@@ -75,9 +75,9 @@ const Navbar = () => {
                   width={70}
                   className="-ml-4 lg:-ml-2 -mt-1"
                 />
-                <span className="sr-only">zerguef logo</span>
+                <span className="sr-only">Zarguef logo</span>
                 <span className="text-2xl font-extrabold -ml-3 text-white">
-                  Zerguef
+                  Zarguef
                 </span>
               </Link>
             </div>

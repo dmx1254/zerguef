@@ -82,6 +82,7 @@ export default {
   "home.allrights": "جميع الحقوق محفوظة.",
   "home.privacyPolicy": "سياسة الخصوصية",
   "home.termsandconditions": "شروط الاستخدام",
+  "home.followUs": "تابعنا",
 
   "contact.title": "اتصل بنا - نحن هنا لخدمتك!",
   "contact.description":
@@ -350,7 +351,7 @@ export default {
   "termandconditions.legal.company.status": "الحالة: شركة منتهية",
 
   "footer.satisfaction": "99.9% رضا",
-  "footer.satisfactionDesc": "أكثر من 10,000 عميل استفادوا من خدمات Zerguef.",
+  "footer.satisfactionDesc": "أكثر من 10,000 عميل استفادوا من خدمات Zarguef.",
   "footer.secure": "دفع آمن",
   "footer.secureDesc": "نظام دفع آمن 100٪، معتمد من قبل أكثر من 10,000 عميل!",
   "footer.fast": "توصيل سريع",
@@ -539,6 +540,8 @@ export default {
   "productDetail.materDet": "المادة",
   "productDetail.origDetail": "المنشأ",
   "productDetail.entretien": "العناية",
+  "productDetail.inStock": "متوفر",
+  "productDetail.epuise": "غير متوفر",
 
   "search.start": "ابدأ بحثك",
   "search.startDesc": "أدخل مصطلح البحث للعثور على المنتجات",
@@ -675,7 +678,7 @@ export default {
   "reviews.title-20": "أفضل خدمة!",
 
   "testimonials.desc":
-    "Zerguef هو موقع للملابس التقليدية يضمن توصيلًا فائق السرعة لـ 99٪ من الطلبات، مع خدمة متاحة على مدار الساعة. يتميز الموقع بأسعاره التنافسية ويحافظ على المخزون لجميع المنتجات، ملتزمًا بتقديم أفضل الأسعار في السوق.",
+    "Zarguef هو موقع للملابس التقليدية يضمن توصيلًا فائق السرعة لـ 99٪ من الطلبات، مع خدمة متاحة على مدار الساعة. يتميز الموقع بأسعاره التنافسية ويحافظ على المخزون لجميع المنتجات، ملتزمًا بتقديم أفضل الأسعار في السوق.",
   "testimonials.delivery": "توصيل سهل وفوري",
   "testimonials.guarantee": "ضمان أمان 100٪",
   "testimonials.refund": "ضمان استرجاع الأموال",

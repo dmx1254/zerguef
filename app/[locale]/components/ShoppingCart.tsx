@@ -407,17 +407,6 @@ export default function ShoppingCart() {
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
                 {tScope("cartPaymentMode")}
               </h2>
-              <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-green-50 rounded-lg border border-green-200">
-                <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                  {tScope("percentRemise")}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-sm">
-                    {tScope("remise")}
-                  </span>
-                  <span className="text-green-500 text-2xl">💳</span>
-                </div>
-              </div>
 
               <RadioGroup
                 value={selectedPayment}
@@ -485,6 +474,17 @@ export default function ShoppingCart() {
                   </div>
                 ))}
               </RadioGroup>
+              <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-green-50 rounded-lg border border-green-200">
+                <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                  {tScope("percentRemise")}
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-sm">
+                    {tScope("remise")}
+                  </span>
+                  <span className="text-green-500 text-2xl">💳</span>
+                </div>
+              </div>
             </Card>
 
             <Button
@@ -499,12 +499,6 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
-      {/* <DialogShipping
-        open={open}
-        setOpen={setOpen}
-        shippingRegion={shippingRegion}
-        setShippingRegion={setShippingRegion}
-      /> */}
     </div>
   );
 }

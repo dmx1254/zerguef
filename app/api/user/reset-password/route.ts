@@ -7,7 +7,7 @@ import { Resend } from "resend";
 
 connectDB();
 
-const resend = new Resend(process.env.RESEND_ZERGUEF_API_KEY);
+const resend = new Resend(process.env.RESEND_Zarguef_API_KEY);
 
 function generateCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();

@@ -83,6 +83,7 @@ export default {
   "home.allrights": "All rights reserved.",
   "home.privacyPolicy": "Privacy Policy",
   "home.termsandconditions": "Terms of Use",
+  "home.followUs": "Follow us",
 
   "contact.title": "Contact Us – We Are Here to Serve You!",
   "contact.description":
@@ -339,7 +340,7 @@ export default {
 
   "footer.satisfaction": "99.9% SATISFACTION",
   "footer.satisfactionDesc":
-    "More than 10,000 customers have benefited from Zerguef's services.",
+    "More than 10,000 customers have benefited from Zarguef's services.",
   "footer.secure": "SECURE PAYMENT",
   "footer.secureDesc":
     "100% secure payment system, approved by more than 10,000 customers!",
@@ -546,6 +547,8 @@ export default {
   "productDetail.materDet": "Material",
   "productDetail.origDetail": "Origin",
   "productDetail.entretien": "Care",
+  "productDetail.inStock": "In stock",
+  "productDetail.epuise": "Out of stock",
 
   "search.start": "Start your search",
   "search.startDesc": "Enter a search term to find products",
@@ -685,7 +688,7 @@ export default {
   "reviews.title-20": "Best service!",
 
   "testimonials.desc":
-    "Zerguef is a traditional clothing website that guarantees ultra-fast delivery for 99% of orders, with a 24/7 available service. The site stands out with its competitive prices and maintains stock on all products, committed to offering the best market rates.",
+    "Zarguef is a traditional clothing website that guarantees ultra-fast delivery for 99% of orders, with a 24/7 available service. The site stands out with its competitive prices and maintains stock on all products, committed to offering the best market rates.",
   "testimonials.delivery": "Easy and instant delivery",
   "testimonials.guarantee": "100% Secure guarantee",
   "testimonials.refund": "Guaranteed refund",

@@ -12,11 +12,20 @@ import { AiFillLike } from "react-icons/ai";
 import { MdSecurity, MdFlashOn } from "react-icons/md";
 import { IoArrowUndo } from "react-icons/io5";
 
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTiktok,
+  FaWhatsapp,
+  FaSnapchat,
+} from "react-icons/fa";
+
 import giropay from "../../../assets/iben/giropay.webp";
 import neosurf from "../../../assets/iben/neosurf.webp";
 import marocbank from "../../../assets/iben/marocbank.webp";
 import crd_agricole from "../../../assets/iben/crd_agricole.png";
 import sg from "../../../assets/iben/sg.png";
+import { BsThreads } from "react-icons/bs";
 
 const Footer = () => {
   const tScope = useScopedI18n("home");
@@ -47,28 +56,71 @@ const Footer = () => {
     },
   ];
 
-  const handleSignToNewLetter = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Format email invalide", {
-        style: {
-          color: "#ef4444",
-        },
-      });
-    } else {
-      setEmailLoading(true);
+  const socialLinks = [
+    {
+      icon: FaFacebookF,
+      href: "https://www.facebook.com/profile.php?id=61571382011435",
+      color: "text-blue-600",
+      size: 14,
+    },
+    {
+      icon: BsThreads,
+      href: "https://www.threads.net/@zarguef?hl=fr",
+      color: "text-gray-400",
+      size: 13,
+    },
 
-      setTimeout(() => {
-        setEmailLoading(false);
-      }, 1000);
+    {
+      icon: FaWhatsapp,
+      href: "https://wa.me/212660265244",
+      color: "text-green-600",
+      size: 14,
+    },
+    {
+      icon: FaTiktok,
+      href: "https://www.tiktok.com/@zarguef",
+      color: "text-gray-500",
+      size: 13,
+    },
 
-      toast.success("Votre email a été bien ajouté", {
-        style: {
-          color: "#22c55e",
-        },
-      });
-    }
-  };
+    {
+      icon: FaInstagram,
+      href: "https://www.instagram.com/zarguef/",
+      color: "text-[#E1306C]",
+      size: 13,
+    },
+    {
+      icon: FaSnapchat,
+      href: "https://www.snapchat.com/add/zarguef.com",
+      color: "text-yellow-500",
+      size: 13,
+    },
+  ];
+
+  // const handleSignToNewLetter = () => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!emailRegex.test(email)) {
+  //     toast.error("Format email invalide", {
+  //       style: {
+  //         color: "#ef4444",
+  //       },
+  //     });
+  //   } else {
+  //     setEmailLoading(true);
+  //     new Promise((resolve) =>
+  //       setTimeout(() => {
+  //         setEmailLoading(false);
+  //         resolve(undefined);
+  //       }, 1000)
+  //     );
+
+  //     toast.success("Votre email a été bien ajouté", {
+  //       style: {
+  //         color: "#22c55e",
+  //       },
+  //     });
+  //   }
+  // };
 
   const brands = [
     { name: tScope4("brands.visa"), logo: "/visa.png" },
@@ -244,7 +296,7 @@ const Footer = () => {
           <div className="flex items-center gap-4 mt-4">
             <div className="flex flex-col md:flex-row justify-between items-center gap-1">
               <p className="text-sm text-gray-400">
-                © 2024 Zerguef. {tScope("allrights")}
+                © 2024 Zarguef. {tScope("allrights")}
               </p>
 
               <Link
@@ -291,13 +343,7 @@ const Footer = () => {
               alt="Giropay"
               className="object-cover"
             />
-            {/* <Image
-              src={marocbank}
-              width={100}
-              height={50}
-              alt="Marocco bank"
-              className="object-cover"
-            /> */}
+
             <Image
               src="/paymentfoot2.png"
               width={260}
@@ -305,22 +351,23 @@ const Footer = () => {
               alt="Marocco bank"
               className="object-cover"
             />
-
-            {/* <Image
-              src={crd_agricole}
-              width={120}
-              height={60}
-              alt="Marocco bank"
-              className="object-cover"
-            />
-            <Image
-              src={sg}
-              width={100}
-              height={50}
-              alt="Marocco bank"
-              className="object-cover"
-            /> */}
           </div>
+        </div>
+        <div className="flex flex-col items-center gap-4">
+          <span className="text-white font-bold">{tScope("followUs")}</span>
+        <div className="flex items-center justify-center gap-4 pb-6">
+          {socialLinks.map((social, index) => (
+            <Link
+              key={index}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center justify-center p-1.5 rounded-full border-[2px] bg-[#363A3D] border-[#45494e] ${social.color} hover:opacity-80`}
+            >
+              <social.icon size={social.size} />
+            </Link>
+          ))}
+        </div>
         </div>
       </footer>
     )

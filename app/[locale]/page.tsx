@@ -106,7 +106,7 @@ const HeroSection = () => {
       </div>
       <div className="relative text-center text-white space-y-8 px-4 max-w-4xl mx-auto">
         <h1 className="text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
-          Zerguef
+          Zarguef
         </h1>
         <p className="text-2xl max-w-2xl mx-auto font-light">
           {tScope("desc")}
@@ -157,7 +157,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card
-      className="group w-full md:w-[200px] overflow-hidden bg-white hover:shadow-xl transition-all duration-300 border-0"
+      className="group w-full md:w-[220px] overflow-hidden bg-white hover:shadow-xl transition-all duration-300 border-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -169,7 +169,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               alt={product.name}
               width={200}
               height={200}
-              className={`object-cover w-full md:w-[200px] h-[200px] transition-transform duration-700 ${
+              className={`object-cover w-full md:w-[220px] h-[200px] transition-transform duration-700 ${
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
@@ -193,7 +193,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.description}
         </CardDescription>
 
-        <div className="flex items-end justify-between">
+        <div className="flex items-end gap-4 justify-between">
           <div>
             {product.discount ? (
               <div className="space-y-1">
@@ -350,7 +350,7 @@ export default function Home() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Collections */}
-        <section className="py-24">
+        {/* <section className="py-24">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
               {tScope("catTitle")}
@@ -360,16 +360,14 @@ export default function Home() {
             </p>
           </div>
           <CategoryShowcase categories={categoriesClothes} />
-        </section>
-        <section className="pb-24">
-          <Testimonials />
-        </section>
+        </section> */}
+
         {/* Promo Banner */}
-        <section className="pb-24">
+        {/* <section className="pb-24">
           <PromoBanner />
-        </section>
+        </section> */}
         {/* Featured Products */}
-        <section className="pb-24">
+        <section className="py-24">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
               {tScope("productTitle")}
@@ -409,6 +407,9 @@ export default function Home() {
               Voir plus
             </button>
           )}
+        </section>
+        <section className="py-12">
+          <Testimonials />
         </section>
       </div>
     </main>

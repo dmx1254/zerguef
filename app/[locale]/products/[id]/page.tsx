@@ -91,6 +91,8 @@ export default function ProductPage() {
     refetchOnMount: true,
   });
 
+  // console.log(product);
+
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -161,6 +163,19 @@ export default function ProductPage() {
                 />
               </button>
             </div>
+            <div className="mt-2 flex items-center">
+              <span
+                className={`text-sm font-medium px-2 py-1 rounded-md ${
+                  product.stock && product.stock > 0
+                    ? "text-green-600 p-4 border border-gray-300"
+                    : "bg-red-50 text-red-700"
+                }`}
+              >
+                {product.stock && product.stock > 0
+                  ? tScope("inStock")
+                  : tScope("epuise")}
+              </span>
+            </div>
           </div>
 
           {/* Section Information */}
@@ -197,7 +212,7 @@ export default function ProductPage() {
             </div>
 
             {/* Sélection Taille - Conditionnelle */}
-            {showSizesAndCare && product.details.sizes && (
+            {/* {showSizesAndCare && product.details.sizes && (
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold">
@@ -222,7 +237,7 @@ export default function ProductPage() {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
 
             {product?.category === "parfums" && (
               <div className="grid grid-cols-4 gap-2">
@@ -270,7 +285,7 @@ export default function ProductPage() {
             {/* Bouton Ajouter au Panier */}
             <Button
               size="lg"
-              className="w-full text-lg py-6 rounded-xl bg-yellow-600 hover:bg-yellow-700 transition-colors"
+              className="w-full text-lg py-6 rounded-xl bg-[#18191A] hover:opacity-80 transition-colors"
               onClick={handleAddToCart}
               disabled={showSizesAndCare && !selectedSize}
             >

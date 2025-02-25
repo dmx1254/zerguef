@@ -5,15 +5,12 @@ import Link from "next/link";
 import {
   FaFacebookF,
   FaInstagram,
-  FaSkype,
   FaTiktok,
-  FaDiscord,
   FaWhatsapp,
-  FaTelegramPlane,
+  FaSnapchat,
 } from "react-icons/fa";
 import { BsThreads } from "react-icons/bs";
 import clsx from "clsx";
-import { useScopedI18n } from "@/locales/client";
 import {
   Popover,
   PopoverContent,
@@ -24,52 +21,43 @@ const SocialMediaDropdown = ({ isSource = false }) => {
   const socialLinks = [
     {
       icon: FaFacebookF,
-      href: "https://www.facebook.com/ibendouma1",
+      href: "https://www.facebook.com/profile.php?id=61571382011435",
       color: "text-blue-600",
       size: 14,
     },
     {
       icon: BsThreads,
-      href: "https://www.threads.net/@ibendouma_com?hl=fr",
+      href: "https://www.threads.net/@zarguef?hl=fr",
       color: "text-gray-400",
       size: 13,
     },
-    {
-      icon: FaTelegramPlane,
-      href: "https://t.me/ibendouma",
-      color: "text-sky-600",
-      size: 13,
-    },
+   
     {
       icon: FaWhatsapp,
-      href: "https://wa.me/971529087560",
+      href: "https://wa.me/212660265244",
       color: "text-green-600",
       size: 14,
     },
     {
       icon: FaTiktok,
-      href: "https://www.tiktok.com/@ibendouma.com",
+      href: "https://www.tiktok.com/@zarguef",
       color: "text-gray-500",
       size: 13,
     },
-    {
-      icon: FaDiscord,
-      href: "https://discordapp.com/users/369803701725954048/",
-      color: "text-violet-500",
-      size: 13,
-    },
+   
     {
       icon: FaInstagram,
-      href: "https://www.instagram.com/ibendouma_com/",
+      href: "https://www.instagram.com/zarguef/",
       color: "text-[#E1306C]",
       size: 13,
     },
     {
-      icon: FaSkype,
-      href: "skype:bendouma.ilyass?chat",
-      color: "text-blue-600",
-      size: 14,
+      icon: FaSnapchat ,
+      href: "https://www.snapchat.com/add/zarguef.com",
+      color: "text-yellow-500",
+      size: 13,
     },
+ 
   ];
 
   return (
