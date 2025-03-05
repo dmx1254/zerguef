@@ -68,6 +68,7 @@ export default {
   "home.colCaf": "Caftans",
   "home.colParf": "Parfums",
   "home.colOr": "Folar",
+  "home.mikhwar-emarati": "Mikhwar emarati",
 
   "home.customerServiceTitle": "Service Client",
   "home.customerServiceFaq": "FAQ",
@@ -84,6 +85,7 @@ export default {
   "home.privacyPolicy": "Politique de confidentialité",
   "home.termsandconditions": "Conditions d'utilisation",
   "home.followUs": "Suivez-nous",
+  "home.productNotFound": "Pas de produit disponible",
 
   "contact.title": "Contactez-nous – Nous sommes là pour vous servir !",
   "contact.description":
@@ -620,6 +622,7 @@ export default {
   "cart.freeDel": "Livraison GRATUITE sur Casablanca !",
   "cart.remise": "Remise de 5% sur le virement bancaire",
   "cart.percentRemise": "5%",
+  "cart.whatsapp": "Contactez-nous par Whatsapp",
 
   "notFound.title": "Page non trouvée",
   "notFound.subtitle": "Oups ! La page que vous recherchez n'existe pas.",

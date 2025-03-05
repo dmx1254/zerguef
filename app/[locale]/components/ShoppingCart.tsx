@@ -70,10 +70,27 @@ export default function ShoppingCart() {
   const [shipping, setShipping] = useState<number>(0);
   const [shippingRegion, setShippingRegion] = useState<string>("casablanca");
   const [open, setOpen] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(totalAmount + shipping);
 
-  const total = totalAmount + shipping;
+  // const total = totalAmount + shipping;
 
-  // console.log(items);
+  // console.log(selectedPayment);
+
+  useEffect(() => {
+    if (selectedPayment === "virement") {
+      const discount = ((totalAmount * 5) / 100).toFixed(2);
+      const total = Number(totalAmount + shipping - Number(discount)).toFixed(
+        2
+      );
+      setTotal(Number(total));
+    } else {
+      setTotal(totalAmount + shipping);
+    }
+  }, [totalAmount, shipping, selectedPayment]);
+
+  // console.log(total);
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (!shippingRegion || shippingRegion === "casablanca") {
@@ -496,6 +513,22 @@ export default function ShoppingCart() {
                 ? tScope("cartPayLoading")
                 : `${tScope("cartToPay")} ${formatPrice(total)}`}
             </Button>
+            <div className="flex items-center gap-2">
+              <p>{tScope("whatsapp")}</p>
+              <Link
+                href="https://wa.me/212660265244"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image
+                  width={24}
+                  height={24}
+                  className="object-cover"
+                  src="/whatsapp.png"
+                  alt="zerguef whatsapp"
+                />
+              </Link>
+            </div>
           </div>
         </div>
       </div>

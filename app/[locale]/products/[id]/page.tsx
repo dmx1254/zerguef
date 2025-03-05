@@ -167,12 +167,12 @@ export default function ProductPage() {
               <span
                 className={`text-sm font-medium px-2 py-1 rounded-md ${
                   product.stock && product.stock > 0
-                    ? "text-green-600 p-4 border border-gray-300"
+                    ? "text-inherit p-4 border border-gray-300"
                     : "bg-red-50 text-red-700"
                 }`}
               >
                 {product.stock && product.stock > 0
-                  ? tScope("inStock")
+                  ? `${product.stock} ${tScope("inStock")}`
                   : tScope("epuise")}
               </span>
             </div>

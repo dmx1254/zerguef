@@ -68,6 +68,7 @@ export default {
   "home.colCaf": "Caftans",
   "home.colParf": "Perfumes",
   "home.colOr": "Folar",
+  "home.mikhwar-emarati": "Emirati Mikhwar",
 
   "home.customerServiceTitle": "Customer Service",
   "home.customerServiceFaq": "FAQ",
@@ -84,6 +85,7 @@ export default {
   "home.privacyPolicy": "Privacy Policy",
   "home.termsandconditions": "Terms of Use",
   "home.followUs": "Follow us",
+  "home.productNotFound": "No product available",
 
   "contact.title": "Contact Us – We Are Here to Serve You!",
   "contact.description":
@@ -613,6 +615,7 @@ export default {
   "cart.freeDel": "FREE delivery in Casablanca!",
   "cart.remise": "5% discount on bank transfer",
   "cart.percentRemise": "5%",
+  "cart.whatsapp": "Contact us via WhatsApp",
 
   "notFound.title": "Page not found",
   "notFound.subtitle": "Oops! The page you're looking for doesn't exist.",

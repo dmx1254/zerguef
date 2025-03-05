@@ -104,8 +104,8 @@ const HeroSection = () => {
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
       </div>
-      <div className="relative text-center text-white space-y-8 px-4 max-w-4xl mx-auto">
-        <h1 className="text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+      {/* <div className="relative text-center text-white space-y-8 px-4 max-w-4xl mx-auto">
+        <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
           Zarguef
         </h1>
         <p className="text-2xl max-w-2xl mx-auto font-light">
@@ -120,7 +120,7 @@ const HeroSection = () => {
             <Link href="/categories/djellabas">{tScope("descBtn")}</Link>
           </Button>
         </div>
-      </div>
+      </div> */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/50 to-transparent" />
     </section>
   );
@@ -378,11 +378,15 @@ export default function Home() {
           </div>
           {isLoadingProducts ? (
             <ProductSkeletonGrid />
-          ) : (
+          ) : allProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {allProducts?.map((product: Product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-xl">{tScope("productNotFound")}</p>
             </div>
           )}
 
@@ -400,12 +404,14 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <button
-              className="flex items-center justify-center mx-auto my-8 bg-gradient-to-r from-purple-600 to-blue-600 text-sm text-white p-3 rounded"
-              onClick={handleLoadMore}
-            >
-              Voir plus
-            </button>
+            allProducts.length > 0 && (
+              <button
+                className="flex items-center justify-center mx-auto my-8 bg-gradient-to-r from-purple-600 to-blue-600 text-sm text-white p-3 rounded"
+                onClick={handleLoadMore}
+              >
+                Voir plus
+              </button>
+            )
           )}
         </section>
         <section className="py-12">

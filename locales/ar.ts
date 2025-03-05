@@ -67,6 +67,7 @@ export default {
   "home.colCaf": "قفاطين",
   "home.colParf": "عطور",
   "home.colOr": "فولار",
+  "home.mikhwar-emarati": "مخور إماراتي",
 
   "home.customerServiceTitle": "خدمة العملاء",
   "home.customerServiceFaq": "الأسئلة الشائعة",
@@ -83,6 +84,7 @@ export default {
   "home.privacyPolicy": "سياسة الخصوصية",
   "home.termsandconditions": "شروط الاستخدام",
   "home.followUs": "تابعنا",
+  "home.productNotFound": "لا يوجد منتج متاح",
 
   "contact.title": "اتصل بنا - نحن هنا لخدمتك!",
   "contact.description":
@@ -606,6 +608,7 @@ export default {
   "cart.freeDel": "توصيل مجاني في الدار البيضاء!",
   "cart.remise": "خصم 5٪ على التحويل المصرفي",
   "cart.percentRemise": "5٪",
+  "cart.whatsapp": "تواصل معنا عبر واتساب",
 
   "notFound.title": "الصفحة غير موجودة",
   "notFound.subtitle": "عذرًا! الصفحة التي تبحث عنها غير موجودة.",
