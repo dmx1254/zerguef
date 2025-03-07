@@ -319,40 +319,55 @@ export const categoriesClothes = [
     name: "Mikhwar emarati",
     slug: "mikhwar-emarati",
     icon: mikhwar,
+    lnk: "mikhwar-emarati",
   },
   {
     id: "A6WD",
     name: "Abaya femme",
     slug: "abaya-femme",
     icon: abayafemme,
+    lnk: "abaya-femme",
   },
   {
     id: "P3XJ",
     name: "Parfums",
     slug: "parfums",
     icon: parfums,
+    lnk: "parfums",
   },
   {
     id: "F5OD",
-    name: "Djellabas",
-    slug: "djellabas",
+    name: "Djellabas femme",
+    slug: "djellabas-femme",
     icon: djel,
+    lnk: "fm",
+  },
+  {
+    id: "JQ3O",
+    name: "Djellabas homme",
+    slug: "djellabas-homme",
+    icon: djel,
+    lnk: "hm",
+  },
+  {
+    id: "JQ3O",
+    name: "Djellabas enfant",
+    slug: "djellabas-enfant",
+    icon: djel,
+    lnk: "et",
   },
   {
     id: "H6XL",
     name: "Caftans",
     slug: "caftans",
     icon: caftan,
+    lnk: "caftans",
   },
   {
     id: "T8KW",
     name: "Folar",
     slug: "folar",
     icon: or,
+    lnk: "folar",
   },
 ];
-
-caftan;
-abayafemme;
-djel;
-parfums;

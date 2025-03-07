@@ -5,7 +5,7 @@ import LanguageAndCurrency from "./LanguageAndCurrency";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { CiUser } from "react-icons/ci";
+import { LuCircleUserRound } from "react-icons/lu";
 import { useScopedI18n } from "@/locales/client";
 
 const MobileTopMenus = () => {
@@ -29,7 +29,7 @@ const MobileTopMenus = () => {
             href="/signin"
             className="flex items-center gap-1 p-3 transition-colors cursor-pointer rounded-[10px] hover:shadow-link text-white hover:text-yellow-600"
           >
-            <CiUser size={24} className="-mt-1" />
+            <LuCircleUserRound  size={24} className="-mt-1" />
             <span className="hidden sm:flex text-base">
               {tScope("account")}
             </span>

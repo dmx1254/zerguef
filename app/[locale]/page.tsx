@@ -157,13 +157,13 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card
-      className="group w-full md:w-[220px] overflow-hidden bg-white hover:shadow-xl transition-all duration-300 border-0"
+      className="group w-full md:w-[220px] overflow-hidden bg-[#2a2d30] hover:shadow-xl transition-all duration-300 border-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link href={`/products/${product._id}`}>
         <CardHeader className="p-0 relative">
-          <div className="w-full relative overflow-hidden bg-gray-100">
+          <div className="w-full relative overflow-hidden bg-blue-100">
             <Image
               src={product.image}
               alt={product.name}
@@ -182,14 +182,12 @@ const ProductCard = ({ product }: { product: Product }) => {
         </CardHeader>
       </Link>
 
-      <CardContent className="p-6">
-        <Link href={`/products/${product._id}`}>
-          <CardTitle className="mb-2 hover:text-blue-600 line-clamp-1 transition-colors">
-            {product.name}
-          </CardTitle>
-        </Link>
+      <Link className="flex flex-col items-start p-6" href={`/products/${product._id}`}>
+        <CardTitle className="mb-2 text-gray-300 hover:text-gray-500 line-clamp-1 transition-colors">
+          {product.name}
+        </CardTitle>
 
-        <CardDescription className="text-sm mb-4 line-clamp-2 h-10">
+        <CardDescription className="text-sm mb-4 text-gray-300 line-clamp-2 h-10">
           {product.description}
         </CardDescription>
 
@@ -200,7 +198,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 <p className="text-2xl font-bold text-blue-600">
                   {formatPrice(discountedPrice)}
                 </p>
-                <p className="text-sm text-gray-500 line-through">
+                <p className="text-sm text-gray-400 line-through">
                   {formatPrice(product.price)}
                 </p>
               </div>
@@ -232,7 +230,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             <ShoppingBag className="h-4 w-4" />
           </Button>
         </div>
-      </CardContent>
+      </Link>
     </Card>
   );
 };

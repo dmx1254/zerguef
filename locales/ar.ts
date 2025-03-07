@@ -19,6 +19,7 @@ export default {
   "navbar.djellabas": "جلابيات",
   "navbar.caftans": "قفاطين",
   "navbar.or": "فولار",
+  "navbar.folar": "فولار",
 
   "navbar.cartHoverTile": "المنتجات",
   "navbar.cartHoverBtn": "الذهاب إلى السلة",
@@ -542,7 +543,7 @@ export default {
   "productDetail.materDet": "المادة",
   "productDetail.origDetail": "المنشأ",
   "productDetail.entretien": "العناية",
-  "productDetail.inStock": "متوفر",
+  "productDetail.inStock": "المنتج (المنتجات) في المخزون",
   "productDetail.epuise": "غير متوفر",
 
   "search.start": "ابدأ بحثك",

@@ -4,11 +4,14 @@ import Image from "next/image";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useScopedI18n } from "@/locales/client";
 import Link from "next/link";
+import { categoriesClothes } from "@/lib/utils";
+import { useState } from "react";
 
 const SheetMenu = () => {
   const tScope = useScopedI18n("navbar");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <button
           aria-label="triggering menu opening"
@@ -29,19 +32,26 @@ const SheetMenu = () => {
         side="bottom"
       >
         <div className="w-full flex flex-col items-center gap-3">
-          {[
-            { lnk: "djellabas", title: tScope("djel") },
-            { lnk: "parfums", title: tScope("parfum") },
-            { lnk: "caftans", title: tScope("caf") },
-          ].map((item) => (
+          {categoriesClothes.map((item) => (
             <Link
-              key={item.lnk}
-              href={`/categories/${item.lnk}`}
+              key={item.id}
+              href={`/categories/${item.slug}`}
               className="outline-none w-full text-center rounded-[10px] text-sm cursor-pointer bg-[#EDEDED] p-2"
-              // onClick={() => handleActiveJeu(item.slug)}
+              onClick={() => setIsOpen(false)}
               aria-label="category"
             >
-              {item.title}
+              {tScope(
+                item.lnk as
+                  | "mikhwar-emarati"
+                  | "abaya-femme"
+                  | "parfums"
+                  | "djellabas"
+                  | "caftans"
+                  | "folar"
+                  | "fm"
+                  | "hm"
+                  | "et"
+              )}
             </Link>
           ))}
         </div>

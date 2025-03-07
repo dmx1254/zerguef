@@ -11,6 +11,7 @@ import { formatPrice } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useScopedI18n } from "@/locales/client";
 import { toast } from "sonner";
+import clsx from "clsx";
 
 interface ProductDetails {
   material?: string;
@@ -165,15 +166,19 @@ export default function ProductPage() {
             </div>
             <div className="mt-2 flex items-center">
               <span
-                className={`text-sm font-medium px-2 py-1 rounded-md ${
+                className={`text-sm font-medium px-2 py-1 ${
                   product.stock && product.stock > 0
-                    ? "text-inherit p-4 border border-gray-300"
+                    ? "text-inherit p-4"
                     : "bg-red-50 text-red-700"
                 }`}
               >
-                {product.stock && product.stock > 0
-                  ? `${product.stock} ${tScope("inStock")}`
-                  : tScope("epuise")}
+                {product.stock && product.stock > 0 ? (
+                  <span>
+                    <strong>{product.stock}</strong> {tScope("inStock")}{" "}
+                  </span>
+                ) : (
+                  tScope("epuise")
+                )}
               </span>
             </div>
           </div>
@@ -310,7 +315,13 @@ export default function ProductPage() {
                     </div>
                   )}
                   {product.details.origin && (
-                    <div className="flex justify-between border-b border-gray-200 pb-2">
+                    <div
+                      className={clsx(
+                        `flex justify-between ${
+                          product.details.care && "border-b"
+                        } border-gray-200 pb-2`
+                      )}
+                    >
                       <span className="text-gray-600">
                         {tScope("origDetail")}
                       </span>

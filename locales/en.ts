@@ -19,6 +19,7 @@ export default {
   "navbar.djellabas": "Djellabas",
   "navbar.caftans": "Caftans",
   "navbar.or": "Folar",
+  "navbar.folar": "Folar",
 
   "navbar.cartHoverTile": "Products",
   "navbar.cartHoverBtn": "Go to cart",
@@ -549,7 +550,7 @@ export default {
   "productDetail.materDet": "Material",
   "productDetail.origDetail": "Origin",
   "productDetail.entretien": "Care",
-  "productDetail.inStock": "In stock",
+  "productDetail.inStock": "Product(s) In stock",
   "productDetail.epuise": "Out of stock",
 
   "search.start": "Start your search",

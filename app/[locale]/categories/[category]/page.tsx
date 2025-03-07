@@ -130,7 +130,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card
-      className="group overflow-hidden font-poppins bg-white border-0 shadow-sm hover:shadow-md transition-shadow duration-300"
+      className="group overflow-hidden font-poppins bg-[#18191A] border-0 shadow-sm hover:shadow-md transition-shadow duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -170,11 +170,11 @@ const ProductCard = ({ product }: { product: Product }) => {
 
       <CardContent className="p-6">
         <Link href={`/products/${product._id}`}>
-          <CardTitle className="mb-2 line-clamp-1 hover:text-blue-600 transition-colors">
+          <CardTitle className="mb-2 text-gray-300 line-clamp-1 hover:text-gray-500 transition-colors">
             {product.name}
           </CardTitle>
         </Link>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2 h-10 overflow-hidden">
+        <p className="text-gray-300 text-sm mb-4 line-clamp-2 h-10 overflow-hidden">
           {product.description}
         </p>
         <div className="flex items-center justify-between">
@@ -183,7 +183,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               <p className="text-2xl font-bold text-blue-600">
                 {formatPrice(product.price * (1 - product.discount / 100))}
               </p>
-              <p className="text-sm text-gray-500 line-through">
+              <p className="text-sm text-gray-400 line-through">
                 {formatPrice(product.price)}
               </p>
             </div>

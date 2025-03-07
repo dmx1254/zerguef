@@ -199,7 +199,7 @@ const Footer = () => {
           <div className="w-full bg-white p-6">
             <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-center gap-6 md:gap-12 bg-white">
               {/* About Us Section */}
-              <div className="md:w-[500px] bg-[#18191A] p-2 rounded h-52">
+              <div className="md:w-[500px] bg-[#18191A] p-2 rounded md:h-52">
                 <h3 className="text-white/80 font-bold mb-4 w-full">
                   {tScope2("whoWeAre")}
                 </h3>
@@ -209,7 +209,7 @@ const Footer = () => {
               </div>
 
               {/* Security Badges */}
-              <div className="max-md:w-full bg-[#18191A] p-2 md:p-4 rounded h-52">
+              <div className="max-md:w-full bg-[#18191A] p-2 md:p-4 rounded md:h-52">
                 <div className="flex max-md:w-full flex-row md:flex-col items-center justify-between md:justify-center gap-3 sm:gap-6">
                   <Image
                     src="/secure/ssl-shopper.svg"
@@ -235,7 +235,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="bg-[#18191A] w-full md:w-[220px] p-2 md:p-4 rounded h-52">
+              <div className="bg-[#18191A] w-full md:w-[220px] p-2 md:p-4 rounded md:h-52">
                 <h3 className="text-white/80 font-bold mb-4">
                   {tScope("colTitle")}
                 </h3>
@@ -254,7 +254,7 @@ const Footer = () => {
               </div>
 
               {/* Information */}
-              <div className="bg-[#18191A] w-full md:w-[220px] p-2 md:p-4 h-52 rounded">
+              <div className="bg-[#18191A] w-full md:w-[220px] p-2 md:p-4 md:h-52 rounded">
                 <h3 className="text-white/80 font-bold mb-4">
                   {tScope("customerServiceTitle")}
                 </h3>
@@ -358,7 +358,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-center gap-4">
-          <span className="text-white font-bold">{tScope("followUs")}</span>
+          <span className="text-gray-400 font-bold">{tScope("followUs")}</span>
           <div className="flex items-center justify-center gap-4 pb-6">
             {socialLinks.map((social, index) => (
               <Link
