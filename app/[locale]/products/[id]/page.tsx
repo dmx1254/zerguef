@@ -136,6 +136,7 @@ export default function ProductPage() {
       style: {
         color: "#22c55e",
       },
+      position: "top-right",
     });
   };
 
@@ -292,7 +293,6 @@ export default function ProductPage() {
               size="lg"
               className="w-full text-lg py-6 rounded-xl bg-[#18191A] hover:opacity-80 transition-colors"
               onClick={handleAddToCart}
-              disabled={showSizesAndCare && !selectedSize}
             >
               {tScope("addToCart")} • {formatPrice(product.price * quantity)}
             </Button>

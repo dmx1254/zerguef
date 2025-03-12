@@ -89,8 +89,7 @@ export default function ShoppingCart() {
   }, [totalAmount, shipping, selectedPayment]);
 
   // console.log(total);
-
-  useEffect(() => {}, []);
+  // console.log(items);
 
   useEffect(() => {
     if (!shippingRegion || shippingRegion === "casablanca") {
@@ -239,7 +238,7 @@ export default function ShoppingCart() {
             {items.map((item) => (
               <Card
                 key={item.id}
-                className="p-4 hover:shadow-lg transition-shadow duration-200 bg-white"
+                className="p-4 hover:shadow-lg transition-shadow duration-200 bg-[#2a2d30]"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-24 h-24 relative rounded-xl overflow-hidden shadow-md">
@@ -251,8 +250,10 @@ export default function ShoppingCart() {
                   </div>
 
                   <div className="flex-grow">
-                    <h3 className="font-semibold text-lg">{item.name}</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-semibold text-white/80 text-lg">
+                      {item.name}
+                    </h3>
+                    <p className="text-white/80">
                       {formatPrice(item.price)}
                       {item.size && ` • Taille: ${item.size}`}
                     </p>
@@ -296,7 +297,7 @@ export default function ShoppingCart() {
                   </div>
 
                   <div className="text-right">
-                    <p className="font-semibold text-lg bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
+                    <p className="font-bold text-lg text-white/80">
                       {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>
@@ -330,16 +331,11 @@ export default function ShoppingCart() {
                   className="gap-6 cursor-pointer"
                 >
                   <div
-                    className="flex items-center space-x-2 p-4 bg-white rounded-[12px] relative overflow-hidden"
-                    style={{
-                      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-                      border:
-                        shippingRegion === "casablanca"
-                          ? "2px solid #3b82f6"
-                          : "",
-                      background:
-                        shippingRegion === "casablanca" ? "#dbeafe" : "",
-                    }}
+                    className={`flex items-center space-x-2 p-4 border-2 border-transparent rounded-[12px] relative overflow-hidden ${
+                      shippingRegion === "casablanca"
+                        ? "border-[#3a7979] bg-[#3a3b3b] text-white/80"
+                        : "bg-[#5e5f5f] text-white/80"
+                    }`}
                     onClick={() => setShippingRegion("casablanca")}
                   >
                     {/* Badge Livraison Gratuite */}
@@ -347,7 +343,11 @@ export default function ShoppingCart() {
                       {tScope("free")}
                     </div>
 
-                    <RadioGroupItem value="casablanca" id="casablanca" />
+                    <RadioGroupItem
+                      value="casablanca"
+                      id="casablanca"
+                      className="border border-white/20"
+                    />
                     <Label htmlFor="casablanca" className="flex flex-col">
                       <span className="font-medium flex items-center gap-2">
                         {tScope("dialogCa")}
@@ -357,36 +357,31 @@ export default function ShoppingCart() {
                         <span className="text-sm font-semibold text-green-600">
                           {tScope("freeDel")} ✅
                         </span>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-white/80">
                           {tScope("dialogCaHours")}
                         </span>
                       </div>
                     </Label>
                   </div>
 
-                  {/* Le reste du code reste inchangé */}
                   <div
-                    className="flex items-center space-x-2 p-4 bg-white rounded-[12px]"
-                    style={{
-                      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-                      border:
-                        shippingRegion === "hors-casablanca"
-                          ? "2px solid #3b82f6"
-                          : "",
-                      background:
-                        shippingRegion === "hors-casablanca" ? "#dbeafe" : "",
-                    }}
+                    className={`flex items-center space-x-2 p-4 border-2 border-transparent rounded-[12px] ${
+                      shippingRegion === "hors-casablanca"
+                        ? "border-[#3a7979] bg-[#3a3b3b] text-white/80"
+                        : "bg-[#5e5f5f] text-white/80"
+                    }`}
                     onClick={() => setShippingRegion("hors-casablanca")}
                   >
                     <RadioGroupItem
                       value="hors-casablanca"
                       id="hors-casablanca"
+                      className="border border-white/20"
                     />
                     <Label htmlFor="hors-casablanca" className="flex flex-col">
                       <span className="font-medium">
                         {tScope("dialogHorsCa")}
                       </span>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-white/80">
                         {tScope("dialogHorsCaHours")}
                       </span>
                     </Label>
@@ -397,30 +392,30 @@ export default function ShoppingCart() {
           </div>
 
           <div className="space-y-6">
-            <Card className="p-6 bg-white shadow-lg border-0">
+            <Card className="p-6 bg-[#2a2d30] shadow-lg border-0">
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
                 {tScope("resumeCart")}
               </h2>
 
               <div className="space-y-3">
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-white/80">
                   <span>{tScope("cartSous")}</span>
                   <span>{subtotal}</span>
                 </div>
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-white/80">
                   <span>{tScope("cartDelivery")}</span>
                   <span>{formatPrice(shipping)}</span>
                 </div>
-                <div className="border-t pt-3 flex justify-between font-semibold text-lg">
+                <div className="border-t pt-3 flex text-white/80 justify-between font-semibold text-lg">
                   <span>{tScope("cartTotal")}</span>
-                  <span className="bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
+                  <span className="bg-gradient-to-r text-white/80 font-extrabold bg-clip-text">
                     {formatPrice(total)}
                   </span>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 bg-white shadow-lg border-0">
+            <Card className="p-6 bg-[#2a2d30] text-gray-400 shadow-lg border-0">
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
                 {tScope("cartPaymentMode")}
               </h2>
@@ -433,10 +428,10 @@ export default function ShoppingCart() {
                 {paymentMethods.map((method) => (
                   <div
                     key={method.id}
-                    className={`relative rounded-xl border-2 ${
+                    className={`relative bg-[#2a2d30] rounded-xl border ${
                       selectedPayment === method.id
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-200 hover:border-blue-200"
+                        ? "border-[#587070] bg-[#3a3b3b] border-2"
+                        : "border-gray-600 hover:border-blue-200"
                     } transition-colors duration-200 p-4`}
                   >
                     <div className="flex items-center space-x-3">
@@ -445,7 +440,15 @@ export default function ShoppingCart() {
                         className="flex flex-col items-start gap-3 cursor-pointer"
                       >
                         <div className="flex items-center gap-2">
-                          <RadioGroupItem value={method.id} id={method.id} />
+                          <RadioGroupItem
+                            value={method.id}
+                            id={method.id}
+                            className={`border ${
+                              selectedPayment === method.id
+                                ? "border-gray-600"
+                                : "border-white/60"
+                            } `}
+                          />
 
                           <div className={`p-2 rounded-lg ${method.bgColor}`}>
                             {method.icon && (
@@ -463,10 +466,10 @@ export default function ShoppingCart() {
                           </div>
                         </div>
                         <div className="flex flex-col items-start gap-2">
-                          <div className="font-medium text-gray-900">
+                          <div className="font-medium text-white/80">
                             {method.name}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-gray-400">
                             {method.description}
                           </div>
                         </div>
@@ -491,12 +494,12 @@ export default function ShoppingCart() {
                   </div>
                 ))}
               </RadioGroup>
-              <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-[#2c2e30] rounded-lg border border-green-200">
                 <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
                   {tScope("percentRemise")}
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-sm">
+                  <span className="font-medium text-sm text-white/80">
                     {tScope("remise")}
                   </span>
                   <span className="text-green-500 text-2xl">💳</span>

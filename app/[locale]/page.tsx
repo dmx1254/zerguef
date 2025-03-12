@@ -169,7 +169,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               alt={product.name}
               width={200}
               height={200}
-              className={`object-cover w-full md:w-[220px] h-[200px] transition-transform duration-700 ${
+              className={`w-full md:w-[220px] h-[200px] transition-transform duration-700 ${
                 isHovered ? "scale-110" : "scale-100"
               }`}
             />
@@ -182,7 +182,10 @@ const ProductCard = ({ product }: { product: Product }) => {
         </CardHeader>
       </Link>
 
-      <Link className="flex flex-col items-start p-6" href={`/products/${product._id}`}>
+      <Link
+        className="flex flex-col items-start p-6"
+        href={`/products/${product._id}`}
+      >
         <CardTitle className="mb-2 text-gray-300 hover:text-gray-500 line-clamp-1 transition-colors">
           {product.name}
         </CardTitle>
@@ -212,7 +215,9 @@ const ProductCard = ({ product }: { product: Product }) => {
             size="sm"
             variant="outline"
             className="rounded-full"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               addItem({
                 id: product._id,
                 name: product.name,
@@ -224,6 +229,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 style: {
                   color: "#22c55e",
                 },
+                position: "top-right",
               });
             }}
           >
@@ -235,65 +241,65 @@ const ProductCard = ({ product }: { product: Product }) => {
   );
 };
 
-const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
-  const tScope = useScopedI18n("navbar");
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
-      {categories.map((category) => (
-        <Link
-          key={category.id}
-          href={`/categories/${category.slug}`}
-          className="flex flex-col items-center gap-2"
-        >
-          <Image
-            src={category.icon}
-            alt={category.name}
-            width={48}
-            height={48}
-          />
-          <h3 className="text-base font-bold mb-3">
-            {tScope(
-              category.slug as
-                | "abaya-femme"
-                | "parfums"
-                | "djellabas"
-                | "caftans"
-                | "or"
-                | "mikhwar-emarati"
-            )}
-          </h3>
-        </Link>
-      ))}
-    </div>
-  );
-};
+// const CategoryShowcase = ({ categories }: { categories: Category[] }) => {
+//   const tScope = useScopedI18n("navbar");
+//   return (
+//     <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
+//       {categories.map((category) => (
+//         <Link
+//           key={category.id}
+//           href={`/categories/${category.slug}`}
+//           className="flex flex-col items-center gap-2"
+//         >
+//           <Image
+//             src={category.icon}
+//             alt={category.name}
+//             width={48}
+//             height={48}
+//           />
+//           <h3 className="text-base font-bold mb-3">
+//             {tScope(
+//               category.slug as
+//                 | "abaya-femme"
+//                 | "parfums"
+//                 | "djellabas"
+//                 | "caftans"
+//                 | "or"
+//                 | "mikhwar-emarati"
+//             )}
+//           </h3>
+//         </Link>
+//       ))}
+//     </div>
+//   );
+// };
 
-const PromoBanner = () => {
-  const tScope = useScopedI18n("home");
-  return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600">
-      <div className="absolute inset-0 bg-grid-white/10" />
-      <div className="relative px-8 py-12 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="text-white space-y-4 text-center md:text-left">
-          <h3 className="text-3xl font-bold">{tScope("offerTitle")}</h3>
-          <p className="text-lg text-white/90">
-            {tScope("offerDesc", { item: -5 })}
-          </p>
-        </div>
-        <Button
-          asChild
-          size="lg"
-          className="bg-white text-blue-600 hover:bg-white/90"
-        >
-          <Link href="/categories/djellabas">
-            {tScope("offerBtn")}
-            <Tag className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-    </div>
-  );
-};
+// const PromoBanner = () => {
+//   const tScope = useScopedI18n("home");
+//   return (
+//     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600">
+//       <div className="absolute inset-0 bg-grid-white/10" />
+//       <div className="relative px-8 py-12 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
+//         <div className="text-white space-y-4 text-center md:text-left">
+//           <h3 className="text-3xl font-bold">{tScope("offerTitle")}</h3>
+//           <p className="text-lg text-white/90">
+//             {tScope("offerDesc", { item: -5 })}
+//           </p>
+//         </div>
+//         <Button
+//           asChild
+//           size="lg"
+//           className="bg-white text-blue-600 hover:bg-white/90"
+//         >
+//           <Link href="/categories/djellabas">
+//             {tScope("offerBtn")}
+//             <Tag className="ml-2 h-4 w-4" />
+//           </Link>
+//         </Button>
+//       </div>
+//     </div>
+//   );
+// };
 
 // Home Page
 export default function Home() {

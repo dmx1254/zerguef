@@ -95,7 +95,7 @@ const Navbar = () => {
                 {/* {tScope("contact")} */}
                 {tScope("abaya")}
               </Link>
-              <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+              {/* <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                 <PopoverTrigger
                   className="flex items-center text-base text-white transition-colors hover:text-yellow-600"
                   onMouseEnter={() => setPopoverOpen(true)}
@@ -120,25 +120,25 @@ const Navbar = () => {
                     ))}
                   </div>
                 </PopoverContent>
-              </Popover>
+              </Popover> */}
               {/* <Link
                 href="/categories/djellabas"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
                 {tScope("djel")}
               </Link> */}
-              <Link
+              {/* <Link
                 href="/categories/caftans"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
                 {tScope("caf")}
-              </Link>
-              <Link
+              </Link> */}
+              {/* <Link
                 href="/categories/parfums"
                 className="text-base text-white transition-colors hover:text-yellow-600"
               >
                 {tScope("parfum")}
-              </Link>
+              </Link> */}
               <Link
                 href="/categories/folar"
                 className="text-base text-white transition-colors hover:text-yellow-600"
