@@ -610,6 +610,12 @@ export default {
   "cart.remise": "خصم 5٪ على التحويل المصرفي",
   "cart.percentRemise": "5٪",
   "cart.whatsapp": "تواصل معنا عبر واتساب",
+  "cart.guestCheckoutTitle": "الدفع كضيف",
+  "cart.guestCheckoutDesc": "املأ معلوماتك للمتابعة دون إنشاء حساب",
+  "cart.shippingRegion": "منطقة الشحن",
+  "cart.loginInstead": "تسجيل الدخول إلى حسابي",
+  "cart.continueAsGuest": "المتابعة كضيف",
+  "cart.fullName": "الاسم الكامل",
 
   "notFound.title": "الصفحة غير موجودة",
   "notFound.subtitle": "عذرًا! الصفحة التي تبحث عنها غير موجودة.",

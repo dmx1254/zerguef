@@ -625,6 +625,13 @@ export default {
   "cart.percentRemise": "5%",
   "cart.whatsapp": "Contactez-nous par Whatsapp",
 
+  "cart.guestCheckoutTitle": "Commander en tant qu'invité",
+  "cart.guestCheckoutDesc": "Remplissez vos informations pour continuer sans créer de compte",
+  "cart.shippingRegion": "Région de livraison",
+  "cart.loginInstead": "Se connecter à mon compte",
+  "cart.continueAsGuest": "Continuer en tant qu'invité",
+  "cart.fullName": "Nom complet",
+
   "notFound.title": "Page non trouvée",
   "notFound.subtitle": "Oups ! La page que vous recherchez n'existe pas.",
   "notFound.backHome": "Retour à l'accueil",

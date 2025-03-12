@@ -23,8 +23,9 @@ import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { useScopedI18n } from "@/locales/client";
 import Image from "next/image";
-import { DialogShipping } from "./DialogShipping";
 import { useRouter } from "next/navigation";
+import { DialogCheckout } from "./DialogGuestCheckout";
+import { GUEST } from "@/lib/models/order.model";
 
 const CartStats = () => {
   const tScope = useScopedI18n("cart");
@@ -100,16 +101,11 @@ export default function ShoppingCart() {
   }, [shippingRegion]);
 
   const handleCheckout = async () => {
-    if (!shippingRegion) {
+    if (!shippingRegion || !session?.user) {
+      // Ouvrir le dialogue qui gère à la fois la sélection de région et le checkout invité
       setOpen(true);
-    } else if (!session?.user) {
-      toast.error(tScope("cartErrorLogin"), {
-        style: {
-          color: "#f8312f",
-        },
-      });
-      return;
     } else {
+      // L'utilisateur est connecté et a une région de livraison sélectionnée
       try {
         setIsOrderLoading(true);
         const orderData = {
@@ -157,6 +153,68 @@ export default function ShoppingCart() {
       } finally {
         setIsOrderLoading(false);
       }
+    }
+  };
+
+  const handleLogin = () => {
+    // Rediriger vers la page de connexion
+    router.push("/signin");
+  };
+
+  const handleGuestCheckout = async (guestInfo: GUEST) => {
+    try {
+      setIsOrderLoading(true);
+
+      // Créer un ordre avec les données de l'invité
+      const orderData = {
+        orderNumber: generateOrderNumber(),
+        guest: true,
+        userId: "67a7649fd0ec12f9198e014d",
+        guestInfo: guestInfo,
+        items: items,
+        total: total,
+        shipping: shipping,
+        paymentMethod: selectedPayment,
+        shippingRegion: guestInfo.shippingRegion,
+      };
+
+      const response = await fetch("/api/guest-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors du paiement");
+      }
+
+      const result = await response.json();
+
+      if (result) {
+        toast.success(tScope("cartSuccess"), {
+          style: {
+            color: "#22c55e",
+          },
+          position: "top-right",
+        });
+
+        clearCart();
+        setSelectedPayment("card");
+        router.push("/checkout-success");
+      }
+    } catch (error) {
+      // console.error("Erreur:", error);
+      console.log(error);
+      toast.error(tScope("cartErrorPay"), {
+        style: {
+          color: "#f8312f",
+        },
+        position: "top-right",
+      });
+    } finally {
+      setIsOrderLoading(false);
     }
   };
 
@@ -517,7 +575,7 @@ export default function ShoppingCart() {
                 : `${tScope("cartToPay")} ${formatPrice(total)}`}
             </Button>
             <div className="flex items-center gap-2">
-              <p>{tScope("whatsapp")}</p>
+              <p className="text-base">{tScope("whatsapp")}</p>
               <Link
                 href="https://wa.me/212660265244"
                 target="_blank"
@@ -535,6 +593,16 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
+      <DialogCheckout
+        open={open}
+        setOpen={setOpen}
+        shippingRegion={shippingRegion}
+        setShippingRegion={setShippingRegion}
+        onGuestCheckout={handleGuestCheckout}
+        onLogin={handleLogin}
+        isAuthenticated={!!session?.user}
+        isOrderLoading={isOrderLoading}
+      />
     </div>
   );
 }

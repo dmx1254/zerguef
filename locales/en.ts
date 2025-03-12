@@ -618,6 +618,14 @@ export default {
   "cart.percentRemise": "5%",
   "cart.whatsapp": "Contact us via WhatsApp",
 
+  "cart.guestCheckoutTitle": "Checkout as Guest",
+  "cart.guestCheckoutDesc":
+    "Fill in your details to continue without creating an account",
+  "cart.shippingRegion": "Shipping Region",
+  "cart.loginInstead": "Log in to my account",
+  "cart.continueAsGuest": "Continue as Guest",
+  "cart.fullName": "Full Name",
+
   "notFound.title": "Page not found",
   "notFound.subtitle": "Oops! The page you're looking for doesn't exist.",
   "notFound.backHome": "Back to home",
