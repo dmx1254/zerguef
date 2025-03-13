@@ -163,15 +163,16 @@ const ProductCard = ({ product }: { product: Product }) => {
     >
       <Link href={`/products/${product._id}`}>
         <CardHeader className="p-0 relative">
-          <div className="w-full relative overflow-hidden bg-blue-100">
+          <div className="w-full relative overflow-hidden bg-gray-100 aspect-square">
             <Image
               src={product.image}
               alt={product.name}
-              width={200}
-              height={200}
-              className={`w-full md:w-[220px] h-[200px] transition-transform duration-700 ${
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className={`object-cover transition-transform duration-700 ${
                 isHovered ? "scale-110" : "scale-100"
               }`}
+              priority
             />
             {product.discount && (
               <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
