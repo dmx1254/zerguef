@@ -59,7 +59,7 @@ const SocialMedia = ({ isSource = false }) => {
 
     {
       icon: FaInstagram,
-      href: "https://www.instagram.com/ibendouma_com/",
+      href: "https://www.instagram.com/khadija_zarguef/",
       color: "text-[#E1306C]",
       size: 13,
     },

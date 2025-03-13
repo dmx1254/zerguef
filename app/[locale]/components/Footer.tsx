@@ -69,7 +69,7 @@ const Footer = () => {
     },
     {
       icon: BsThreads,
-      href: "https://www.threads.net/@zarguef?hl=fr",
+      href: "https://www.threads.net/@ibendouma_com?hl=fr",
       color: "text-gray-400",
       size: 13,
     },
@@ -89,7 +89,7 @@ const Footer = () => {
 
     {
       icon: FaInstagram,
-      href: "https://www.instagram.com/zarguef/",
+      href: "https://www.instagram.com/khadija_zarguef/",
       color: "text-[#E1306C]",
       size: 13,
     },
