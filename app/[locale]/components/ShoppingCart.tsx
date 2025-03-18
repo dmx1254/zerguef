@@ -404,7 +404,7 @@ export default function ShoppingCart() {
                     <RadioGroupItem
                       value="casablanca"
                       id="casablanca"
-                      className="border border-white/20"
+                      className="border border-white/20 data-[state=checked]:bg-yellow-500 data-[state=checked]:text-white"
                     />
                     <Label htmlFor="casablanca" className="flex flex-col">
                       <span className="font-medium flex items-center gap-2">
@@ -433,7 +433,7 @@ export default function ShoppingCart() {
                     <RadioGroupItem
                       value="hors-casablanca"
                       id="hors-casablanca"
-                      className="border border-white/20"
+                      className="border border-white/20 data-[state=checked]:bg-yellow-500 data-[state=checked]:text-white"
                     />
                     <Label htmlFor="hors-casablanca" className="flex flex-col">
                       <span className="font-medium">

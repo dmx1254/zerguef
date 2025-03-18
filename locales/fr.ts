@@ -562,6 +562,7 @@ export default {
   "productDetail.entretien": "Entretien",
   "productDetail.inStock": "Produit(s) En stock",
   "productDetail.epuise": "Épuisé",
+  "productDetail.buy": "Acheter",
 
   "search.start": "Commencez votre recherche",
   "search.startDesc": "Entrez un terme de recherche pour trouver des produits",

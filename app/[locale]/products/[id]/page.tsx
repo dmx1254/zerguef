@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Box, Heart, MinusIcon, PlusIcon, Share2, Truck } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCartStore } from "@/lib/manage";
@@ -80,6 +80,7 @@ export default function ProductPage() {
   const { items, addItem } = useCartStore();
   const params = useParams();
   const productId = params.id as string;
+  const router = useRouter();
 
   const {
     data: product,
@@ -138,6 +139,9 @@ export default function ProductPage() {
       },
       position: "top-right",
     });
+    setTimeout(() => {
+      router.push("/cart");
+    }, 1000);
   };
 
   return (
@@ -217,34 +221,6 @@ export default function ProductPage() {
               </Card>
             </div>
 
-            {/* Sélection Taille - Conditionnelle */}
-            {/* {showSizesAndCare && product.details.sizes && (
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold">
-                    {tScope("chooseTaile")}
-                  </h3>
-                  <button className="text-sm text-yellow-600 hover:underline">
-                    {tScope("guideTaille")}
-                  </button>
-                </div>
-                <div className="grid grid-cols-4 gap-2">
-                  {product.details.sizes.map((size: string) => (
-                    <Button
-                      key={size}
-                      variant={selectedSize === size ? "default" : "outline"}
-                      className={`w-full ${
-                        selectedSize === size ? "ring-2 ring-yellow-500" : ""
-                      }`}
-                      onClick={() => setSelectedSize(size)}
-                    >
-                      {size}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            )} */}
-
             {product?.category === "parfums" && (
               <div className="grid grid-cols-4 gap-2">
                 {volumes.map((v: string) => (
@@ -294,7 +270,7 @@ export default function ProductPage() {
               className="w-full text-lg py-6 rounded-xl bg-[#18191A] hover:opacity-80 transition-colors"
               onClick={handleAddToCart}
             >
-              {tScope("addToCart")} • {formatPrice(product.price * quantity)}
+              {tScope("buy")} • {formatPrice(product.price * quantity)}
             </Button>
 
             {/* Détails Produit - Conditionnels */}

@@ -27,7 +27,7 @@ const SocialMedia = ({ isSource = false }) => {
   const socialLinks = [
     {
       icon: FaFacebookF,
-      href: "https://www.facebook.com/ibendouma1",
+      href: "https://www.facebook.com/profile.php?id=61571382011435",
       color: "text-blue-600",
       size: 14,
     },
@@ -40,19 +40,19 @@ const SocialMedia = ({ isSource = false }) => {
 
     {
       icon: FaWhatsapp,
-      href: "https://wa.me/971529087560",
+      href: "https://wa.me/212660265244",
       color: "text-green-600",
       size: 14,
     },
     {
       icon: FaTiktok,
-      href: "https://www.tiktok.com/@ibendouma.com",
+      href: "https://www.tiktok.com/@zarguef",
       color: "text-gray-500",
       size: 13,
     },
     {
       icon: FaSnapchat,
-      href: "https://www.snapchat.com/",
+      href: "https://www.snapchat.com/add/zarguef.com",
       color: "text-yellow-500",
       size: 13,
     },

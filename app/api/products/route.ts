@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   try {
     const products = await ProductModel.find({})
       .sort({ createdAt: -1 })
-      .limit(10)
+      .limit(5)
       .skip(skip) // Tri par date de création décroissante
       .select("-__v") // Exclure le champ __v de mongoose
       .lean(); // Convertir en objets JavaScript simples

@@ -40,15 +40,18 @@ const Footer = () => {
   const categories = [
     {
       name: tScope("colDjel"),
-      link: "/categories/djellabas",
+      // link: "/categories/djellabas",
+      link: "/#",
     },
     {
       name: tScope("colCaf"),
-      link: "/categories/caftans",
+      // link: "/categories/caftans",
+      link: "/#",
     },
     {
       name: tScope("colParf"),
-      link: "/categories/parfums",
+      // link: "/categories/parfums",
+      link: "/#",
     },
     {
       name: tScope("colOr"),
@@ -101,30 +104,6 @@ const Footer = () => {
     },
   ];
 
-  // const handleSignToNewLetter = () => {
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   if (!emailRegex.test(email)) {
-  //     toast.error("Format email invalide", {
-  //       style: {
-  //         color: "#ef4444",
-  //       },
-  //     });
-  //   } else {
-  //     setEmailLoading(true);
-  //     new Promise((resolve) =>
-  //       setTimeout(() => {
-  //         setEmailLoading(false);
-  //         resolve(undefined);
-  //       }, 1000)
-  //     );
-
-  //     toast.success("Votre email a été bien ajouté", {
-  //       style: {
-  //         color: "#22c55e",
-  //       },
-  //     });
-  //   }
-  // };
 
   const brands = [
     { name: tScope4("brands.visa"), logo: "/visa.png" },

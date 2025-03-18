@@ -552,6 +552,7 @@ export default {
   "productDetail.entretien": "Care",
   "productDetail.inStock": "Product(s) In stock",
   "productDetail.epuise": "Out of stock",
+  "productDetail.buy": "Buy",
 
   "search.start": "Start your search",
   "search.startDesc": "Enter a search term to find products",

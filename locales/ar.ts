@@ -545,6 +545,7 @@ export default {
   "productDetail.entretien": "العناية",
   "productDetail.inStock": "المنتج (المنتجات) في المخزون",
   "productDetail.epuise": "غير متوفر",
+  "productDetail.buy": "يشتري",
 
   "search.start": "ابدأ بحثك",
   "search.startDesc": "أدخل مصطلح البحث للعثور على المنتجات",

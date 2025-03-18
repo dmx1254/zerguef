@@ -10,6 +10,7 @@ export async function GET(req: Request) {
     // Récupérer les paramètres de l'URL
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
+    const len = searchParams.get("len");
     const search = searchParams.get("search");
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
@@ -25,8 +26,16 @@ export async function GET(req: Request) {
       query.category = new RegExp(`^${category}$`, "i");
     }
 
+    const skip = Number(len) || 0;
+
     // Récupérer les produits de la catégorie
-    let products = await ProductModel.find(query).select("-__v").lean();
+    let products = await ProductModel.find(query)
+      .select("-__v")
+      .sort({ createdAt: -1 })
+      .limit(10)
+      // .skip(skip) // Tri par date de création décroissante
+
+      .lean();
 
     //Appliquer les filtres supplémentaires
     if (search) {
