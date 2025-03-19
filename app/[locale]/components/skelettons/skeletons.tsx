@@ -35,7 +35,7 @@ const CategoryMin = () => (
 // Grids de squelettes
 export const ProductSkeletonGrid = () => (
   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-    {[...Array(10)].map((_, index) => (
+    {[...Array(5)].map((_, index) => (
       <ProductSkeleton key={index} />
     ))}
   </div>

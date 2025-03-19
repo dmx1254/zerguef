@@ -69,6 +69,7 @@ export default {
   "home.colCaf": "Caftans",
   "home.colParf": "Parfums",
   "home.colOr": "Folar",
+  "home.abaya": "Abaya",
   "home.mikhwar-emarati": "Mikhwar emarati",
 
   "home.customerServiceTitle": "Service Client",
@@ -545,6 +546,8 @@ export default {
   "categories.reset": "Réinitialiser les filtres",
   "categories.discov": "Decouvrir",
   "categories.taile": "Tailles",
+  "categories.loadMore": "Voir plus",
+  "categories.loading": "Chargement...",
 
   "productDetail.notFoundProduct":
     "Produit non trouvé. Veuillez vérifier l'URL ou retourner à la page d'accueil.",

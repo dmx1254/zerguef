@@ -32,26 +32,31 @@ const Footer = () => {
   const tScope2 = useScopedI18n("about");
   const tScope3 = useScopedI18n("footer");
   const tScope4 = useScopedI18n("cart");
+  const tScope5 = useScopedI18n("navbar");
 
   const pathname = usePathname();
   const [email, setEmail] = useState<string>("");
   const [emailLoading, setEmailLoading] = useState<boolean>(false);
 
   const categories = [
+    // {
+    //   name: tScope("colDjel"),
+    //   // link: "/categories/djellabas",
+    //   link: "/#",
+    // },
+    // {
+    //   name: tScope("colCaf"),
+    //   // link: "/categories/caftans",
+    //   link: "/#",
+    // },
+    // {
+    //   name: tScope("colParf"),
+    //   // link: "/categories/parfums",
+    //   link: "/#",
+    // },
     {
-      name: tScope("colDjel"),
-      // link: "/categories/djellabas",
-      link: "/#",
-    },
-    {
-      name: tScope("colCaf"),
-      // link: "/categories/caftans",
-      link: "/#",
-    },
-    {
-      name: tScope("colParf"),
-      // link: "/categories/parfums",
-      link: "/#",
+      name: tScope5("abaya"),
+      link: "/categories/abaya-femme",
     },
     {
       name: tScope("colOr"),
@@ -103,7 +108,6 @@ const Footer = () => {
       size: 13,
     },
   ];
-
 
   const brands = [
     { name: tScope4("brands.visa"), logo: "/visa.png" },

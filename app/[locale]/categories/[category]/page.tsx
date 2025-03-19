@@ -81,11 +81,12 @@ const volumes = ["60ml", "100ml", "200ml"];
 
 const availableSizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
-const fetchProducts = async (category: string, filters?: any) => {
+const fetchProducts = async (category: string, page: number, filters?: any) => {
   const params = new URLSearchParams();
 
   // Toujours inclure la catégorie
   params.append("category", category);
+  params.append("page", page.toString());
 
   // Ajouter les autres filtres s'ils existent
   if (filters) {
@@ -225,14 +226,50 @@ export default function CategoryPage() {
   const [sortBy, setSortBy] = useState("newest");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [parfumsSeleced, setParfumsSelected] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [isLoading, setIsloading] = useState<boolean>(false);
+  const [isLoadingMore, setIsloadingMore] = useState<boolean>(false);
 
   // console.log(category);
 
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ["products", category, activeFilters],
-    queryFn: () => fetchProducts(category, activeFilters),
-    staleTime: 0,
-  });
+  // const { data: products = [], isLoading } = useQuery({
+  //   queryKey: ["products", category, activeFilters, page],
+  //   queryFn: () => fetchProducts(category, page, activeFilters),
+  //   staleTime: 0,
+  //   placeholderData: (previousData) => previousData,
+  // });
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        setIsloading(true);
+        const products = await fetchProducts(category, page, activeFilters);
+        setAllProducts(products);
+      } catch (error) {
+      } finally {
+        setIsloading(false);
+      }
+    };
+
+    getProducts();
+  }, []);
+
+  const handleLoadMore = async () => {
+    const newPage = page + 1;
+
+    try {
+      setIsloadingMore(true);
+
+      const products = await fetchProducts(category, newPage, activeFilters);
+      setAllProducts((prev) => [...prev, ...products]);
+      setPage(newPage);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsloadingMore(false);
+    }
+  };
 
   const showSizesAndMaterials = ![
     "folar",
@@ -255,7 +292,7 @@ export default function CategoryPage() {
   const availableMaterials = ["Coton", "Soie", "Lin", "Laine", "Synthetique"];
 
   // Filtrer les produits
-  const filteredProducts = products.filter((product: Product) => {
+  const filteredProducts = allProducts.filter((product: Product) => {
     if (activeFilters.onlyInStock && product.stock <= 0) return false;
     if (activeFilters.onSale && !product.discount) return false;
     if (
@@ -627,6 +664,15 @@ export default function CategoryPage() {
                   <ProductCard key={product._id} product={product} />
                 ))}
               </div>
+            )}
+            {allProducts.length >= 5 && (
+              <button
+                onClick={handleLoadMore}
+                disabled={isLoading || isLoadingMore}
+                className="flex items-center justify-center mx-auto my-8 bg-gradient-to-r from-purple-600 to-blue-600 text-sm text-white p-3 rounded"
+              >
+                {isLoadingMore ? tScope("loading") : tScope("loadMore")}
+              </button>
             )}
           </div>
         </div>

@@ -69,6 +69,7 @@ export default {
   "home.colParf": "عطور",
   "home.colOr": "فولار",
   "home.mikhwar-emarati": "مخور إماراتي",
+  "home.abaya": "عباية",
 
   "home.customerServiceTitle": "خدمة العملاء",
   "home.customerServiceFaq": "الأسئلة الشائعة",
@@ -528,6 +529,8 @@ export default {
   "categories.reset": "إعادة تعيين الفلاتر",
   "categories.discov": "اكتشف",
   "categories.taile": "المقاسات",
+  "categories.loadMore": "عرض المزيد",
+  "categories.loading": "جارٍ التحميل...",
 
   "productDetail.notFoundProduct":
     "المنتج غير موجود. يرجى التحقق من الرابط أو العودة إلى الصفحة الرئيسية.",

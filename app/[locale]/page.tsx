@@ -245,6 +245,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 export default function Home() {
   const [skipProduct, setSkipProduct] = useState<number>(0);
   const tScope = useScopedI18n("home");
+  const tScope2 = useScopedI18n("categories");
   const [seeMoreLoading, setSeeMoreLoading] = useState<boolean>(false);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
 
@@ -335,7 +336,7 @@ export default function Home() {
                 className="flex items-center justify-center mx-auto my-8 bg-gradient-to-r from-purple-600 to-blue-600 text-sm text-white p-3 rounded"
                 onClick={handleLoadMore}
               >
-                Voir plus
+                {tScope2("loadMore")}
               </button>
             )
           )}

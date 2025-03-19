@@ -356,13 +356,13 @@ export const categoriesClothes = [
   //   icon: djel,
   //   lnk: "et",
   // },
-  {
-    id: "H6XL",
-    name: "Caftans",
-    slug: "caftans",
-    icon: caftan,
-    lnk: "caftans",
-  },
+  // {
+  //   id: "H6XL",
+  //   name: "Caftans",
+  //   slug: "caftans",
+  //   icon: caftan,
+  //   lnk: "caftans",
+  // },
   {
     id: "T8KW",
     name: "Folar",

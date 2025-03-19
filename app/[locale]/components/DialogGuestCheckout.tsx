@@ -102,7 +102,7 @@ export function DialogCheckout({
                 <RadioGroupItem
                   value="casablanca"
                   id="casablanca"
-                  className="border-white/60"
+                  className="border-white/60 data-[state=checked]:bg-green-500 data-[state=checked]:text-white"
                 />
                 <Label htmlFor="casablanca" className="flex flex-col">
                   <span className="font-medium">{tScope("dialogCa")}</span>
@@ -114,7 +114,7 @@ export function DialogCheckout({
                 <RadioGroupItem
                   value="hors-casablanca"
                   id="hors-casablanca"
-                  className="border-white/60"
+                  className="border-white/60 data-[state=checked]:bg-green-500 data-[state=checked]:text-white"
                 />
                 <Label htmlFor="hors-casablanca" className="flex flex-col">
                   <span className="font-medium">{tScope("dialogHorsCa")}</span>
@@ -215,7 +215,7 @@ export function DialogCheckout({
             disabled={
               !shippingRegion || (!isAuthenticated && !validateGuestData())
             }
-            className="sm:ml-auto text-white"
+            className="sm:ml-auto text-white bg-green-600"
           >
             {isAuthenticated ? (
               tScope("dialogBtn")
