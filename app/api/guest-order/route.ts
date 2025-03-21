@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     // Envoi de l'email de notification
     await resend.emails.send({
       from: "Zarguef Notification <noreply@ibendouma.com>",
-      to: ["support@ibendouma.com"],
-      subject: `Nouvelle commande #${order.orderNumber}`,
+      to: ["khadijazf04@gmail.com"],
+      subject: `Nouvelle commande Invitée #${order.orderNumber}`,
       react: OrderNotificationEmail({
         orderNumber: order.orderNumber,
         items: order.items,
