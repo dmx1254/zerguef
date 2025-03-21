@@ -7,6 +7,12 @@ import OrderModel from "@/lib/models/order.model";
 
 connectDB();
 
+import { Resend } from "resend";
+import { OrderNotificationEmail } from "@/app/[locale]/components/orderConfirm-template";
+import UserModel from "@/lib/models/user.model";
+
+const resend = new Resend(process.env.RESEND_ZERGUEF_API_KEY);
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(options);
@@ -33,6 +39,25 @@ export async function POST(req: Request) {
     await order.save();
 
     // console.log(data);
+    const user = await UserModel.findById(data.userId);
+
+    // Envoi de l'email de notification
+    await resend.emails.send({
+      from: "Zarguef Notification <noreply@ibendouma.com>",
+      to: ["support@ibendouma.com"],
+      subject: `Nouvelle commande #${data.orderNumber}`,
+      react: OrderNotificationEmail({
+        orderNumber: data.orderNumber,
+        items: data.items,
+        total: data.total,
+        shipping: data.shipping,
+        paymentMethod: data.paymentMethod,
+        shippingRegion: user?.country || "Non spécifié",
+        customerEmail: user?.email,
+        customerName: `${user?.firstName} ${user?.lastName}`,
+        guest: false,
+      }) as React.ReactElement,
+    });
 
     return NextResponse.json(
       {
