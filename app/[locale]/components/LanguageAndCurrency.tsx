@@ -3,33 +3,26 @@
 import React, { useState } from "react";
 
 import { ChevronDown, Globe } from "lucide-react";
-import { Language, cn, languages } from "@/lib/utils";
+import { cn, languages } from "@/lib/utils";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { LocaleSelect } from "./LocaleSelect";
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
   const tScope = useScopedI18n("navbar");
-  const pathname = usePathname();
 
   const locale = useCurrentLocale();
 
-  const [isActiveCurrency, setIsActiveCurrency] = useState<string>("euro");
-  const [language, setLanguage] = useState(languages[0]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    setIsOpen(false);
-  };
 
   const getLocaleLanguage = () => {
     const language = languages.find((l) => l.code === locale);
@@ -64,7 +57,10 @@ const LanguageAndCurrency = ({ isShowBg = true }: { isShowBg?: boolean }) => {
           />
         </button>
       </DialogTrigger>
-      <DialogTitle></DialogTitle>
+      <DialogHeader>
+        <DialogTitle></DialogTitle>
+      </DialogHeader>
+
       <DialogContent className="font-poppins w-full max-w-[450px] rounded-[20px] p-0 bg-white shadow-xl border border-gray-200">
         <div className="w-full grid divide-gray-100">
           <h2 className="px-4 pt-4 text-lg text-gray-800 font-semibold">

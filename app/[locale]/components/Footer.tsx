@@ -1,9 +1,7 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import Link from "next/link";
-import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 import { useScopedI18n } from "@/locales/client";
 import Image from "next/image";
@@ -22,9 +20,6 @@ import {
 
 import giropay from "../../../assets/iben/giropay.webp";
 import neosurf from "../../../assets/iben/neosurf.webp";
-import marocbank from "../../../assets/iben/marocbank.webp";
-import crd_agricole from "../../../assets/iben/crd_agricole.png";
-import sg from "../../../assets/iben/sg.png";
 import { BsThreads } from "react-icons/bs";
 
 const Footer = () => {
@@ -35,8 +30,6 @@ const Footer = () => {
   const tScope5 = useScopedI18n("navbar");
 
   const pathname = usePathname();
-  const [email, setEmail] = useState<string>("");
-  const [emailLoading, setEmailLoading] = useState<boolean>(false);
 
   const categories = [
     // {
@@ -222,7 +215,7 @@ const Footer = () => {
                 <h3 className="text-white/80 font-bold mb-4">
                   {tScope("colTitle")}
                 </h3>
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-4 text-sm">
                   {categories.map((category) => (
                     <li key={category.name}>
                       <Link
@@ -233,6 +226,14 @@ const Footer = () => {
                       </Link>
                     </li>
                   ))}
+                  <li>
+                    <Link
+                      href="/products/order-in-bulk"
+                      className="text-white transition-colors hover:text-yellow-600"
+                    >
+                      {tScope5("commander")}
+                    </Link>
+                  </li>
                 </ul>
               </div>
 

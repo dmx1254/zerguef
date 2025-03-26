@@ -2,34 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import Form from "next/form";
-import { CartItem, useCartStore } from "@/lib/manage";
+import { useCartStore } from "@/lib/manage";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "./components/ui/card";
-import { Tag, ShoppingBag, Search } from "lucide-react";
+import { ShoppingBag, Search } from "lucide-react";
 import Link from "next/link";
-import { categoriesClothes, formatPrice } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ProductSkeletonGrid } from "./components/skelettons/skeletons";
 import { useScopedI18n } from "@/locales/client";
 import { toast } from "sonner";
 import Testimonials from "./components/Testimonials";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import MobileTopMenus from "./components/MobileTopMenus";
 
-// Types
-interface Category {
-  id: string;
-  name: string;
-  icon: StaticImport;
-  slug: string;
-}
 
 // Types des produits
 interface ProductDetails {
@@ -51,10 +40,6 @@ interface Product {
   stock: number;
 }
 
-interface ProductCardProps {
-  product: Product;
-}
-
 const fetchProducts = async () => {
   const res = await fetch("/api/products", {
     method: "GET",
@@ -67,7 +52,6 @@ const fetchProducts = async () => {
 
 // Components
 const HeroSection = () => {
-  const tScope = useScopedI18n("home");
 
   const getVideo = async () => {
     const res = await fetch("/api/settings", {
@@ -77,7 +61,7 @@ const HeroSection = () => {
     return res.json();
   };
 
-  const { data: videoData, isLoading } = useQuery({
+  const { data: videoData } = useQuery({
     queryKey: ["coverVideo"],
     queryFn: getVideo,
   });
@@ -225,7 +209,6 @@ const ProductCard = ({ product }: { product: Product }) => {
 
 // Home Page
 export default function Home() {
-  const [skipProduct, setSkipProduct] = useState<number>(0);
   const tScope = useScopedI18n("home");
   const tScope2 = useScopedI18n("categories");
   const [seeMoreLoading, setSeeMoreLoading] = useState<boolean>(false);
@@ -236,12 +219,11 @@ export default function Home() {
   const {
     data: products,
     isLoading: isLoadingProducts,
-    error: productsError,
   } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
     refetchOnMount: false,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 20 * 60 * 1000,
   });
 
   useEffect(() => {
@@ -286,7 +268,18 @@ export default function Home() {
             </p>
           </div>
           {isLoadingProducts ? (
-            <ProductSkeletonGrid />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 my-10">
+              {[...Array(12)].map((_, i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="w-full h-[120px] bg-gray-200" />
+                  <CardContent className="p-6">
+                    <div className="h-6 bg-gray-200 rounded mb-4" />
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
+                    <div className="h-8 bg-gray-200 rounded" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           ) : allProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
               {allProducts?.map((product: Product) => (

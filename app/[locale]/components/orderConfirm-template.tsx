@@ -99,7 +99,7 @@ export const OrderNotificationEmail: React.FC<OrderNotificationEmailProps> = ({
                 marginBottom: "20px",
               }}
             >
-              Une nouvelle commande vient d'être passée sur votre boutique.
+              Une nouvelle commande vient d&apos;être passée sur votre boutique.
               Voici les détails:
             </p>
 

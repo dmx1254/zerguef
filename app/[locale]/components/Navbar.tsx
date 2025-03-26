@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 import SheetMenu from "./SheetMenu";
@@ -12,15 +12,15 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
-import SocialMediaDropdown from "./SocialMediaDropdown ";
-import ProfilePopover from "./ProfilePopover";
+// import SocialMediaDropdown from "./SocialMediaDropdown ";
+// import ProfilePopover from "./ProfilePopover";
 import CardHoverCon from "./HoverCard";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { FaSortDown } from "react-icons/fa";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "@/components/ui/popover";
+// import { FaSortDown } from "react-icons/fa";
 import SocialMedia from "./SocialMedia";
 import MobileTopMenus from "./MobileTopMenus";
 // import MobileTopMenus from "./MobileTopMenus";
@@ -28,28 +28,28 @@ import MobileTopMenus from "./MobileTopMenus";
 const Navbar = () => {
   const tScope = useScopedI18n("navbar");
   const tScope2 = useScopedI18n("home");
-  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+  // const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
 
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const djellabas = [
-    {
-      id: "HG15LP",
-      name: tScope("fm"),
-      slug: "djellabas-femme",
-    },
-    {
-      id: "KP97LX",
-      name: tScope("hm"),
-      slug: "djellabas-homme",
-    },
-    {
-      id: "PA37KW",
-      name: tScope("et"),
-      slug: "djellabas-enfant",
-    },
-  ];
+  // const djellabas = [
+  //   {
+  //     id: "HG15LP",
+  //     name: tScope("fm"),
+  //     slug: "djellabas-femme",
+  //   },
+  //   {
+  //     id: "KP97LX",
+  //     name: tScope("hm"),
+  //     slug: "djellabas-homme",
+  //   },
+  //   {
+  //     id: "PA37KW",
+  //     name: tScope("et"),
+  //     slug: "djellabas-enfant",
+  //   },
+  // ];
 
   // console.log(session);
 
@@ -95,6 +95,18 @@ const Navbar = () => {
                 {/* {tScope("contact")} */}
                 {tScope("abaya")}
               </Link>
+              <Link
+                href="/categories/folar"
+                className="text-base text-white transition-colors hover:text-yellow-600"
+              >
+                {tScope2("colOr")}
+              </Link>
+              <Link
+                href="/products/order-in-bulk"
+                className="text-base text-white transition-colors hover:text-yellow-600"
+              >
+                {tScope("commander")}
+              </Link>
               {/* <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                 <PopoverTrigger
                   className="flex items-center text-base text-white transition-colors hover:text-yellow-600"
@@ -139,12 +151,7 @@ const Navbar = () => {
               >
                 {tScope("parfum")}
               </Link> */}
-              <Link
-                href="/categories/folar"
-                className="text-base text-white transition-colors hover:text-yellow-600"
-              >
-                {tScope2("colOr")}
-              </Link>
+             
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               {session?.user ? (

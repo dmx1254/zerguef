@@ -54,6 +54,12 @@ const SheetMenu = () => {
               )}
             </Link>
           ))}
+          <Link
+            href="/products/order-in-bulk"
+            className="outline-none w-full text-center rounded-[10px] text-sm cursor-pointer bg-[#EDEDED] p-2"
+          >
+            {tScope("commander")}
+          </Link>
         </div>
       </SheetContent>
     </Sheet>

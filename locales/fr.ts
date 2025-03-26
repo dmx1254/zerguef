@@ -20,6 +20,7 @@ export default {
   "navbar.caftans": "caftans",
   "navbar.or": "Folar",
   "navbar.folar": "Folar",
+  "navbar.commander": "Commander en gros",
 
   "navbar.cartHoverTile": "Produits",
   "navbar.cartHoverBtn": "Aller au panier",
@@ -32,7 +33,7 @@ export default {
 
   "home.catTitle": "Nos Collections",
   "home.catDescription":
-    "Une collection raffinée de vêtements traditionnels émiratis et marocains, où chaque pièce raconte une histoire d’artisanat et de traditions.",
+    "Une collection raffinée de vêtements traditionnels émiratis et marocains, où chaque pièce raconte une histoire d'artisanat et de traditions.",
 
   "home.parfumTitle": "Parfums",
   "home.parfumDesc": "Parfums haut de gamme",
@@ -606,11 +607,11 @@ export default {
   "cart.mikhwarDesc":
     "Découvrez l'élégance du mikhwar émirati sur [zarguef.com] Nous vous proposons une collection exclusive de mikhwar émiratis, conçus selon les plus hauts standards de qualité et de savoir-faire. Chaque pièce allie tradition et modernité, apportant une touche de raffinement et de luxe à votre look, que ce soit pour des occasions spéciales ou au quotidie",
   "cart.folarDesc":
-    "Découvrez l’élégance du foulard surzarguef.com Explorez notre collection raffinée de foulards alliant confort et style. Des designs modernes aux classiques intemporels, chaque pièce est choisie avec soin pour apporter une touche de sophistication à votre look quotidien.",
+    "Découvrez l'élégance du foulard surzarguef.com Explorez notre collection raffinée de foulards alliant confort et style. Des designs modernes aux classiques intemporels, chaque pièce est choisie avec soin pour apporter une touche de sophistication à votre look quotidien.",
   "cart.djellaDesc":
-    "Découvrez l’élégance de la djellabas sur zarguef.com Nous vous proposons une collection exclusive de jelabas, alliant confort, tradition et modernité. Chaque pièce est soigneusement conçue pour offrir une coupe parfaite et une allure raffinée, idéale pour toutes vos occasions spéciales ou pour un look élégant au quotidien.",
+    "Découvrez l'élégance de la djellabas sur zarguef.com Nous vous proposons une collection exclusive de jelabas, alliant confort, tradition et modernité. Chaque pièce est soigneusement conçue pour offrir une coupe parfaite et une allure raffinée, idéale pour toutes vos occasions spéciales ou pour un look élégant au quotidien.",
   "cart.cafDesc":
-    "Découvrez l’élégance du caftan sur zarguef.com Explorez notre collection de caftans raffinés, alliant confort et style. Des designs traditionnels aux créations modernes, chaque pièce est confectionnée avec soin pour sublimer toutes vos occasions spéciales ou apporter une touche d’élégance au quotidien.",
+    "Découvrez l'élégance du caftan sur zarguef.com Explorez notre collection de caftans raffinés, alliant confort et style. Des designs traditionnels aux créations modernes, chaque pièce est confectionnée avec soin pour sublimer toutes vos occasions spéciales ou apporter une touche d'élégance au quotidien.",
   "cart.parfDesc":
     "Découvrez votre parfum idéal sur zarguef.com Nous vous proposons une sélection unique de parfums raffinés, alliant qualité et élégance. Que vous cherchiez une fragrance intemporelle ou une nouveauté envoûtante, trouvez chez nous l'essence qui vous correspond.",
 
@@ -630,7 +631,8 @@ export default {
   "cart.whatsapp": "Contactez-nous par Whatsapp",
 
   "cart.guestCheckoutTitle": "Commander en tant qu'invité",
-  "cart.guestCheckoutDesc": "Remplissez vos informations pour continuer sans créer de compte",
+  "cart.guestCheckoutDesc":
+    "Remplissez vos informations pour continuer sans créer de compte",
   "cart.shippingRegion": "Région de livraison",
   "cart.loginInstead": "Se connecter à mon compte",
   "cart.continueAsGuest": "Continuer en tant qu'invité",
@@ -725,4 +727,101 @@ export default {
   "pageicon.exchange2": "de kamas",
   "pageicon.social1": "Media",
   "pageicon.social2": "sociaux",
+
+  "bulkOrder.title": "Commande en Gros",
+  "bulkOrder.subtitle":
+    "Placez votre commande en gros et bénéficiez de prix spéciaux",
+  "bulkOrder.formTitle": "Détails de la Commande",
+  "bulkOrder.formSubtitle":
+    "Remplissez le formulaire ci-dessous pour passer votre commande en gros",
+  "bulkOrder.customerInfo": "Informations Client",
+  "bulkOrder.orderDetails": "Détails de la Commande",
+  "bulkOrder.fullName": "Nom Complet",
+  "bulkOrder.fullNamePlaceholder": "Entrez votre nom complet",
+  "bulkOrder.companyName": "Nom de l'Entreprise (Optionnel)",
+  "bulkOrder.companyNamePlaceholder": "Entrez le nom de votre entreprise",
+  "bulkOrder.email": "Adresse Email",
+  "bulkOrder.emailPlaceholder": "Entrez votre email",
+  "bulkOrder.phone": "Numéro de Téléphone",
+  "bulkOrder.phonePlaceholder": "Entrez votre numéro de téléphone",
+  "bulkOrder.country": "Pays",
+  "bulkOrder.countryPlaceholder": "Sélectionnez votre pays",
+  "bulkOrder.city": "Ville",
+  "bulkOrder.cityPlaceholder": "Entrez votre ville",
+  "bulkOrder.paymentMethod": "Méthode de Paiement",
+  "bulkOrder.paymentMethodPlaceholder": "Sélectionnez la méthode de paiement",
+  "bulkOrder.selectProducts": "Sélectionnez les Produits",
+  "bulkOrder.quantity": "Quantité",
+  "bulkOrder.quantityPlaceholder": "Entrez la quantité",
+  "bulkOrder.barcode": "Code-barres du Produit (Optionnel)",
+  "bulkOrder.barcodePlaceholder": "Entrez le code-barres",
+  "bulkOrder.additionalProducts": "Produits Additionnels Nécessaires",
+  "bulkOrder.additionalProductsPlaceholder":
+    "Entrez les produits additionnels dont vous avez besoin",
+  "bulkOrder.uploadImages": "Télécharger les Images des Produits",
+  "bulkOrder.uploadText":
+    "Glissez-déposez les fichiers ici, ou cliquez pour sélectionner",
+  "bulkOrder.uploadActive": "Déposez les fichiers ici",
+  "bulkOrder.uploadMaxFiles": "Maximum 5 fichiers, jusqu'à 10MB chacun",
+  "bulkOrder.selectedFiles": "Fichiers sélectionnés:",
+  "bulkOrder.submitButton": "Soumettre la Commande",
+  "bulkOrder.submitting": "Envoi en cours...",
+  "bulkOrder.successMessage": "Commande soumise avec succès!",
+  "bulkOrder.errorMessage": "Échec de la soumission. Veuillez réessayer.",
+  "bulkOrder.requiredDeposit": "Acompte Requis",
+  "bulkOrder.depositInfo":
+    "Un acompte de 20% du montant total est requis pour confirmer votre commande",
+  "bulkOrder.wholesalePricing": "Prix en Gros",
+  "bulkOrder.pricingInfo":
+    "Bénéficiez de prix spéciaux pour les commandes en gros",
+  "bulkOrder.flexiblePayment": "Paiement Flexible",
+  "bulkOrder.paymentInfo": "Plusieurs options de paiement disponibles",
+  "bulkOrder.worldwideShipping": "Livraison Mondiale",
+  "bulkOrder.shippingInfo": "Livraison disponible dans plusieurs pays",
+  "bulkOrder.localSupport": "Support Local",
+  "bulkOrder.supportInfo": "Support dédié pour les clients en gros",
+  "bulkOrder.visitWebsite": "Visitez notre site web",
+  "bulkOrder.infoTitle": "Informations Générales",
+  "bulkOrder.infoSubtitle":
+    "Remplissez le formulaire ci-dessous pour passer votre commande en gros",
+  "bulkOrder.optional": "Optionnel",
+  "bulkOrder.fullName.min": "Le nom doit contenir au moins 2 caractères",
+  "bulkOrder.email.invalid": "Adresse email invalide",
+  "bulkOrder.phone.min":
+    "Le numéro de téléphone doit contenir au moins 10 caractères",
+  "bulkOrder.country.required": "Veuillez sélectionner un pays",
+  "bulkOrder.city.required": "Veuillez entrer votre ville",
+  "bulkOrder.paymentMethod.required":
+    "Veuillez sélectionner une méthode de paiement",
+  "bulkOrder.products.required": "Veuillez sélectionner au moins un produit",
+  "bulkOrder.quantity.required": "Veuillez entrer la quantité",
+
+  "bulkOrderEmail.title": "Confirmation de Commande en Gros",
+  "bulkOrderEmail.greeting": "Bonjour",
+  "bulkOrderEmail.customerInfo": "Informations Client",
+  "bulkOrderEmail.name": "Nom",
+  "bulkOrderEmail.company": "Entreprise",
+  "bulkOrderEmail.email": "Email",
+  "bulkOrderEmail.phone": "Téléphone",
+  "bulkOrderEmail.country": "Pays",
+  "bulkOrderEmail.city": "Ville",
+  "bulkOrderEmail.orderDetails": "Détails de la Commande",
+  "bulkOrderEmail.products": "Produits",
+  "bulkOrderEmail.quantity": "Quantité",
+  "bulkOrderEmail.barcode": "Code-barres",
+  "bulkOrderEmail.additionalProducts": "Produits Additionnels",
+  "bulkOrderEmail.paymentMethod": "Méthode de Paiement",
+  "bulkOrderEmail.uploadedFiles": "Fichiers Téléchargés",
+  "bulkOrderEmail.file": "Fichier",
+  "bulkOrderEmail.depositInfo": "Information sur la Dépôt",
+  "bulkOrderEmail.depositText":
+    "Un dépôt de 20% du montant total est requis pour confirmer votre commande. Nous vous contacterons pour les détails de paiement.",
+  "bulkOrderEmail.contactInfo":
+    "Pour toute question, n'hésitez pas à nous contacter à",
+  "bulkOrderEmail.rightsReserved": "Tous droits réservés",
+  "bulkOrderEmail.privacyPolicy": "Politique de confidentialité",
+  "bulkOrderEmail.terms": "Conditions d'utilisation",
+  "bulkOrderEmail.antiSpam":
+    "Cet email a été envoyé automatiquement, merci de ne pas y répondre.",
+  "bulkOrderEmail.visitWebsite": "Visitez notre site web",
 } as const;
