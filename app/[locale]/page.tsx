@@ -71,7 +71,6 @@ const HeroSection = () => {
 
   const getVideo = async () => {
     const res = await fetch("/api/settings", {
-      method: "GET",
       cache: "force-cache",
     });
     if (!res.ok) throw new Error("Erreur de chargement de la vidéo");
@@ -104,23 +103,7 @@ const HeroSection = () => {
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
       </div>
-      {/* <div className="relative text-center text-white space-y-8 px-4 max-w-4xl mx-auto">
-        <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
-          Zarguef
-        </h1>
-        <p className="text-2xl max-w-2xl mx-auto font-light">
-          {tScope("desc")}
-        </p>
-        <div className="flex gap-6 justify-center pt-4">
-          <Button
-            size="lg"
-            className="bg-white text-black hover:bg-white/90 text-lg px-8"
-            asChild
-          >
-            <Link href="/categories/djellabas">{tScope("descBtn")}</Link>
-          </Button>
-        </div>
-      </div> */}
+
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/50 to-transparent" />
     </section>
   );
@@ -148,7 +131,6 @@ const SearchBar = () => {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
   const discountedPrice = product.discount
@@ -157,7 +139,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card
-      className="group w-full md:w-[220px] overflow-hidden bg-[#2a2d30] hover:shadow-xl transition-all duration-300 border-0"
+      className="group overflow-hidden font-poppins bg-[#18191A] border-0 shadow-sm hover:shadow-md transition-shadow duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -175,7 +157,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               priority
             />
             {product.discount && (
-              <div className="absolute top-4 right-2 sm:right-4 bg-red-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+              <div className="absolute top-4 right-4 bg-red-500 text-white p-1 rounded-full text-xs font-medium">
                 -{product.discount}%
               </div>
             )}
@@ -184,23 +166,23 @@ const ProductCard = ({ product }: { product: Product }) => {
       </Link>
 
       <Link
-        className="flex flex-col items-start p-3 sm:p-6"
+        className="flex flex-col items-start px-2 py-4"
         href={`/products/${product._id}`}
       >
-        <CardTitle className="mb-2 text-gray-300 text-sm sm:text-base hover:text-gray-500 line-clamp-1 transition-colors">
+        <CardTitle className="mb-2 text-sm text-gray-300 line-clamp-1 hover:text-gray-500 transition-colors">
           {product.name}
         </CardTitle>
 
-        <CardDescription className="text-sm mb-4 text-gray-300 line-clamp-2 h-10">
+        <p className="text-gray-300 text-sm mb-4 line-clamp-2 h-10 overflow-hidden">
           {product.description}
-        </CardDescription>
+        </p>
 
         <div className="flex items-end gap-0 sm:gap-4 justify-between">
           <div>
             {product.discount ? (
-              <div className="space-y-1">
-                <p className="text-lg sm:text-2xl font-bold text-blue-600">
-                  {formatPrice(discountedPrice)}
+              <div>
+                <p className="text-base sm:text-lg font-bold text-blue-600">
+                  {formatPrice(product.price * (1 - product.discount / 100))}
                 </p>
                 <p className="text-sm text-gray-400 line-through">
                   {formatPrice(product.price)}
@@ -306,7 +288,7 @@ export default function Home() {
           {isLoadingProducts ? (
             <ProductSkeletonGrid />
           ) : allProducts.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
               {allProducts?.map((product: Product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
@@ -318,10 +300,10 @@ export default function Home() {
           )}
 
           {seeMoreLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 my-10">
-              {[...Array(5)].map((_, i) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 my-10">
+              {[...Array(12)].map((_, i) => (
                 <Card key={i} className="animate-pulse">
-                  <div className="w-full h-[200px] bg-gray-200" />
+                  <div className="w-full h-[120px] bg-gray-200" />
                   <CardContent className="p-6">
                     <div className="h-6 bg-gray-200 rounded mb-4" />
                     <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
@@ -333,7 +315,7 @@ export default function Home() {
           ) : (
             allProducts.length > 0 && (
               <button
-                className="flex items-center justify-center mx-auto my-8 bg-gradient-to-r from-purple-600 to-blue-600 text-sm text-white p-3 rounded"
+                className="flex items-center justify-center mx-auto my-8 text-blue-600 text-base font-bold p-2 hover:text-blue-700 transition-colors"
                 onClick={handleLoadMore}
               >
                 {tScope2("loadMore")}

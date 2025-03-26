@@ -238,13 +238,13 @@ export default function ShoppingCart() {
       icon: Wallet,
       bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
     },
-    {
-      id: "virement",
-      name: "Virement bancaire",
-      description: "Paiement par virement bancaire marocain",
-      bankIcon: "/paymentfoot2.png",
-      bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
-    },
+    // {
+    //   id: "virement",
+    //   name: "Virement bancaire",
+    //   description: "Paiement par virement bancaire marocain",
+    //   bankIcon: "/paymentfoot2.png",
+    //   bgColor: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    // },
     // {
     //   id: "virement",
     //   name: "Virement bancaire",
@@ -552,7 +552,7 @@ export default function ShoppingCart() {
                   </div>
                 ))}
               </RadioGroup>
-              <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-[#2c2e30] rounded-lg border border-green-200">
+              {/* <div className="flex items-center gap-2 p-3 mb-4 mt-2 bg-[#2c2e30] rounded-lg border border-green-200">
                 <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
                   {tScope("percentRemise")}
                 </span>
@@ -562,7 +562,7 @@ export default function ShoppingCart() {
                   </span>
                   <span className="text-green-500 text-2xl">💳</span>
                 </div>
-              </div>
+              </div> */}
             </Card>
 
             <Button

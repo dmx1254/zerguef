@@ -12,11 +12,7 @@ export async function GET(req: Request) {
     const category = searchParams.get("category");
     const newPage = searchParams.get("page");
     const search = searchParams.get("search");
-    const minPrice = searchParams.get("minPrice");
-    const maxPrice = searchParams.get("maxPrice");
-    const inStock = searchParams.get("inStock");
-    const onSale = searchParams.get("onSale");
-    const volume = searchParams.get("volume");
+ 
 
     // Construire la requête de base
     let query: any = {};
@@ -26,7 +22,7 @@ export async function GET(req: Request) {
       query.category = new RegExp(`^${category}$`, "i");
     }
 
-    const limit = 5;
+    const limit = 15;
     const page = Number(newPage) || 1;
 
     const offset = (page - 1) * limit;
@@ -37,7 +33,7 @@ export async function GET(req: Request) {
     let products = await ProductModel.find(query)
       .select("-__v")
       .sort({ createdAt: -1 })
-      .limit(5)
+      .limit(limit)
       .skip(offset) // Tri par date de création décroissante
 
       .lean();
@@ -52,28 +48,6 @@ export async function GET(req: Request) {
       );
     }
 
-    if (minPrice || maxPrice) {
-      products = products.filter((product) => {
-        const price = product.price;
-        return (
-          (minPrice ? price >= parseFloat(minPrice) : true) &&
-          (maxPrice ? price <= parseFloat(maxPrice) : true)
-        );
-      });
-    }
-
-    if (inStock === "true") {
-      products = products.filter((product) => product.stock > 0);
-    }
-
-    if (volume) {
-      const searchRegex = new RegExp(volume, "i");
-      products = products.filter((product) => searchRegex.test(product.volume));
-    }
-
-    if (onSale === "true") {
-      products = products.filter((product) => product.discount > 0);
-    }
 
     // console.log(products.length);
     // Retourner les produits filtrés

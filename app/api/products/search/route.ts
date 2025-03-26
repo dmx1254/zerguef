@@ -2,66 +2,65 @@
 import { connectDB } from "@/lib/db";
 import ProductModel from "@/lib/models/product.model";
 import { NextResponse } from "next/server";
+import { FilterQuery } from "mongoose";
 
 connectDB();
+
+const ITEMS_PER_PAGE = 12;
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("query");
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const category = searchParams.get("category");
 
-    if (!query) {
-      return NextResponse.json([]);
+    console.log("Search params:", { query, page, category });
+
+    // Construire la requête de recherche
+    const searchQuery: FilterQuery<typeof ProductModel> = {};
+
+    if (query) {
+      searchQuery.$or = [
+        { name: { $regex: query, $options: "i" } },
+        { category: { $regex: query, $options: "i" } },
+      ];
     }
 
-    // Créer un objet de recherche avec plusieurs champs
-    const searchQuery = {
-      $or: [
-        // Recherche dans le nom
-        {
-          name: {
-            $regex: query,
-            $options: "i", // insensible à la casse
-          },
-        },
-        // Recherche dans la description
-        {
-          description: {
-            $regex: query,
-            $options: "i",
-          },
-        },
-        // Recherche dans la catégorie
-        {
-          category: {
-            $regex: query,
-            $options: "i",
-          },
-        },
-        // Recherche dans les détails
-        {
-          "details.material": {
-            $regex: query,
-            $options: "i",
-          },
-        },
-        {
-          "details.origin": {
-            $regex: query,
-            $options: "i",
-          },
-        },
-      ],
-    };
+    if (category) {
+      // Make category search less strict
+      searchQuery.category = { $regex: category, $options: "i" };
+    }
 
-    // Exécuter la recherche avec limite et tri
+    console.log("Search query:", searchQuery);
+
+    // Calculer le skip pour la pagination
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+
+    // Obtenir le nombre total de produits
+    const totalProducts = await ProductModel.countDocuments(searchQuery);
+    console.log("Total products found:", totalProducts);
+    
+    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+    console.log("Total pages:", totalPages);
+
+    // Exécuter la recherche avec pagination
     const products = await ProductModel.find(searchQuery)
-      .limit(20) // Limiter à 20 résultats
-      .sort({ createdAt: -1 }) // Trier par date de création
-      .select("-__v") // Exclure le champ __v
-      .lean(); // Convertir en objets JavaScript simples
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(ITEMS_PER_PAGE)
+      .select("-__v")
+      .lean();
 
-    return NextResponse.json(products);
+    console.log("Products found:", products.length);
+
+    return NextResponse.json({ 
+      products, 
+      totalPages,
+      currentPage: page,
+      totalProducts,
+      itemsPerPage: ITEMS_PER_PAGE
+    });
   } catch (error) {
     console.error("Erreur lors de la recherche:", error);
     return NextResponse.json(
@@ -82,10 +81,11 @@ export async function POST(req: Request) {
       onlyInStock,
       onSale,
       sort = "newest",
+      page = 1,
     } = await req.json();
 
     // Construire la requête de recherche
-    let searchQuery: any = {};
+    const searchQuery: FilterQuery<typeof ProductModel> = {};
 
     // Recherche textuelle
     if (query) {
@@ -139,14 +139,28 @@ export async function POST(req: Request) {
         sortOption = { createdAt: -1 };
     }
 
-    // Exécuter la recherche
+    // Calculer le skip pour la pagination
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+
+    // Obtenir le nombre total de produits
+    const totalProducts = await ProductModel.countDocuments(searchQuery);
+    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+
+    // Exécuter la recherche avec pagination
     const products = await ProductModel.find(searchQuery)
       .sort(sortOption)
-      .limit(20)
+      .skip(skip)
+      .limit(ITEMS_PER_PAGE)
       .select("-__v")
       .lean();
 
-    return NextResponse.json(products);
+    return NextResponse.json({ 
+      products, 
+      totalPages,
+      currentPage: page,
+      totalProducts,
+      itemsPerPage: ITEMS_PER_PAGE
+    });
   } catch (error) {
     console.error("Erreur lors de la recherche avancée:", error);
     return NextResponse.json(
