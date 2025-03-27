@@ -265,19 +265,19 @@ export const OrderNotificationEmail: React.FC<OrderNotificationEmailProps> = ({
                         alignItems: "center",
                       }}
                     >
-                      {item.image && (
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            objectFit: "cover",
-                            marginRight: "10px",
-                            display: "inline-block",
-                          }}
-                        />
-                      )}
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          objectFit: "cover",
+                          marginRight: "10px",
+                          display: "inline-block",
+                          borderRadius: "5px",
+                        }}
+                      />
+
                       <div style={{ display: "inline-block" }}>
                         <div>{item.name}</div>
                         {item.size && <div>Taille: {item.size}</div>}

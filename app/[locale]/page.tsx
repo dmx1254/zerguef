@@ -161,7 +161,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.description}
         </p>
 
-        <div className="flex items-end gap-0 sm:gap-4 justify-between">
+        <div className="flex items-center gap-2 sm:gap-4 justify-between">
           <div>
             {product.discount ? (
               <div>

@@ -15,7 +15,7 @@ export async function GET(req: Request) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const category = searchParams.get("category");
 
-    console.log("Search params:", { query, page, category });
+    // console.log("Search params:", { query, page, category });
 
     // Construire la requête de recherche
     const searchQuery: FilterQuery<typeof ProductModel> = {};
@@ -32,17 +32,17 @@ export async function GET(req: Request) {
       searchQuery.category = { $regex: category, $options: "i" };
     }
 
-    console.log("Search query:", searchQuery);
+    // console.log("Search query:", searchQuery);
 
     // Calculer le skip pour la pagination
     const skip = (page - 1) * ITEMS_PER_PAGE;
 
     // Obtenir le nombre total de produits
     const totalProducts = await ProductModel.countDocuments(searchQuery);
-    console.log("Total products found:", totalProducts);
+    // console.log("Total products found:", totalProducts);
     
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
-    console.log("Total pages:", totalPages);
+    // console.log("Total pages:", totalPages);
 
     // Exécuter la recherche avec pagination
     const products = await ProductModel.find(searchQuery)
@@ -52,7 +52,7 @@ export async function GET(req: Request) {
       .select("-__v")
       .lean();
 
-    console.log("Products found:", products.length);
+    // console.log("Products found:", products.length);
 
     return NextResponse.json({ 
       products, 

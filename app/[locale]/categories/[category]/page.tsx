@@ -122,13 +122,12 @@ const ProductCard = ({ product }: { product: Product }) => {
               {formatPrice(product.price)}
             </p>
           )}
-          <Button
-            size="sm"
-            className="gap-2 bg-gradient-to-r from-yellow-600 to-blue-600 hover:from-yellow-700 hover:to-blue-700 transition-all duration-300"
+          <button
+            className="gap-2 bg-gradient-to-r from-yellow-600 p-1.5 rounded to-blue-600 hover:from-yellow-700 hover:to-blue-700 transition-all duration-300"
             onClick={handleAddToCart}
           >
-            <ShoppingBag className="h-4 w-4" />
-          </Button>
+            <ShoppingBag className="h-4 w-4 text-white/80" />
+          </button>
         </div>
       </CardContent>
     </Card>
@@ -151,9 +150,9 @@ export default function CategoryPage() {
       try {
         setIsLoading(true);
         setError(null);
-        console.log("Fetching products for category:", category, "page:", page);
+        // console.log("Fetching products for category:", category, "page:", page);
         const res = await fetchProducts(category, page);
-        console.log("Products received:", res.products);
+        // console.log("Products received:", res.products);
         setProducts(res.products || []);
         setTotalPages(res.totalPages || 1);
       } catch (error) {
@@ -220,7 +219,7 @@ export default function CategoryPage() {
               </div>
             ) : products && products.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-8">
                   {products.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
