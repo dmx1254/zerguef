@@ -3,12 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Form from "next/form";
 import { useCartStore } from "@/lib/manage";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 import { ShoppingBag, Search } from "lucide-react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
@@ -18,7 +13,6 @@ import { useScopedI18n } from "@/locales/client";
 import { toast } from "sonner";
 import Testimonials from "./components/Testimonials";
 import Image from "next/image";
-
 
 // Types des produits
 interface ProductDetails {
@@ -52,7 +46,6 @@ const fetchProducts = async () => {
 
 // Components
 const HeroSection = () => {
-
   const getVideo = async () => {
     const res = await fetch("/api/settings", {
       cache: "force-cache",
@@ -161,26 +154,24 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.description}
         </p>
 
-        <div className="flex items-center gap-2 sm:gap-4 justify-between">
-          <div>
-            {product.discount ? (
-              <div>
-                <p className="text-base sm:text-lg font-bold text-blue-600">
-                  {formatPrice(product.price * (1 - product.discount / 100))}
-                </p>
-                <p className="text-sm text-gray-400 line-through">
-                  {formatPrice(product.price)}
-                </p>
-              </div>
-            ) : (
-              <p className="text-2xl font-bold text-blue-600">
+        <div className="w-full flex items-center gap-4 justify-between">
+          {product.discount ? (
+            <div>
+              <p className="text-base sm:text-lg font-bold text-blue-600">
+                {formatPrice(product.price * (1 - product.discount / 100))}
+              </p>
+              <p className="text-sm text-gray-400 line-through">
                 {formatPrice(product.price)}
               </p>
-            )}
-          </div>
-          <Button
-            variant="outline"
-            className="rounded-full px-2 sm:px-3 py-0.5 sm:py-1"
+            </div>
+          ) : (
+            <p className="text-2xl font-bold text-blue-600">
+              {formatPrice(product.price)}
+            </p>
+          )}
+
+          <button
+            className="rounded-full bg-white text-black p-1.5"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -199,8 +190,8 @@ const ProductCard = ({ product }: { product: Product }) => {
               });
             }}
           >
-            <ShoppingBag className="sm:h-4 sm:w-4" />
-          </Button>
+            <ShoppingBag className="h-4 w-4" />
+          </button>
         </div>
       </Link>
     </Card>
@@ -216,10 +207,7 @@ export default function Home() {
 
   // Requête pour les produits
 
-  const {
-    data: products,
-    isLoading: isLoadingProducts,
-  } = useQuery({
+  const { data: products, isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
     refetchOnMount: false,
